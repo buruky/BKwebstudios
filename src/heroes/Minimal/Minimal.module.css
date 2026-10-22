@@ -45,7 +45,7 @@
   transition: transform 160ms var(--ease-out);
 }
 .mark:active { transform: scale(0.95); }
-.price, .small, .styleName, .nav a {
+.price, .styleName, .nav a {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.24em;
@@ -53,17 +53,11 @@
 }
 
 /* ---------- name lockup + stage ---------- */
-.stage { padding-top: clamp(12px, 3svh, 28px); }
-.small {
-  margin: 0 0 min(1.2cqw, 1.6svh);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(13px, min(1.8cqw, 2.6svh), 28px);
-  letter-spacing: 0.3em;
-  color: var(--chicory); /* echoes the flower: the name's two colours are the page's two colours */
-}
+.stage { padding-top: clamp(8px, 1.5svh, 16px); }
 .wordBox {
   position: relative;
+  --nh: calc(var(--wh, 15) * 1cqw / 3); /* "BK WEB" height: a third of the word */
+  margin-top: calc(var(--nh) * 0.5 + 4px); /* room for the half of it above the word */
   /* panel box */
   --pl: calc(var(--anchor, 0.54) * 100cqw - 18.8 * var(--u)); /* centred under the chicory */
   --pt: calc(1.6 * var(--u));
@@ -81,6 +75,25 @@
   font-weight: 600;
   font-size: 100px;
 }
+/* "BK WEB": hairline outline in front of the word, straddling its top edge (Summit's outlined "B", in blue). */
+.name {
+  position: absolute;
+  left: 0;
+  top: calc(var(--nh) * -0.5); /* anchored to the word's top edge: half above, half over the letters */
+  height: var(--nh);
+  width: calc(var(--nh) * var(--na));
+  overflow: visible;
+  fill: none;
+  stroke: var(--chicory);
+  stroke-width: 1.25px;
+  vector-effect: non-scaling-stroke;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 100px;
+  letter-spacing: 10px; /* NAME_TRACK in Minimal.jsx */
+}
+.name text { vector-effect: non-scaling-stroke; }
+
 /* Each letter rises out from under the baseline (the svg clips it). */
 .word text {
   animation: letter 900ms var(--ease-out) calc(100ms + var(--i) * 50ms) both;
@@ -317,11 +330,11 @@
 
 /* ---------- phone: everything stacks; the panel + sprig hang under the word, copy below them ---------- */
 @media (max-width: 720px) {
+  .name { fill: var(--chicory); stroke: none; } /* a hairline is unreadable at this size */
   .hero { --fw: 74cqw; --head: 1.15; } /* lower than desktop: the word is small here, so cover only its bottom */
   .top { height: 64px; }
   .price { font-size: 10px; }
   .stage { padding-top: 24px; }
-  .small { margin-bottom: 8px; }
   .wordBox { --pl: 14cqw; --pt: 3cqw; --pw: 70cqw; --ph: 46cqw; }
   .body {
     grid-template-columns: 1fr;

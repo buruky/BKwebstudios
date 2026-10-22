@@ -6,11 +6,15 @@ import PillButton from "../../components/PillButton.jsx";
 import s from "./Minimal.module.css";
 
 // Where the top bloom sits inside the cutout (fractions of its width / height), measured from the blue pixels.
+// Tracking for "BK WEB", in px at the 100px measuring size. Keep in sync with .name in the CSS.
+const NAME_TRACK = 10;
+
 const HEAD = { x: 0.624, y: 0.224 };
 
 // Lays the giant word out letter by letter (so each can rise on its own) and crops the viewBox to the ink,
-// so the word runs exactly edge to edge. Also returns the centre of the "D", which the flower is pinned to.
-function useWordLayout(word) {
+// so the word runs exactly edge to edge. Also returns the centre of the "D", which the flower is pinned to,
+// and the ink box of the small name ("BK WEB") so it can be drawn at exactly a third of the word's height.
+function useWordLayout(word, name) {
   const [layout, setLayout] = useState(null);
   useEffect(() => {
     let alive = true;
@@ -23,21 +27,29 @@ function useWordLayout(word) {
       const m = ctx.measureText(word);
       const left = m.actualBoundingBoxLeft, width = left + m.actualBoundingBoxRight;
       const d = word.indexOf("D");
+      ctx.letterSpacing = `${NAME_TRACK}px`; // so the outlines don't run into each other
+      const n = ctx.measureText(name);
+      const nh = n.actualBoundingBoxAscent + n.actualBoundingBoxDescent;
+      const nw = n.actualBoundingBoxLeft + n.actualBoundingBoxRight;
       setLayout({
         viewBox: `${-left} ${-m.actualBoundingBoxAscent} ${width} ${m.actualBoundingBoxAscent + m.actualBoundingBoxDescent}`,
         xs,
         anchor: ((xs[d] + xs[d + 1]) / 2 + left) / width,
+        wh: ((m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) / width) * 100, // word height, in cqw
+        nameBox: `${-n.actualBoundingBoxLeft} ${-n.actualBoundingBoxAscent} ${nw} ${nh}`,
+        nameAspect: nw / nh,
       });
     });
     return () => { alive = false; };
-  }, [word]);
+  }, [word, name]);
   return layout;
 }
 
 export default function Minimal({ content, heroes, active, onSelect }) {
   const words = content.name.toUpperCase().split(" ");
   const giant = words.pop();
-  const layout = useWordLayout(giant);
+  const small = words.join(" ");
+  const layout = useWordLayout(giant, small);
 
   const index = heroes.findIndex((h) => h.key === active);
   const built = heroes.filter((h) => h.component);
@@ -53,10 +65,8 @@ export default function Minimal({ content, heroes, active, onSelect }) {
         <span className={s.price}>{content.price}</span>
       </header>
 
-      <div className={s.stage} style={layout && { "--anchor": layout.anchor }}>
-        <p className={`${s.small} ${s.reveal}`} style={{ "--d": "300ms" }}>
-          {words.join(" ")}<span className="sr-only"> {giant}</span>
-        </p>
+      <div className={s.stage} style={layout && { "--anchor": layout.anchor, "--wh": layout.wh, "--na": layout.nameAspect }}>
+        <p className="sr-only">{content.name}</p>
         <div className={s.wordBox}>
           <div className={s.panel} aria-hidden="true" />
           <svg className={s.word} viewBox={layout?.viewBox ?? "0 -72 466 74"} aria-hidden="true">
@@ -64,6 +74,12 @@ export default function Minimal({ content, heroes, active, onSelect }) {
               <text key={i} x={layout.xs[i]} style={{ "--i": i }}>{ch}</text>
             ))}
           </svg>
+          {/* "BK WEB": blue hairline outline, a third of the word's height, straddling the top edge of "STUDIOS", in front of it. */}
+          {layout && (
+            <svg className={`${s.name} ${s.reveal}`} style={{ "--d": "300ms" }} viewBox={layout.nameBox} aria-hidden="true">
+              <text>{small}</text>
+            </svg>
+          )}
           {layout && (
             <div className={s.flower} style={{ "--hx": HEAD.x, "--hy": HEAD.y }} aria-hidden="true">
               <img src={flower} alt="" width="803" height="588" />

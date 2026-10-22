@@ -436,7 +436,7 @@
   .fogContent {
     left: calc(var(--ix) + 20px);
     right: calc(var(--ix) + 20px);
-    top: calc(58% + 18px);
+    top: calc(var(--seam) + 18px);
     bottom: auto;
     width: auto;
     gap: 12px;
@@ -494,9 +494,9 @@
   15% { opacity: 1; }
   to { opacity: 1; clip-path: inset(var(--it) var(--ix) var(--ib) var(--ix) round 32px); }
 }
-/* Phone: fog side is the bottom 42%, so it spreads up. Keep 58% in sync with FOG.narrow in Summit.jsx. */
+/* Phone: fog side is below --seam (set in Summit.jsx), so it spreads up. */
 @keyframes fog-roll-up {
-  from { opacity: 0; clip-path: inset(58% var(--ix) var(--ib) var(--ix) round 0 0 24px 24px); }
+  from { opacity: 0; clip-path: inset(var(--seam) var(--ix) var(--ib) var(--ix) round 0 0 24px 24px); }
   15% { opacity: 1; }
   to { opacity: 1; clip-path: inset(var(--it) var(--ix) var(--ib) var(--ix) round 24px); }
 }

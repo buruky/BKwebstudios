@@ -7,7 +7,7 @@ import PillButton from "../../components/PillButton.jsx";
 import s from "./Summit.module.css";
 
 const NARROW = "(max-width: 720px)"; // keep in sync with Summit.module.css
-// Fog edge sits exactly on the screen centre (cutting the person in half) / bottom 42% on phones. Keep in sync with Summit.module.css.
+// Fog edge sits exactly on the screen centre (cutting the person in half) / bottom 42% on phones (lifted on short ones, see `lift`).
 const FOG = { wide: 0.5, narrow: 0.58 };
 
 // Scene coordinates are the photo's own pixels (2048x1536), so the brand stays locked to the ridge at any screen size.
@@ -106,6 +106,13 @@ export default function Summit({ content, heroes, active, onSelect }) {
     ro.observe(heroRef.current);
     return () => ro.disconnect();
   }, []);
+  const contentRef = useRef(null);
+  const [contentH, setContentH] = useState(0);
+  useLayoutEffect(() => {
+    const ro = new ResizeObserver(([e]) => setContentH(e.contentRect.height));
+    ro.observe(contentRef.current);
+    return () => ro.disconnect();
+  }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
@@ -116,16 +123,21 @@ export default function Summit({ content, heroes, active, onSelect }) {
   }, [menuOpen]);
 
   const g = frameGeo(size.w, narrow);
-  const seam = narrow ? size.h * FOG.narrow : size.w * FOG.wide;
+  // Phones: the fog column (18px under the seam) must clear the notch. Real phones lose height to the browser bars, so on
+  // short screens the seam lifts to make room, and the scene lifts with it so WEB STUDIOS stays just above the fog.
+  const lift = narrow ? Math.max(0, size.h * FOG.narrow - (size.h - g.ib - g.nh - 16 - contentH - 18)) : 0;
+  const seam = narrow ? size.h * FOG.narrow - lift : size.w * FOG.wide;
   const labelX = size.w - g.ix - g.labelRight - g.labelW;
   const vars = { "--ix": `${g.ix}px`, "--it": `${g.it}px`, "--ib": `${g.ib}px`, "--nw": `${g.nw}px`, "--nh": `${g.nh}px`,
-    "--label-x": `${labelX}px`, "--label-w": `${g.labelW}px` };
+    "--label-x": `${labelX}px`, "--label-w": `${g.labelW}px`, "--seam": `${seam}px` };
 
 
   // Scene units -> hero px, the same mapping the browser applies for viewBox + "xMidYMid slice".
   // Lets the HTML fog and the frame line follow the B and K exactly.
-  const [vx, vy, vw, vh] = L.viewBox.split(" ").map(Number);
+  const [vx, vy0, vw, vh] = L.viewBox.split(" ").map(Number);
   const k = Math.max(size.w / vw, size.h / vh);
+  const vy = vy0 + (k ? lift / k : 0);
+  const viewBox = `${vx} ${vy} ${vw} ${vh}`;
   const toPx = `matrix(${k} 0 0 ${k} ${(size.w - vw * k) / 2 - vx * k} ${(size.h - vh * k) / 2 - vy * k})`;
   // Chrome doesn't always repaint an HTML element when its referenced <clipPath> changes, so the id changes with it.
   const fogClipId = `summit-fog-${Math.round(size.w)}x${Math.round(size.h)}-${narrow ? "n" : "w"}-${pos ? 1 : 0}`;
@@ -141,7 +153,7 @@ export default function Summit({ content, heroes, active, onSelect }) {
   return (
     <section ref={heroRef} className={s.hero} style={vars} aria-labelledby="summit-title">
       {/* Back: photo, then the monogram, then the ridge cutout over it. */}
-      <svg className={s.scene} viewBox={L.viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <svg className={s.scene} viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
           <mask id="summit-ridge" maskUnits="userSpaceOnUse" x="0" y="0" width="2048" height="1536">
             <image href={ridgeMask} width="2048" height="1536" />
@@ -183,13 +195,13 @@ export default function Summit({ content, heroes, active, onSelect }) {
 
       {/* The solid K sits above both fog layers so it stays crisp while the fog rolls over the photo.
           Still tucked behind the mountains via the same ridge mask as the B (defined in the front svg below). */}
-      <svg className={s.scene} viewBox={L.viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <svg className={s.scene} viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         {pos && <text className={`${s.mono} ${s.solid}`} x={pos.k} y={L.mono.y} fontSize={L.mono.size} mask="url(#summit-above-ridge)">{second}</text>}
       </svg>
 
       {/* Front, crisp above the fog. Left of the centre line is outline, right is solid.
           The outline "B" is still tucked behind the ridge via a mask. */}
-      <svg className={`${s.scene} ${s.reveal}`} style={{ "--d": "1150ms" }} viewBox={L.viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <svg className={`${s.scene} ${s.reveal}`} style={{ "--d": "1150ms" }} viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
           <filter id="summit-invert" x="0" y="0" width="100%" height="100%">
             <feColorMatrix values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0" />
@@ -249,7 +261,7 @@ export default function Summit({ content, heroes, active, onSelect }) {
         )}
       </header>
 
-      <div className={s.fogContent}>
+      <div ref={contentRef} className={s.fogContent}>
         {/* Each word clears from the fog in turn; "local" is a glow-yellow outline like the fog-side frame line. */}
         <h1 id="summit-title" className={s.headline}>
           {headline.map(({ w, key }, i) => (

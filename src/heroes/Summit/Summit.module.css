@@ -443,6 +443,9 @@
   }
   .desc { font-size: 12.5px; line-height: 1.55; padding-bottom: 12px; }
   .switcher :global(.switcher-num) { font-size: 32px; }
+  /* Chevrons only: the long lines crowd the notch on phones. */
+  .switcher :global(.switcher-step) { width: 44px; }
+  .switcher :global(.switcher-step) span { width: 10px; background: none; }
   .cta { font-size: 13px; padding-left: 18px; }
   .bottom { padding-inline: 12px; }
   .arrow { width: 44px; }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { content } from "./content.js";
 import { heroes } from "./heroes/index.js";
+import Sections from "./sections/Sections.jsx";
 
 const STORE = "bk-style";
 
@@ -25,8 +26,9 @@ export default function App() {
 
   const Hero = heroes.find((h) => h.key === active).component;
   return (
-    <main>
+    <main id="top" data-hero={active}>
       <Hero content={content} heroes={heroes} active={active} onSelect={select} />
+      <Sections content={content} />
     </main>
   );
 }

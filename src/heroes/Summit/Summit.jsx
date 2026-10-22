@@ -162,7 +162,6 @@ export default function Summit({ content, heroes, active, onSelect }) {
         <image href={photo} width="2048" height="1536" mask="url(#summit-feather-mask)" />
         {/* sky shade sits under the K so the K stays the same flat bone as the outline B */}
         <rect x="0" y="0" width="2048" height="1536" fill="url(#summit-shade)" />
-        {pos && <text className={`${s.mono} ${s.solid}`} x={pos.k} y={L.mono.y} fontSize={L.mono.size}>{second}</text>}
         <image href={photo} width="2048" height="1536" mask="url(#summit-ridge)" />
       </svg>
 
@@ -178,8 +177,15 @@ export default function Summit({ content, heroes, active, onSelect }) {
             </clipPath>
           </svg>
           <div className={s.fog} style={{ clipPath: `url(#${fogClipId})` }} aria-hidden="true" />
+          <div className={s.fogRoll} aria-hidden="true" />
         </>
       )}
+
+      {/* The solid K sits above both fog layers so it stays crisp while the fog rolls over the photo.
+          Still tucked behind the mountains via the same ridge mask as the B (defined in the front svg below). */}
+      <svg className={s.scene} viewBox={L.viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        {pos && <text className={`${s.mono} ${s.solid}`} x={pos.k} y={L.mono.y} fontSize={L.mono.size} mask="url(#summit-above-ridge)">{second}</text>}
+      </svg>
 
       {/* Front, crisp above the fog. Left of the centre line is outline, right is solid.
           The outline "B" is still tucked behind the ridge via a mask. */}

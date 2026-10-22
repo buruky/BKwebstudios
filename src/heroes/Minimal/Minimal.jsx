@@ -71,13 +71,13 @@ export default function Minimal({ content, heroes, active, onSelect }) {
           <div className={s.panel} aria-hidden="true" />
           <svg className={s.word} viewBox={layout?.viewBox ?? "0 -72 466 74"} aria-hidden="true">
             {layout && [...giant].map((ch, i) => (
-              <text key={i} x={layout.xs[i]} style={{ "--i": i }}>{ch}</text>
+              <g key={i} className={s.lift} style={{ "--i": i + 1 }}><text x={layout.xs[i]} style={{ "--i": i }}>{ch}</text></g>
             ))}
           </svg>
           {/* "BK WEB": blue hairline outline, a third of the word's height, straddling the top edge of "STUDIOS", in front of it. */}
           {layout && (
             <svg className={`${s.name} ${s.reveal}`} style={{ "--d": "300ms" }} viewBox={layout.nameBox} aria-hidden="true">
-              <text>{small}</text>
+              <g className={s.lift} style={{ "--i": 0 }}><text>{small}</text></g>
             </svg>
           )}
           {layout && (

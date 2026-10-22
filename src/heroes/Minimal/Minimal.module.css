@@ -362,6 +362,33 @@
   .nav a { font-size: 10px; letter-spacing: 0.14em; }
 }
 
+/* ---------- Into the site: the page drifts up behind the sections at a quarter speed ---------- */
+/* Only where the hero fits the screen; a taller hero would have its bottom covered while pinned. */
+@media (min-width: 721px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  .hero { position: sticky; top: 0; }
+  @supports (animation-timeline: scroll()) {
+    .hero {
+      animation: minimal-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+  }
+}
+@keyframes minimal-drift { to { transform: translateY(-25svh); } }
+
+/* As you scroll, "BK WEB" then each letter of "STUDIOS" lifts out of the line in turn (--i), leaving the orchid.
+   On a <g> wrapper so it doesn't fight the letters' load animation. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .lift {
+      animation: lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: calc(var(--i) * 4svh) calc(22svh + var(--i) * 4svh);
+    }
+  }
+}
+@keyframes lift { to { transform: translateY(-70px); opacity: 0; } }
+
 @media (prefers-reduced-motion: reduce) {
   .word text, .panel, .flower img, .reveal { animation: none; }
 }

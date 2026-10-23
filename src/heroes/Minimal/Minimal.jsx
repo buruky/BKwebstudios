@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // Blue orchid: the user-supplied transparent PNG (gaman-alice-…-removebg-preview.png), cropped to the flower.
 // shortcut: source is 920px wide, so it is slightly soft on hi-dpi screens; swap in a larger original when found.
-import flower from "../../../assets/page2/cutouts/orchid.webp";
+import flower from "../../../assets/page3/cutouts/orchid.webp";
 import PillButton from "../../components/PillButton.jsx";
 import s from "./Minimal.module.css";
 
@@ -69,6 +69,8 @@ export default function Minimal({ content, heroes, active, onSelect }) {
         <p className="sr-only">{content.name}</p>
         <div className={s.wordBox}>
           <div className={s.panel} aria-hidden="true" />
+          {/* Specimen label in the panel's corner. */}
+          <span className={`${s.signature} ${s.reveal}`} style={{ "--d": "1100ms" }}>{content.builtBy}</span>
           <svg className={s.word} viewBox={layout?.viewBox ?? "0 -72 466 74"} aria-hidden="true">
             {layout && [...giant].map((ch, i) => (
               <g key={i} className={s.lift} style={{ "--i": i + 1 }}><text x={layout.xs[i]} style={{ "--i": i }}>{ch}</text></g>
@@ -110,6 +112,7 @@ export default function Minimal({ content, heroes, active, onSelect }) {
             <button type="button" aria-label="Previous style" onClick={() => step(-1)}><Arrow flip /></button>
             <button type="button" aria-label="Next style" onClick={() => step(1)}><Arrow /></button>
           </div>
+          <p className={s.hint}>{content.switcherHint}</p>
         </div>
       </div>
 

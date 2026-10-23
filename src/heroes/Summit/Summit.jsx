@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import photo from "../../../assets/page1/page1Assets/background.jpg";
+import photo from "../../../assets/page2/page2Assets/background.jpg";
 // Mountains + dunes in white, sky in black. Made from background-mnts.jpg (sky deleted in Photopea, saved white).
-import ridgeMask from "../../../assets/page1/page1Assets/ridge-mask.png";
+import ridgeMask from "../../../assets/page2/page2Assets/ridge-mask.png";
 import Switcher from "../../components/Switcher.jsx";
 import PillButton from "../../components/PillButton.jsx";
 import s from "./Summit.module.css";
@@ -43,10 +43,12 @@ function useFontsReady() {
 }
 
 // Frame geometry in CSS px. Exposed to CSS as variables so the HTML lines up with the SVG line.
-function frameGeo(w, narrow) {
+// shortcut: label width assumes the monospace body font (11px + 0.22em tracking ≈ 9.1px a character); measure it if the font changes.
+function frameGeo(w, narrow, label) {
+  const labelW = Math.ceil(label.length * 9.1) + (narrow ? 20 : 36);
   return narrow
-    ? { ix: 12, it: 64, ib: 72, r: 24, nw: 214, nh: 66, labelRight: 28, labelW: 112 }
-    : { ix: Math.min(56, Math.max(16, w * 0.039)), it: 88, ib: 96, r: 32, nw: 300, nh: 84, labelRight: 60, labelW: 132 };
+    ? { ix: 12, it: 64, ib: 72, r: 24, nw: 214, nh: 66, labelRight: 28, labelW }
+    : { ix: Math.min(56, Math.max(16, w * 0.039)), it: 88, ib: 96, r: 32, nw: 300, nh: 84, labelRight: 60, labelW };
 }
 
 // The part of the frame's inside that is fogged: left of the seam on desktop, below it on phones.
@@ -122,7 +124,7 @@ export default function Summit({ content, heroes, active, onSelect }) {
     return () => removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
-  const g = frameGeo(size.w, narrow);
+  const g = frameGeo(size.w, narrow, content.price);
   // Phones: the fog column (18px under the seam) must clear the notch. Real phones lose height to the browser bars, so on
   // short screens the seam lifts to make room, and the scene lifts with it so WEB STUDIOS stays just above the fog.
   const lift = narrow ? Math.max(0, size.h * FOG.narrow - (size.h - g.ib - g.nh - 16 - contentH - 18)) : 0;
@@ -196,12 +198,13 @@ export default function Summit({ content, heroes, active, onSelect }) {
       {/* The solid K sits above both fog layers so it stays crisp while the fog rolls over the photo.
           Still tucked behind the mountains via the same ridge mask as the B (defined in the front svg below). */}
       <svg className={s.scene} viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        {pos && <text className={`${s.mono} ${s.solid}`} x={pos.k} y={L.mono.y} fontSize={L.mono.size} mask="url(#summit-above-ridge)">{second}</text>}
+        {/* The mask sits on the group and the letter moves inside it, so the K rises up from behind the ridge on load. */}
+        {pos && <g mask="url(#summit-above-ridge)"><text className={`${s.mono} ${s.solid} ${s.rise}`} x={pos.k} y={L.mono.y} fontSize={L.mono.size}>{second}</text></g>}
       </svg>
 
       {/* Front, crisp above the fog. Left of the centre line is outline, right is solid.
           The outline "B" is still tucked behind the ridge via a mask. */}
-      <svg className={`${s.scene} ${s.reveal}`} style={{ "--d": "1150ms" }} viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <svg className={s.scene} viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
           <filter id="summit-invert" x="0" y="0" width="100%" height="100%">
             <feColorMatrix values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0" />
@@ -214,11 +217,11 @@ export default function Summit({ content, heroes, active, onSelect }) {
         </defs>
         {pos && (
           <>
-            <text className={`${s.mono} ${s.line}`} x={pos.b} y={L.mono.y} fontSize={L.mono.size} mask="url(#summit-above-ridge)">{first}</text>
-            <text className={`${s.rest} ${s.line}`} x={pos.web} y={L.rest.y} fontSize={L.rest.size}
-              style={{ letterSpacing: `${L.rest.spacing}em` }}>{web}</text>
-            <text className={`${s.rest} ${s.solid}`} x={pos.studios} y={L.rest.y} fontSize={L.rest.size}
-              style={{ letterSpacing: `${L.rest.spacing}em` }}>{studios.join(" ")}</text>
+            <g mask="url(#summit-above-ridge)"><text className={`${s.mono} ${s.line} ${s.rise}`} x={pos.b} y={L.mono.y} fontSize={L.mono.size}>{first}</text></g>
+            <text className={`${s.rest} ${s.line} ${s.reveal}`} x={pos.web} y={L.rest.y} fontSize={L.rest.size}
+              style={{ letterSpacing: `${L.rest.spacing}em`, "--d": "700ms" }}>{web}</text>
+            <text className={`${s.rest} ${s.solid} ${s.reveal}`} x={pos.studios} y={L.rest.y} fontSize={L.rest.size}
+              style={{ letterSpacing: `${L.rest.spacing}em`, "--d": "760ms" }}>{studios.join(" ")}</text>
           </>
         )}
       </svg>
@@ -244,9 +247,9 @@ export default function Summit({ content, heroes, active, onSelect }) {
         </svg>
       )}
 
-      <span className={`${s.label} ${s.reveal}`} style={{ "--d": "1500ms" }}>{content.price}</span>
+      <span className={`${s.label} ${s.reveal}`} style={{ "--d": "1000ms" }}>{content.price}</span>
 
-      <header className={`${s.header} ${s.reveal}`} style={{ "--d": "900ms" }}>
+      <header className={`${s.header} ${s.reveal}`} style={{ "--d": "650ms" }}>
         <a className={s.logo} href="#top" aria-label={`${content.name}, home`}><span className={s.mark} aria-hidden="true">bk</span></a>
         <nav className={s.nav} aria-label="Main">
           {content.nav.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
@@ -268,19 +271,21 @@ export default function Summit({ content, heroes, active, onSelect }) {
             <span key={i} className={`${s.word} ${key ? s.hl : ""}`} style={{ "--i": i }}>{w}</span>
           ))}
         </h1>
-        <p className={`${s.desc} ${s.reveal}`} style={{ "--d": "1500ms" }}>{content.description}</p>
-        <div className={s.reveal} style={{ "--d": "1560ms" }}>
+        <p className={`${s.desc} ${s.reveal}`} style={{ "--d": "1000ms" }}>{content.description}</p>
+        <div className={s.reveal} style={{ "--d": "1100ms" }}>
           <Switcher className={s.switcher} heroes={heroes} active={active} onSelect={onSelect} />
+          <p className={s.hint}>{content.switcherHint}</p>
         </div>
       </div>
 
-      <div className={`${s.notch} ${s.reveal}`} style={{ "--d": "1700ms" }}>
+      <div className={`${s.notch} ${s.reveal}`} style={{ "--d": "900ms" }}>
         <PillButton className={s.cta} href={content.primary.href}>{content.primary.label}</PillButton>
       </div>
 
-      <footer className={`${s.bottom} ${s.reveal}`} style={{ "--d": "1600ms" }}>
+      <footer className={`${s.bottom} ${s.reveal}`} style={{ "--d": "1100ms" }}>
         <a className={s.more} href={content.secondary.href}>{content.secondary.label}<span className={s.arrow} aria-hidden="true" /></a>
         <div className={s.meta}>
+          <small className={s.signature}>{content.builtBy}</small>
           <small className={s.credit}>Photo: Katie Lowe</small>
           <span className={s.scroll} aria-hidden="true" />
         </div>

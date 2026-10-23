@@ -1,0 +1,449 @@
+/* FLASH (hero 1), sample C: light editorial split after the Filmmaker Taiwan reference. Paper on the left with the offer,
+   the night flash photo as a tall panel on the right carrying Buruk's name and the style switcher.
+   Rules: ember is the one accent (date stamp, the button's flash), one dark ink, shadows tinted to the page. */
+
+.hero {
+  --serif: "Instrument Serif", Georgia, serif;
+  --poster: "Big Shoulders Display", "Arial Narrow", sans-serif; /* condensed caps, like a film poster title */
+  --sans: "Schibsted Grotesk", system-ui, sans-serif;
+  --paper: #ede7dd;
+  --ink: #1d1a18;
+  --muted: rgb(29 26 24 / 0.68);
+  --bone: #f4efe8;
+  --stamp: #b4602a;          /* ember, darkened to read on paper */
+  --ember: #e8955a;
+  --night: #0f0d0c;
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42%;   /* everything scales with the screen; Buruk's 1920 x 920 is the main target */
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  animation: fade 400ms var(--ease-out) both;
+}
+@keyframes fade { from { opacity: 0; } }
+.hero :focus-visible { outline: 2px solid var(--stamp); outline-offset: 4px; }
+
+/* ---------- left: header + the offer ---------- */
+.left {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: 0 clamp(20px, 4.5vw, 72px) clamp(32px, 6svh, 64px);
+}
+.header {
+  position: relative;
+  z-index: 4;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.wordmark { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
+.mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.03em;
+}
+.nav { display: flex; gap: 28px; margin-left: auto; }
+.nav a, .menu a { text-decoration: none; font-size: 15px; font-weight: 500; }
+.nav a { color: var(--muted); transition: color 160ms var(--ease-out); }
+.nav a[href="#book"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ember); text-underline-offset: 6px; }
+@media (hover: hover) and (pointer: fine) {
+  .nav a:hover { color: var(--ink); }
+}
+.menuBtn, .menu { display: none; }
+
+.copy { align-self: center; display: grid; gap: 0; max-width: 1000px; }
+/* Date stamp: the orange imprint old cameras burned into the corner of a print. */
+.label {
+  margin: 0 0 18px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--stamp);
+}
+.title { margin: 0; font-weight: 400; line-height: 0.92; }
+.l1 { display: block; font-family: var(--serif); font-size: clamp(56px, 8.4vw, 172px); letter-spacing: -0.02em; }
+.l2 {
+  display: block;
+  font-family: var(--poster);
+  font-weight: 900;
+  font-size: clamp(48px, 6.9vw, 142px);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.l2 em { font-family: var(--serif); font-weight: 400; color: var(--accent); text-transform: lowercase; letter-spacing: -0.01em; }
+
+.body {
+  margin-top: clamp(24px, 4svh, 36px);
+  display: grid;
+  grid-template-columns: clamp(200px, 13vw, 260px) minmax(0, 1fr);
+  gap: clamp(40px, 3vw, 64px);
+  align-items: start;
+}
+/* Film credits: a small italic role over the name in caps, behind one rule. */
+.credits { margin: 0; display: grid; gap: 12px; padding-left: 16px; border-left: 2px solid var(--accent); }
+.credits dt { font-family: var(--serif); font-style: italic; font-size: clamp(16px, 0.95vw, 19px); color: var(--accent); text-transform: lowercase; }
+.credits dd { margin: 1px 0 0; font-size: clamp(12px, 0.72vw, 14px); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.offer { display: grid; gap: 28px; }
+.desc { margin: 0; max-width: 42ch; font-size: clamp(16px, 1vw, 19px); line-height: 1.6; color: var(--muted); text-wrap: pretty; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
+
+/* Primary: a dark pill with an ember "ready" light, like a camera's flash indicator. On hover the flash
+   fires: ember wipes across from the light, the light goes white. */
+.cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  height: 56px;
+  padding: 0 26px 0 46px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bone);
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: transform 160ms var(--ease-out), color 200ms var(--ease-out);
+}
+.cta::before { /* the flash */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ember);
+  clip-path: circle(0% at 28px 50%);
+  transition: clip-path 420ms var(--ease-out);
+}
+.cta::after { /* the ready light */
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 0 3px rgb(232 149 90 / 0.25), 0 0 10px rgb(232 149 90 / 0.8);
+  animation: ready 2.4s ease-in-out infinite;
+  transition: background-color 200ms, box-shadow 200ms;
+}
+@keyframes ready { 50% { box-shadow: 0 0 0 5px rgb(232 149 90 / 0.12), 0 0 14px rgb(232 149 90 / 0.95); } }
+.cta :global(.pill-icon) { display: grid; transition: transform 260ms var(--ease-out); }
+.cta :global(.pill-icon svg) { width: 16px; height: 16px; }
+.cta:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover { color: var(--ink); }
+  .cta:hover::before { clip-path: circle(150% at 28px 50%); }
+  .cta:hover::after { background: var(--bone); box-shadow: 0 0 12px #fff; animation: none; }
+  .cta:hover :global(.pill-icon) { transform: rotate(45deg); }
+}
+.cta:focus-visible { color: var(--ink); }
+.cta:focus-visible::before { clip-path: circle(150% at 28px 50%); }
+
+/* "See my work": a plain underlined link; the client screenshots fan out of it on hover. */
+.work {
+  position: relative;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgb(29 26 24 / 0.45);
+  text-underline-offset: 6px;
+  transition: text-decoration-color 160ms var(--ease-out);
+}
+.peek { position: absolute; left: 50%; bottom: 100%; width: 0; pointer-events: none; }
+.peek img {
+  position: absolute;
+  left: -42px;
+  bottom: 6px;
+  width: 84px;
+  max-width: none;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border: 2px solid #fff;
+  border-radius: 2px;
+  box-shadow: 0 8px 16px -8px rgb(29 26 24 / 0.5);
+  opacity: 0;
+  transform: translate(calc(var(--i) * 6px), 18px) rotate(calc(var(--i) * 4deg));
+  transition: transform 360ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .work:hover { text-decoration-color: var(--ink); }
+  .work:hover .peek img, .work:focus-visible .peek img {
+    opacity: 1;
+    transform: translate(calc(var(--i) * 50px), -8px) rotate(calc(var(--i) * 9deg));
+    transition-delay: calc((var(--i) + 1) * 40ms);
+  }
+}
+
+/* ---------- right: the photo panel ---------- */
+.photo {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--night);
+  color: var(--bone);
+}
+/* Film grain on the photo only. */
+.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.flip { position: absolute; inset: 0; }
+.flip img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% 24%;   /* enough sky above the head that the name sits clear of the face */
+  transition: opacity 600ms var(--ease-out);
+}
+
+/* Buruk's name, set across the top of the photo like the Filmmaker reference. */
+.name {
+  position: absolute;
+  z-index: 3;
+  left: clamp(24px, 3vw, 44px);
+  top: clamp(96px, 13svh, 128px);
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(44px, 4.6vw, 92px);
+  line-height: 1.02;
+  pointer-events: none;
+  text-shadow: 0 2px 16px rgb(15 13 12 / 0.6);
+}
+.name span { display: block; width: fit-content; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 10px; }
+.name span:last-child { margin-left: 1.1em; }
+
+/* Switcher: the stack of style prints, bottom right of the photo, with a line saying what it does. */
+.switcher {
+  position: absolute;
+  z-index: 3;
+  right: clamp(24px, 3vw, 40px);
+  bottom: clamp(24px, 4svh, 40px);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-shadow: 0 1px 10px rgb(15 13 12 / 0.8);
+}
+.stack {
+  position: relative;
+  flex: none;
+  width: 52px;
+  height: 66px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.print {
+  position: absolute;
+  inset: 0;
+  background: #8d8780;
+  box-shadow: 0 6px 12px -4px #000;
+  transition: transform 300ms var(--ease-out);
+}
+.print:nth-child(1) { transform: rotate(9deg) translate(6px, -2px); background: #6f6a65; }
+.print:nth-child(2) { transform: rotate(4deg) translate(3px, -1px); }
+.top {
+  display: grid;
+  place-items: center;
+  background: var(--bone);
+  border: 5px solid var(--bone);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 19px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .stack:hover .top { transform: translate(-4px, -6px) rotate(-4deg); }
+  .stack:hover .print:nth-child(1) { transform: rotate(13deg) translate(9px, -3px); }
+}
+.stack:active .top { transform: translateX(-12px) rotate(-8deg); }
+.hint { margin: 0; max-width: 17ch; font-size: 13px; line-height: 1.4; text-align: right; color: rgb(244 239 232 / 0.8); }
+.count { display: block; margin-bottom: 2px; font-weight: 600; color: var(--bone); font-variant-numeric: tabular-nums; }
+
+/* Narrower desktops: the credits drop under the paragraph so the offer keeps its width. */
+@media (max-width: 1180px) {
+  .body { grid-template-columns: 1fr; gap: 24px; }
+  .credits { grid-template-columns: repeat(3, auto); justify-content: start; gap: 8px 28px; order: 2; }
+}
+
+/* ---------- phone booking bar (rendered on <body>, outside .hero, so it carries its own values) ---------- */
+.bar {
+  display: none;
+  --ink: #1d1a18;
+  --bone: #f4efe8;
+  --ember: #e8955a;
+  font-family: "Schibsted Grotesk", system-ui, sans-serif;
+}
+
+/* ---------- phone: the offer first, then the photo panel ---------- */
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; }
+  .left { padding: 0 16px 28px; }
+  .header { height: 64px; }
+  .nav { display: none; }
+  .menuBtn {
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgb(29 26 24 / 0.6);
+    background: none;
+    cursor: pointer;
+  }
+  .menuBtn i { display: block; width: 14px; height: 1.5px; background: currentColor; transition: transform 200ms var(--ease-out); }
+  .menuBtn[aria-expanded="true"] i:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .menuBtn[aria-expanded="true"] i:last-child { transform: translateY(-3.25px) rotate(-45deg); }
+  .menu {
+    display: grid;
+    position: absolute;
+    top: 58px;
+    right: 0;
+    min-width: 200px;
+    padding: 8px;
+    border-radius: 12px;
+    background: var(--bone);
+    box-shadow: 0 16px 32px -12px rgb(29 26 24 / 0.35);
+  }
+  .menu a { padding: 12px 14px; font-size: 16px; }
+
+  .copy { align-self: start; padding-top: 12px; }
+  .label { font-size: 12px; margin-bottom: 12px; }
+  .l1 { font-size: clamp(44px, 13.6vw, 64px); }
+  .l2 { font-size: clamp(38px, 11.6vw, 56px); }
+  .body { margin-top: 20px; }
+  .desc { font-size: 15.5px; }
+  .offer { gap: 22px; }
+  .actions > div:first-child { flex: 1 1 100%; }
+  .cta { width: 100%; justify-content: space-between; }
+  /* No hover on phones, so no screenshot fan: "See my work" is a plain link. */
+  .peek { display: none; }
+  .credits { grid-template-columns: repeat(3, auto); gap: 6px 18px; }
+  .credits dt { font-size: 14px; }
+  .credits dd { font-size: 11px; }
+
+  .photo { height: 78svh; min-height: 480px; }
+  .flip img { object-position: 52% 36%; } /* closer on the face; the panel is narrow here */
+  /* Phones: the name sits along the bottom-left like a caption on a print, on one line, under a dark fade so it
+     reads over the sweater; the switcher moves to the top-right corner to make room. */
+  .name {
+    top: auto;
+    left: 16px;
+    right: 16px;
+    bottom: 22px;
+    font-size: clamp(34px, 10vw, 44px);
+    display: flex;
+    gap: 0.28em;
+    flex-wrap: wrap;
+  }
+  .name { right: auto; padding-bottom: 6px; border-bottom: 2px solid; } /* one underline under the whole name */
+  .name span { text-decoration: none; }
+  .name span:last-child { margin-left: 0; }
+  .photo::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 34%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to top, rgb(15 13 12 / 0.85), transparent);
+  }
+  .switcher { top: 18px; right: 16px; bottom: auto; }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: var(--bone);
+    border-top: 1px solid rgb(29 26 24 / 0.12);
+    color: var(--ink);
+    transform: translateY(110%);
+    transition: transform 300ms var(--ease-out);
+  }
+  .bar .cta { flex: 1; height: 50px; }
+  .barOn { transform: none; }
+  .barPrice { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+}
+
+/* ---------- Into the site: the flash fires ----------
+   Scrolling takes the photo. A camera flash bursts over the hero, then the print slides off
+   its panel to the middle of the screen, tilting like a print held up to show you, while the paper behind it recedes.
+   Then the sections rise over everything. Scroll-driven, off the main thread; reduced motion gets none of it. */
+.photo { z-index: 3; }
+.hero::after { /* the flash */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(circle at 78% 40%, #fffaf0, rgb(255 250 240 / 0.85) 40%, rgb(255 250 240 / 0.6));
+  opacity: 0;
+}
+@media (min-width: 721px) and (min-height: 600px) {
+  .hero { position: sticky; top: 0; }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hero::after { animation: flash linear both; animation-timeline: scroll(root); animation-range: 2svh 22svh; }
+      .photo {
+        animation: hold-up linear both;
+        animation-timeline: scroll(root);
+        animation-range: 6svh 60svh;
+      }
+      .name { animation: name-grow linear both; animation-timeline: scroll(root); animation-range: 10svh 60svh; }
+      .switcher { animation: fade-out linear both; animation-timeline: scroll(root); animation-range: 0 20svh; }
+      .left { animation: recede linear both; animation-timeline: scroll(root); animation-range: 8svh 55svh; }
+    }
+  }
+}
+@keyframes flash { 0% { opacity: 0; } 18% { opacity: 1; } 100% { opacity: 0; } }
+/* the panel is 42% wide; moving it 69% of its own width centres it */
+@keyframes hold-up {
+  to { transform: translateX(-69%) scale(0.86) rotate(-4deg); box-shadow: 0 50px 90px -30px rgb(15 13 12 / 0.75); }
+}
+@keyframes name-grow { to { transform: translateY(-12px) scale(1.08); } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes recede { to { transform: scale(0.94); opacity: 0.18; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero { animation: none; }
+  .peek img, .print, .bar, .cta, .cta::before { transition: none; }
+  .cta::after { animation: none; }
+}

@@ -9,158 +9,175 @@
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui, sans-serif; padding:32px 16px 64px; }
   .page { max-width:1240px; margin:0 auto; display:grid; gap:40px; }
-  h1 { margin:0; font-size:22px; } h2 { margin:0 0 12px; font-size:16px; }
+  h1 { margin:0; font-size:22px; } h2 { margin:0 0 12px; font-size:16px; } h3 { margin:0 0 6px; font-size:14px; }
   p { margin:0; } .muted { color:var(--muted); }
   .boards { display:grid; grid-template-columns: 1fr 300px; gap:24px; align-items:start; }
   @media (max-width: 900px) { .boards { grid-template-columns:1fr; } .phone { max-width:320px; } }
   svg { display:block; width:100%; height:auto; border-radius:6px; }
-  .mk circle { fill:var(--mark); } .mk text { fill:#fff; font:700 18px system-ui; text-anchor:middle; dominant-baseline:central; }
+  .mk circle { fill:#f2f2f2; } .mk text { fill:#1d1d1d; font:700 18px system-ui; text-anchor:middle; dominant-baseline:central; }
   .phone .mk text { font-size:12px; }
   ol.legend { margin:0; padding-left:0; list-style:none; display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:10px 28px; }
   ol.legend li { display:grid; grid-template-columns:28px 1fr; gap:10px; }
   ol.legend b.n { width:24px; height:24px; border-radius:50%; background:var(--mark); color:#fff; font-size:12px; display:grid; place-items:center; }
-  .stack { display:grid; gap:6px; max-width:640px; }
-  .stack div { display:grid; grid-template-columns:150px 1fr 90px; gap:12px; padding:8px 12px; background:#fff; border-radius:8px; }
+  .stack { display:grid; gap:6px; max-width:720px; }
+  .stack div { display:grid; grid-template-columns:170px 1fr 110px; gap:12px; padding:8px 12px; background:#fff; border-radius:8px; }
   .stack span:last-child { color:var(--muted); text-align:right; }
   .swatches { display:flex; flex-wrap:wrap; gap:10px; }
   .sw { width:130px; border-radius:10px; overflow:hidden; background:#fff; font-size:13px; }
   .sw i { display:block; height:56px; } .sw div { padding:6px 10px; }
+  .opts { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
+  .opt { background:#fff; border-radius:10px; padding:12px; display:grid; gap:8px; align-content:start; }
+  .opt svg { border-radius:6px; }
+  .opt p { font-size:13px; }
+  .rec { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#3d47b8; }
+  .ask { background:#fff; border-left:4px solid #3d47b8; border-radius:6px; padding:12px 14px; }
 </style>
 </head>
 <body>
 <div class="page">
 
 <header>
-  <h1>Hero 1 · "Summit" wireframe</h1>
-  <p class="muted">Grey-box only. Dark grey = mountains, mid grey = dunes, hatched + blurred = fog side. Numbers map to the notes below.</p>
+  <h1>Hero 1 · "Split" wireframe</h1>
+  <p class="muted">Grey-box only. Dark grey = the charcoal (Dune) page with noticeable grain. Light boxes = type and UI. The tall framed box = your flash photo. Numbers map to the notes below. Items marked "pick" are waiting on your answer (see "Options to pick").</p>
 </header>
 
 <div class="boards">
 <!-- ================= DESKTOP 1440 x 900 ================= -->
 <svg viewBox="0 0 1440 900" role="img" aria-label="Desktop wireframe">
-  <defs>
-    <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <rect width="10" height="10" fill="#fff" fill-opacity=".22"/><line x1="0" y1="0" x2="0" y2="10" stroke="#fff" stroke-opacity=".25" stroke-width="2"/>
-    </pattern>
-    <filter id="blur"><feGaussianBlur stdDeviation="9"/></filter>
-    <clipPath id="fogClip"><rect x="0" y="0" width="547" height="900"/></clipPath>
-    <!-- frame line: warmer/dimmer on the fog side, white on the clear side, short blend at the seam -->
-    <linearGradient id="line" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0">
-      <stop offset=".35" stop-color="#d8c9a0"/><stop offset=".41" stop-color="#ffffff"/>
-    </linearGradient>
-    <g id="scene">
-      <rect width="1440" height="900" fill="#a9a9a9"/>
-      <!-- giant title sits BEHIND the ridge -->
-      <text x="402" y="436" font-family="system-ui, sans-serif" font-weight="600" font-size="290" letter-spacing="-14" fill="#ededed">local</text>
-      <!-- ridge (front of title) -->
-      <polygon fill="#6f6f6f" points="0,330 150,282 300,322 450,372 600,425 690,455 720,456 780,440 860,405 1000,385 1150,360 1260,350 1440,372 1440,495 0,495"/>
-      <!-- dunes -->
-      <path fill="#8f8f8f" d="M0 495 Q 400 470 720 488 T 1440 492 V 900 H 0 Z"/>
-      <!-- person, arms up, in front of the title -->
-      <g fill="#4a4a4a"><rect x="699" y="452" width="13" height="70" rx="5"/><circle cx="705" cy="446" r="8"/>
-        <path d="M699 462 L682 430 L687 427 L704 458 Z M712 462 L729 430 L724 427 L707 458 Z"/></g>
-    </g>
-  </defs>
+  <rect width="1440" height="900" fill="#2e3133"/>
 
-  <!-- clear side -->
-  <use href="#scene"/>
-  <!-- fog side: same scene, blurred + frosted -->
-  <g clip-path="url(#fogClip)"><use href="#scene" filter="url(#blur)"/><rect width="547" height="900" fill="url(#hatch)"/></g>
-  <line x1="547" y1="0" x2="547" y2="900" stroke="#fff" stroke-opacity=".35" stroke-dasharray="4 6"/>
+  <!-- header: bk circle, nav, small Book button -->
+  <circle cx="84" cy="48" r="20" fill="#d9d9d9"/>
+  <g font-family="system-ui" font-size="12" font-weight="600" letter-spacing="3" fill="#d9d9d9">
+    <text x="780" y="53">WORK</text><text x="864" y="53">PRICING</text><text x="970" y="53">PROCESS</text><text x="1078" y="53">BOOK</text><text x="1150" y="53">CONTACT</text>
+  </g>
+  <rect x="1290" y="30" width="86" height="36" rx="18" fill="#7f86c9"/>
+  <rect x="1306" y="44" width="54" height="8" rx="4" fill="#2e3133"/>
 
-  <!-- OUTSIDE top: logo + nav -->
-  <circle cx="98" cy="44" r="12" fill="#fff"/><rect x="120" y="36" width="150" height="16" rx="8" fill="#fff" fill-opacity=".85"/>
-  <g fill="#fff" fill-opacity=".85"><rect x="1030" y="38" width="56" height="12" rx="6"/><rect x="1110" y="38" width="66" height="12" rx="6"/><rect x="1200" y="38" width="70" height="12" rx="6"/><rect x="1294" y="38" width="66" height="12" rx="6"/></g>
+  <!-- label (date-stamp style, ember) -->
+  <text x="84" y="236" font-family="ui-monospace, monospace" font-size="14" font-weight="700" letter-spacing="3" fill="#c98a5c">SEATTLE · WEBSITES FROM $750</text>
 
-  <!-- FRAME with bottom-right notch -->
-  <path d="M82 88 H1358 A32 32 0 0 1 1390 120 V680 A32 32 0 0 1 1358 712 H1122 A32 32 0 0 0 1090 744 V772 A32 32 0 0 1 1058 804 H82 A32 32 0 0 1 50 772 V120 A32 32 0 0 1 82 88 Z" fill="none" stroke="url(#line)" stroke-width="2"/>
-  <!-- label breaking the border -->
-  <rect x="1196" y="78" width="150" height="20" fill="#a9a9a9"/>
-  <text x="1271" y="93" text-anchor="middle" font-family="system-ui" font-size="14" font-weight="600" letter-spacing="3" fill="#fff">FROM $750</text>
+  <!-- headline: sentence case, "small" in italic serif -->
+  <g font-family="system-ui, sans-serif" font-weight="700" font-size="86" fill="#efefef">
+    <text x="80" y="330">Custom websites</text>
+    <text x="80" y="420">for <tspan font-family="Georgia, serif" font-style="italic" font-weight="400" fill="#aab0e6">small</tspan></text>
+    <text x="80" y="510">businesses</text>
+  </g>
 
-  <!-- title lockup -->
-  <text x="410" y="236" font-family="system-ui, sans-serif" font-size="42" font-weight="500" fill="#fff">Custom websites for</text>
-  <text x="1012" y="540" text-anchor="end" font-family="system-ui, sans-serif" font-size="42" font-weight="500" fill="#fff">businesses</text>
+  <!-- description -->
+  <g fill="#d9d9d9" fill-opacity=".5"><rect x="84" y="550" width="470" height="10" rx="5"/><rect x="84" y="570" width="440" height="10" rx="5"/><rect x="84" y="590" width="460" height="10" rx="5"/><rect x="84" y="610" width="250" height="10" rx="5"/></g>
 
-  <!-- fog column: description + switcher -->
-  <g fill="#fff" fill-opacity=".8"><rect x="96" y="574" width="370" height="11" rx="5.5"/><rect x="96" y="596" width="340" height="11" rx="5.5"/><rect x="96" y="618" width="360" height="11" rx="5.5"/><rect x="96" y="640" width="210" height="11" rx="5.5"/></g>
-  <line x1="96" y1="676" x2="466" y2="676" stroke="#fff" stroke-opacity=".5"/>
-  <text x="96" y="742" font-family="system-ui" font-size="46" font-weight="200" fill="#fff">01</text>
-  <g fill="none" stroke="#fff" stroke-width="2"><circle cx="176" cy="726" r="7" fill="#fff"/><circle cx="202" cy="726" r="7"/><circle cx="228" cy="726" r="7"/><circle cx="254" cy="726" r="7"/><circle cx="280" cy="726" r="7"/></g>
-  <rect x="310" y="720" width="96" height="12" rx="6" fill="#fff" fill-opacity=".85"/>
+  <!-- primary: Book a free call (chicory pill) -->
+  <rect x="84" y="652" width="232" height="56" rx="28" fill="#7f86c9"/>
+  <rect x="108" y="675" width="130" height="10" rx="5" fill="#2e3133"/>
+  <circle cx="288" cy="680" r="19" fill="#2e3133"/>
+  <!-- secondary: See my work, folder-style button, hover shows screenshots popping out -->
+  <g opacity=".55">
+    <rect x="352" y="606" width="66" height="44" rx="3" fill="#bdbdbd" transform="rotate(-10 385 650)"/>
+    <rect x="384" y="598" width="66" height="44" rx="3" fill="#cfcfcf"/>
+    <rect x="416" y="606" width="66" height="44" rx="3" fill="#bdbdbd" transform="rotate(10 449 650)"/>
+  </g>
+  <path d="M340 660 h50 l10 -8 h100 a6 6 0 0 1 6 6 v44 a6 6 0 0 1 -6 6 h-160 a6 6 0 0 1 -6 -6 v-36 a6 6 0 0 1 6 -6z" fill="none" stroke="#d9d9d9" stroke-width="1.5"/>
+  <rect x="366" y="676" width="104" height="9" rx="4.5" fill="#d9d9d9" fill-opacity=".8"/>
+  <text x="352" y="596" font-family="system-ui" font-size="11" fill="#d9d9d9" fill-opacity=".6">(hover state)</text>
 
-  <!-- notch button (button-in-button) -->
-  <rect x="1116" y="732" width="262" height="60" rx="30" fill="#fff"/>
-  <rect x="1142" y="756" width="150" height="12" rx="6" fill="#bdbdbd"/>
-  <circle cx="1348" cy="762" r="22" fill="#a9a9a9"/>
+  <!-- credits row: three tiny caps columns -->
+  <line x1="84" y1="760" x2="700" y2="760" stroke="#d9d9d9" stroke-opacity=".25"/>
+  <g font-family="ui-monospace, monospace" font-size="11" letter-spacing="2" fill="#d9d9d9">
+    <text x="84" y="790" fill-opacity=".55">BUILT BY</text><text x="84" y="812" font-weight="700">BURUK YIMESGEN</text>
+    <text x="324" y="790" fill-opacity=".55">BASED IN</text><text x="324" y="812" font-weight="700">SEATTLE, WA</text>
+    <text x="524" y="790" fill-opacity=".55">STARTS AT</text><text x="524" y="812" font-weight="700">$750</text>
+  </g>
 
-  <!-- OUTSIDE bottom -->
-  <rect x="86" y="846" width="110" height="12" rx="6" fill="#fff" fill-opacity=".85"/>
-  <line x1="216" y1="852" x2="376" y2="852" stroke="#fff" stroke-width="2"/><path d="M368 846 L378 852 L368 858" fill="none" stroke="#fff" stroke-width="2"/>
-  <circle cx="1358" cy="852" r="16" fill="none" stroke="#fff" stroke-width="2"/>
-  <text x="1320" y="857" text-anchor="end" font-family="system-ui" font-size="12" fill="#fff" fill-opacity=".5">Photo: Katie Lowe</text>
+  <!-- photo: you inside a tall tilted frame; only your arm + thumbs up break out past its right edge -->
+  <ellipse cx="1010" cy="300" rx="200" ry="170" fill="#c98a5c" fill-opacity=".2"/>
+  <g transform="rotate(3 1010 470)">
+    <rect x="840" y="130" width="330" height="680" fill="#4a4d50" stroke="#efefef" stroke-width="10"/>
+    <circle cx="1000" cy="300" r="58" fill="#8a8a8a"/>
+    <path d="M880 805 C 885 560, 920 420, 1000 395 C 1080 420, 1150 520, 1165 805 Z" fill="#8a8a8a"/>
+    <text x="1005" y="190" text-anchor="middle" font-family="system-ui" font-size="13" fill="#dcdcdc">you, inside the frame</text>
+    <text x="864" y="780" font-family="Georgia, serif" font-style="italic" font-size="34" fill="#efefef">Buruk Yimesgen</text>
+  </g>
+  <!-- the cut-out piece: side of sweater, arm, thumbs up, crossing the frame edge -->
+  <path d="M1150 430 C 1200 440, 1240 470, 1255 520 L 1262 610 L 1215 615 L 1205 540 C 1195 510, 1175 500, 1150 500 Z" fill="#9a9a9a"/>
+  <path d="M1196 470 l26 -70 l18 6 l-14 70 z" fill="#9a9a9a"/>
+  <ellipse cx="1214" cy="474" rx="26" ry="30" fill="#9a9a9a"/>
+  <text x="1236" y="660" font-family="system-ui" font-size="12" fill="#dcdcdc">arm breaks out</text>
+
+  <!-- switcher (pick): shown as option A, a stack of style prints -->
+  <g transform="translate(1316 720)">
+    <rect x="10" y="-6" width="70" height="92" fill="#9a9a9a" transform="rotate(8 45 40)"/>
+    <rect x="4" y="-2" width="70" height="92" fill="#b5b5b5" transform="rotate(4 39 44)"/>
+    <rect x="0" y="0" width="70" height="92" fill="#efefef"/>
+    <text x="35" y="58" text-anchor="middle" font-family="system-ui" font-size="26" font-weight="300" fill="#2e3133">01</text>
+  </g>
 
   <!-- markers -->
   <g class="mk">
-    <circle cx="62" cy="44" r="15"/><text x="62" y="44">1</text>
-    <circle cx="1000" cy="44" r="15"/><text x="1000" y="44">2</text>
-    <circle cx="50" cy="400" r="15"/><text x="50" y="400">3</text>
-    <circle cx="1170" cy="88" r="15"/><text x="1170" y="88">4</text>
-    <circle cx="384" cy="222" r="15"/><text x="384" y="222">5</text>
-    <circle cx="560" cy="290" r="15"/><text x="560" y="290">6</text>
-    <circle cx="745" cy="500" r="15"/><text x="745" y="500">7</text>
-    <circle cx="1040" cy="526" r="15"/><text x="1040" y="526">8</text>
-    <circle cx="70" cy="584" r="15"/><text x="70" y="584">9</text>
-    <circle cx="70" cy="726" r="15"/><text x="70" y="726">10</text>
-    <circle cx="1100" cy="700" r="15"/><text x="1100" y="700">11</text>
-    <circle cx="62" cy="852" r="15"/><text x="62" y="852">12</text>
-    <circle cx="1188" cy="852" r="15"/><text x="1188" y="852">15</text>
-    <circle cx="1386" cy="852" r="15"/><text x="1386" y="852">13</text>
-    <circle cx="300" cy="160" r="15"/><text x="300" y="160">14</text>
+    <circle cx="44" cy="48" r="15"/><text x="44" y="48">1</text>
+    <circle cx="1333" cy="92" r="15"/><text x="1333" y="92">2</text>
+    <circle cx="44" cy="231" r="15"/><text x="44" y="231">3</text>
+    <circle cx="44" cy="420" r="15"/><text x="44" y="420">4</text>
+    <circle cx="44" cy="580" r="15"/><text x="44" y="580">5</text>
+    <circle cx="44" cy="680" r="15"/><text x="44" y="680">6</text>
+    <circle cx="530" cy="680" r="15"/><text x="530" y="680">7</text>
+    <circle cx="44" cy="800" r="15"/><text x="44" y="800">8</text>
+    <circle cx="836" cy="470" r="15"/><text x="836" y="470">9</text>
+    <circle cx="806" cy="770" r="15"/><text x="806" y="770">10</text>
+    <circle cx="1180" cy="190" r="15"/><text x="1180" y="190">11</text>
+    <circle cx="1400" cy="700" r="15"/><text x="1400" y="700">12</text>
   </g>
 </svg>
 
-<!-- ================= PHONE 390 x 844 ================= -->
+<!-- ================= PHONE 390 x 844 (fold at 664: real iPhone height with Safari bars) ================= -->
 <svg class="phone" viewBox="0 0 390 844" role="img" aria-label="Phone wireframe">
-  <defs>
-    <clipPath id="pFog"><rect x="0" y="470" width="390" height="374"/></clipPath>
-    <g id="pScene">
-      <rect width="390" height="844" fill="#a9a9a9"/>
-      <text x="195" y="352" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="600" font-size="122" letter-spacing="-6" fill="#ededed">local</text>
-      <polygon fill="#6f6f6f" points="0,312 80,305 150,326 192,350 200,350 240,336 300,316 390,322 390,384 0,384"/>
-      <path fill="#8f8f8f" d="M0 384 Q 195 370 390 384 V844 H0 Z"/>
-      <g fill="#4a4a4a"><rect x="193" y="346" width="7" height="38" rx="3"/><circle cx="196.5" cy="341" r="4.5"/><path d="M193 352 L184 334 L187 332 L196 350 Z M200 352 L209 334 L206 332 L197 350 Z"/></g>
-    </g>
-  </defs>
-  <use href="#pScene"/>
-  <g clip-path="url(#pFog)"><use href="#pScene" filter="url(#blur)"/><rect y="470" width="390" height="374" fill="url(#hatch)"/></g>
-  <line x1="0" y1="470" x2="390" y2="470" stroke="#fff" stroke-opacity=".35" stroke-dasharray="4 6"/>
+  <rect width="390" height="844" fill="#2e3133"/>
+  <circle cx="34" cy="34" r="16" fill="#d9d9d9"/>
+  <rect x="236" y="18" width="76" height="32" rx="16" fill="#7f86c9"/>
+  <circle cx="352" cy="34" r="16" fill="none" stroke="#d9d9d9" stroke-width="1.5"/>
 
-  <circle cx="32" cy="34" r="9" fill="#fff"/><rect x="48" y="28" width="96" height="12" rx="6" fill="#fff" fill-opacity=".85"/>
-  <circle cx="356" cy="34" r="17" fill="none" stroke="#fff" stroke-width="2"/>
+  <text x="18" y="100" font-family="ui-monospace, monospace" font-size="10" font-weight="700" letter-spacing="2" fill="#c98a5c">SEATTLE · WEBSITES FROM $750</text>
+  <g font-family="system-ui, sans-serif" font-weight="700" font-size="40" fill="#efefef">
+    <text x="16" y="148">Custom websites</text>
+    <text x="16" y="194">for <tspan font-family="Georgia, serif" font-style="italic" font-weight="400" fill="#aab0e6">small</tspan></text>
+    <text x="16" y="240">businesses</text>
+  </g>
+  <g fill="#d9d9d9" fill-opacity=".5"><rect x="18" y="264" width="340" height="8" rx="4"/><rect x="18" y="280" width="320" height="8" rx="4"/><rect x="18" y="296" width="330" height="8" rx="4"/><rect x="18" y="312" width="180" height="8" rx="4"/></g>
 
-  <path d="M36 64 H354 A24 24 0 0 1 378 88 V684 A24 24 0 0 1 354 708 H192 A24 24 0 0 0 168 732 V748 A24 24 0 0 1 144 772 H36 A24 24 0 0 1 12 748 V88 A24 24 0 0 1 36 64 Z" fill="none" stroke="#fff" stroke-width="1.5"/>
-  <rect x="262" y="57" width="96" height="14" fill="#a9a9a9"/><text x="310" y="68" text-anchor="middle" font-family="system-ui" font-size="10" font-weight="600" letter-spacing="2" fill="#fff">FROM $750</text>
+  <rect x="16" y="340" width="358" height="52" rx="26" fill="#7f86c9"/><rect x="40" y="361" width="120" height="10" rx="5" fill="#2e3133"/><circle cx="350" cy="366" r="17" fill="#2e3133"/>
+  <path d="M16 418 h36 l8 -6 h70 a5 5 0 0 1 5 5 v30 a5 5 0 0 1 -5 5 h-109 a5 5 0 0 1 -5 -5 v-24 a5 5 0 0 1 5 -5z" fill="none" stroke="#d9d9d9" stroke-width="1.2"/>
+  <rect x="34" y="430" width="80" height="8" rx="4" fill="#d9d9d9" fill-opacity=".8"/>
 
-  <text x="40" y="170" font-family="system-ui" font-size="24" font-weight="500" fill="#fff">Custom websites for</text>
-  <text x="328" y="418" text-anchor="end" font-family="system-ui" font-size="24" font-weight="500" fill="#fff">businesses</text>
+  <!-- framed photo, shorter on phones; arm breaks out on the right -->
+  <ellipse cx="190" cy="530" rx="130" ry="80" fill="#c98a5c" fill-opacity=".2"/>
+  <g transform="rotate(3 190 600)">
+    <rect x="96" y="476" width="190" height="250" fill="#4a4d50" stroke="#efefef" stroke-width="6"/>
+    <circle cx="186" cy="540" r="26" fill="#8a8a8a"/>
+    <path d="M120 724 C 122 640, 140 596, 186 584 C 232 596, 270 640, 280 724 Z" fill="#8a8a8a"/>
+    <text x="108" y="712" font-family="Georgia, serif" font-style="italic" font-size="17" fill="#efefef">Buruk Yimesgen</text>
+  </g>
+  <path d="M276 590 C 300 596, 318 612, 322 640 L 324 676 L 300 678 L 296 646 C 292 630, 284 624, 276 624 Z" fill="#9a9a9a"/>
+  <path d="M298 600 l14 -34 l9 3 l-7 34 z" fill="#9a9a9a"/><ellipse cx="306" cy="602" rx="13" ry="15" fill="#9a9a9a"/>
 
-  <g fill="#fff" fill-opacity=".8"><rect x="36" y="508" width="300" height="9" rx="4.5"/><rect x="36" y="526" width="280" height="9" rx="4.5"/><rect x="36" y="544" width="300" height="9" rx="4.5"/><rect x="36" y="562" width="160" height="9" rx="4.5"/></g>
-  <text x="36" y="640" font-family="system-ui" font-size="32" font-weight="200" fill="#fff">01</text>
-  <g fill="none" stroke="#fff" stroke-width="1.5"><circle cx="96" cy="629" r="5" fill="#fff"/><circle cx="115" cy="629" r="5"/><circle cx="134" cy="629" r="5"/><circle cx="153" cy="629" r="5"/><circle cx="172" cy="629" r="5"/></g>
-  <rect x="194" y="624" width="70" height="10" rx="5" fill="#fff" fill-opacity=".85"/>
+  <line x1="0" y1="664" x2="390" y2="664" stroke="#f2f2f2" stroke-dasharray="6 6" stroke-opacity=".6"/>
+  <text x="374" y="658" text-anchor="end" font-family="system-ui" font-size="9" fill="#f2f2f2" fill-opacity=".7">fold (real phone)</text>
 
-  <rect x="186" y="722" width="186" height="46" rx="23" fill="#fff"/><rect x="204" y="740" width="104" height="10" rx="5" fill="#bdbdbd"/><circle cx="350" cy="745" r="17" fill="#a9a9a9"/>
+  <g font-family="ui-monospace, monospace" font-size="8" letter-spacing="1.5" fill="#d9d9d9">
+    <text x="18" y="756" fill-opacity=".55">BUILT BY</text><text x="18" y="770" font-weight="700">BURUK YIMESGEN</text>
+    <text x="150" y="756" fill-opacity=".55">BASED IN</text><text x="150" y="770" font-weight="700">SEATTLE, WA</text>
+    <text x="270" y="756" fill-opacity=".55">STARTS AT</text><text x="270" y="770" font-weight="700">$750</text>
+  </g>
 
-  <rect x="24" y="802" width="80" height="10" rx="5" fill="#fff" fill-opacity=".85"/>
-  <line x1="114" y1="807" x2="214" y2="807" stroke="#fff" stroke-width="1.5"/>
-  <text x="366" y="811" text-anchor="end" font-family="system-ui" font-size="9" fill="#fff" fill-opacity=".5">Photo: Katie Lowe</text>
+  <!-- sticky booking bar (appears once the hero's button scrolls away) -->
+  <rect x="10" y="790" width="370" height="46" rx="23" fill="#7f86c9"/><rect x="30" y="809" width="110" height="9" rx="4.5" fill="#2e3133"/><rect x="290" y="809" width="70" height="9" rx="4.5" fill="#2e3133" fill-opacity=".6"/>
 
   <g class="mk">
-    <circle cx="300" cy="200" r="11"/><text x="300" y="200">6</text>
-    <circle cx="24" cy="629" r="11"/><text x="24" y="629">10</text>
-    <circle cx="176" cy="700" r="11"/><text x="176" y="700">11</text>
-    <circle cx="370" cy="470" r="11"/><text x="370" y="470">14</text>
+    <circle cx="372" cy="96" r="11"/><text x="372" y="96">3</text>
+    <circle cx="372" cy="366" r="11"/><text x="372" y="366">6</text>
+    <circle cx="160" cy="434" r="11"/><text x="160" y="434">7</text>
+    <circle cx="340" cy="560" r="11"/><text x="340" y="560">9</text>
+    <circle cx="372" cy="762" r="11"/><text x="372" y="762">8</text>
+    <circle cx="372" cy="812" r="11"/><text x="372" y="812">13</text>
   </g>
 </svg>
 </div>
@@ -168,51 +185,102 @@
 <section>
   <h2>Notes</h2>
   <ol class="legend">
-    <li><b class="n">1</b><div><strong>Logo, outside the frame.</strong> Small mark + "BK WEB STUDIOS". Sits on the fog.</div></li>
-    <li><b class="n">2</b><div><strong>Nav, outside the frame.</strong> Work · Pricing · Process · Contact. 12px caps, wide tracking. No CTA here: the notch owns it. Phone: menu circle.</div></li>
-    <li><b class="n">3</b><div><strong>The frame.</strong> One 1px line drawn over everything. Warm sand on the fog side, white on the clear side, short blend at the seam. Inset 56px sides, 88px top, 96px bottom, 32px radius. Phone: 12px inset, 24px radius.</div></li>
-    <li><b class="n">4</b><div><strong>Label breaking the border:</strong> "FROM $750", top edge, clear side.</div></li>
-    <li><b class="n">5</b><div><strong>"Custom websites for".</strong> 42px, sits in the sky, starts in the fog and crosses the seam.</div></li>
-    <li><b class="n">6</b><div><strong>"local", the giant word, behind the ridge.</strong> ~290px lowercase. The mountains cover the bottom of the letters. It crosses the seam: "l" + half the "o" are frosted, the rest is crisp. Lowercase on purpose (see question 1).</div></li>
-    <li><b class="n">7</b><div><strong>The person stands in front of "local".</strong> Arms raised over the "c/a". This is the Brazil moment. Needs a cutout PNG of ridge + person.</div></li>
-    <li><b class="n">8</b><div><strong>"businesses".</strong> 42px, right-aligned to the end of "local", in front of the dunes. The title reads as a staircase down the ridge.</div></li>
-    <li><b class="n">9</b><div><strong>Description</strong> in the fog column, max ~34 characters wide, 17px.</div></li>
-    <li><b class="n">10</b><div><strong>Switcher: "01 ●○○○○ SUMMIT".</strong> Thin numerals, dots, style name. Clicking a dot swaps the hero; the number and name update.</div></li>
-    <li><b class="n">11</b><div><strong>Notch + "Book a free call".</strong> The frame line wraps around a cutout in the bottom-right corner with inverted curves; the pill button sits inside. Arrow lives in its own circle (button-in-button).</div></li>
-    <li><b class="n">12</b><div><strong>"See my work" ——→</strong> outside the frame, under the fog column, long hairline arrow that extends on hover.</div></li>
-    <li><b class="n">13</b><div><strong>Scroll cue</strong> outside bottom-right. Small circle, slow 1-dot pulse.</div></li>
-    <li><b class="n">15</b><div><strong>Photo credit: "Photo: Katie Lowe".</strong> 12px, 50% opacity, outside the frame bottom-right, next to the scroll cue. Phone: 9–10px, bottom-right.</div></li>
-    <li><b class="n">14</b><div><strong>Fog.</strong> Frosted glass over the left 38% (desktop) or bottom 45% (phone). Blurs the photo and the "l" under it, plus fine grain. Seam is a straight vertical edge, no visible line.</div></li>
+    <li><b class="n">1</b><div><strong>The bk circle</strong>, as on every hero, 40px, top-left.</div></li>
+    <li><b class="n">2</b><div><strong>Nav + small "Book" button.</strong> Work · Pricing · Process · Book · Contact, 12px caps. The small chicory pill opens the cal.com popup. Phone: Book pill + menu circle.</div></li>
+    <li><b class="n">3</b><div><strong>"SEATTLE · WEBSITES FROM $750"</strong> in ember orange, monospace caps, like a camera date stamp. The shared price label, so it's also the price near the button.</div></li>
+    <li><b class="n">4</b><div><strong>Headline, the biggest thing on screen.</strong> Sentence case (it lets the italic word stand out), Schibsted Grotesk bold ~86px; "<i>small</i>" in Fraunces italic, light chicory. Phone: 40px, three lines.</div></li>
+    <li><b class="n">5</b><div><strong>Description</strong>, the current sentence, 16px, ~46 characters wide, cream at 70%.</div></li>
+    <li><b class="n">6</b><div><strong>"Book a free call"</strong>: chicory pill, dark text, arrow in its own circle. Visible in the first frame (no reveal delay). Phone: full width.</div></li>
+    <li><b class="n">7</b><div><strong>"See my work" folder button.</strong> Outlined, with a folder-tab shape. On hover, three tiny client screenshots slide up out of it, fanned. Click goes to the Work section. Phone (your pick): the screenshot tops always peek out; one tap goes to Work.</div></li>
+    <li><b class="n">8</b><div><strong>Credits row</strong>: BUILT BY / BURUK YIMESGEN · BASED IN / SEATTLE, WA · STARTS AT / $750. 11px monospace caps under a hairline. Phone: same, 8px, just under the fold.</div></li>
+    <li><b class="n">9</b><div><strong>Your flash photo in a tall frame, with only your arm breaking out</strong> (your pick). Bone border, tilted 3°. Your head stays inside the frame (no hard beanie edge); the frame's right edge runs down your side, and your arm and thumbs up cross it, cut out. Black-and-white with a warm tint, waist up. Hover: you and the frame flip together like a card (0.5s), and the back is the color version; phones: tap to flip.</div></li>
+    <li><b class="n">10</b><div><strong>"Buruk Yimesgen"</strong> in Fraunces italic across the frame's lower corner, like the Filmmaker example.</div></li>
+    <li><b class="n">11</b><div><strong>Warm glow</strong> behind your head (ember, ~18%): keeps the beanie from disappearing into the dark and feels like a flash.</div></li>
+    <li><b class="n">12</b><div><strong>Style switcher: a stack of prints</strong> (your pick). Click and the next style's print slides to the top; "01 / 05" under it. Coming-soon styles are blank prints.</div></li>
+    <li><b class="n">13</b><div><strong>Phone booking bar.</strong> Slides up once the hero's button scrolls off screen; "Book a free call" + "$750". Hidden while the hero's own button is visible.</div></li>
   </ol>
 </section>
 
 <section>
-  <h2>Layers (back to front) and parallax</h2>
-  <p class="muted" style="margin-bottom:10px">Mouse move shifts each layer by a different amount, eased with a spring. Off on touch devices and for reduced motion.</p>
+  <h2>The cut (your real photo)</h2>
+  <p class="muted" style="margin-bottom:10px">Waist up, left edge just clear of the "Event Center" sign. The frame's right edge runs down your right side; everything past it (side of the sweater, arm, hand) is the only part you cut out. Your head never needs cutting.</p>
+  <img src="hero-1-arm.png" alt="Where the frame edge cuts the photo" style="max-width:520px;width:100%;border-radius:6px">
+</section>
+
+<section>
+  <h2>Options (picked: cutout, whole thing flips on hover, stack of prints, peek then go)</h2>
+  <div style="display:grid; gap:22px">
+    <div>
+      <h3>A · Photo shape</h3>
+      <div class="opts">
+        <div class="opt"><svg viewBox="0 0 200 160"><rect width="200" height="160" fill="#2e3133"/><rect x="62" y="16" width="86" height="128" fill="#5d5d5d" transform="rotate(3 105 80)"/></svg><p><b>1 · Plain panel.</b> Edge-to-edge photo, no border. Cleanest, most "Filmmaker".</p></div>
+        <div class="opt"><svg viewBox="0 0 200 160"><rect width="200" height="160" fill="#2e3133"/><g transform="rotate(3 105 80)"><rect x="58" y="12" width="94" height="136" fill="#efefef"/><rect x="64" y="18" width="82" height="124" fill="#5d5d5d"/></g></svg><p><b>2 · Print with a thin border.</b> The film finish you liked, without becoming a Polaroid prop.</p><span class="rec">My pick</span></div>
+        <div class="opt"><svg viewBox="0 0 200 160"><rect width="200" height="160" fill="#2e3133"/><rect x="62" y="16" width="86" height="128" rx="16" fill="#5d5d5d" transform="rotate(3 105 80)"/></svg><p><b>3 · Rounded card.</b> Softer and friendlier; less film feel.</p></div>
+        <div class="opt"><svg viewBox="0 0 200 160"><rect width="200" height="160" fill="#2e3133"/><rect x="58" y="48" width="94" height="96" fill="#4a4d50"/><circle cx="105" cy="46" r="18" fill="#8a8a8a"/><path d="M75 144 C 78 100, 90 78, 105 74 C 120 78, 132 100, 135 144 Z" fill="#8a8a8a"/></svg><p><b>4 · Cutout breaking the frame.</b> You stand in a low box, your head and thumbs up rising out of it. Most dramatic; the beanie edge needs careful cutting.</p></div>
+      </div>
+    </div>
+    <div>
+      <h3>B · Black-and-white to color</h3>
+      <div class="opts">
+        <div class="opt"><p><b>1 · Flip on hover.</b> Desktop: hovering turns the print over like a real photo (a 3D flip, 0.5s) and the back is the color version. Phone: tap the photo to flip it.</p><span class="rec">My pick</span></div>
+        <div class="opt"><p><b>2 · Develop on scroll.</b> As the visitor scrolls the first ~200px, the print spins a little and color fades in, like it's developing. Works the same on phones, no tap needed.</p></div>
+        <div class="opt"><p><b>3 · Both.</b> Hover flips on desktop; scrolling develops on phones.</p></div>
+      </div>
+    </div>
+    <div>
+      <h3>C · Style switcher (easy to understand, clearly visible)</h3>
+      <div class="opts">
+        <div class="opt"><svg viewBox="0 0 200 120"><rect width="200" height="120" fill="#2e3133"/><g transform="translate(66 14)"><rect x="10" y="-4" width="56" height="74" fill="#9a9a9a" transform="rotate(8 38 33)"/><rect x="4" y="-1" width="56" height="74" fill="#b5b5b5" transform="rotate(4 32 36)"/><rect width="56" height="74" fill="#efefef"/><text x="28" y="46" text-anchor="middle" font-family="system-ui" font-size="22" font-weight="300" fill="#2e3133">01</text></g></svg><p><b>A · Stack of prints.</b> Each style is a print; click the stack and the next one slides to the top. Matches the photo; the "coming soon" styles are blank prints. Needs a small "01 / 05" under it so it's obvious.</p><span class="rec">My pick</span></div>
+        <div class="opt"><svg viewBox="0 0 200 120"><rect width="200" height="120" fill="#2e3133"/><g font-family="system-ui" font-size="16" text-anchor="middle"><rect x="14" y="44" width="36" height="32" rx="16" fill="#7f86c9"/><text x="32" y="65" fill="#2e3133">01</text><text x="70" y="65" fill="#d9d9d9">02</text><text x="104" y="65" fill="#d9d9d9">03</text><text x="138" y="65" fill="#777">04</text><text x="172" y="65" fill="#777">05</text></g></svg><p><b>B · Number tabs.</b> 01 to 05 in a row, the current one filled chicory. The most obvious; less charming.</p></div>
+        <div class="opt"><svg viewBox="0 0 200 120"><rect width="200" height="120" fill="#2e3133"/><rect x="30" y="40" width="140" height="40" rx="20" fill="none" stroke="#c98a5c" stroke-width="2"/><text x="100" y="66" text-anchor="middle" font-family="ui-monospace, monospace" font-size="15" fill="#d9d9d9">‹  01 / 05  ›</text></svg><p><b>C · Counter pill.</b> "‹ 01 / 05 ›" in the date-stamp style, ember outline. Compact and clear, sits in the credits row.</p></div>
+      </div>
+    </div>
+    <div>
+      <h3>D · "See my work" on phones (there's no hover)</h3>
+      <div class="opts">
+        <div class="opt"><p><b>1 · Peek, then go.</b> The three screenshot tops always peek out of the folder a little; tapping goes straight to Work.</p><span class="rec">My pick</span></div>
+        <div class="opt"><p><b>2 · Two taps.</b> First tap fans the screenshots out, second tap goes to Work. More fun, but one extra step.</p></div>
+        <div class="opt"><p><b>3 · Plain on phones.</b> Just the folder button, no screenshots.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Layers (back to front) and motion</h2>
+  <p class="muted" style="margin-bottom:10px">Text and buttons never wait for an animation. Mouse effects off on touch devices; all motion off for reduced motion.</p>
   <div class="stack">
-    <div><b>1 · Sky photo</b><span>full photo, sharp</span><span>±6px</span></div>
-    <div><b>2 · "local"</b><span>giant word</span><span>±12px</span></div>
-    <div><b>3 · Ridge + person</b><span>cutout PNG, covers the word</span><span>±20px</span></div>
-    <div><b>4 · Fog</b><span>frosted glass, left side</span><span>fixed</span></div>
-    <div><b>5 · UI</b><span>frame, small text, buttons, switcher</span><span>fixed</span></div>
+    <div><b>1 · Charcoal page</b><span>flat Dune + noticeable grain (static, no flicker)</span><span>fixed</span></div>
+    <div><b>2 · Warm glow</b><span>soft ember ellipse behind your head</span><span>fixed</span></div>
+    <div><b>3 · Frame + cutout</b><span>3° tilt, B&amp;W warm tint; flips as one card to color on hover / tap</span><span>tilts ±3° toward mouse</span></div>
+    <div><b>4 · Name</b><span>"Buruk Yimesgen" on the print</span><span>moves with print</span></div>
+    <div><b>5 · UI</b><span>label, headline, text, buttons, credits, switcher</span><span>fixed</span></div>
   </div>
 </section>
 
 <section>
   <h2>Load sequence</h2>
-  <p>0ms: photo visible, fully clear, "local" already behind ridge → 200ms: fog drifts in from the left edge to the seam (1100ms, strong ease-in-out) → 900ms: frame line draws itself around the perimeter (900ms) → 1200ms: small text + switcher + buttons fade up with 60ms stagger (500ms, ease-out). Reduced motion: everything just appears, fog included.</p>
+  <p>0ms: everything is already in place and readable → 0–400ms: the whole hero fades up from 0 to 100% (one quick fade, ease-out) while the print settles from 0° to its 3° tilt. That's it: under half a second, per your pick. Reduced motion: no fade, no tilt.</p>
 </section>
 
 <section>
-  <h2>Palette sampled from the photo</h2>
+  <h2>Palette (the site's own)</h2>
   <div class="swatches">
-    <div class="sw"><i style="background:#fde98a"></i><div><b>Glow</b> #FDE98A<br>highlight</div></div>
-    <div class="sw"><i style="background:#d57d3b"></i><div><b>Ember</b> #D57D3B<br>accent</div></div>
-    <div class="sw"><i style="background:#8b5a3e"></i><div><b>Dusk</b> #8B5A3E<br>secondary</div></div>
-    <div class="sw"><i style="background:#3e1f20"></i><div><b>Ridge</b> #3E1F20<br>dark text</div></div>
-    <div class="sw"><i style="background:#2a2f33"></i><div><b>Dune</b> #2A2F33<br>dark background</div></div>
-    <div class="sw"><i style="background:#f4efe8; box-shadow: inset 0 0 0 1px #ddd"></i><div><b>Bone</b> #F4EFE8<br>light text / bg</div></div>
+    <div class="sw"><i style="background:#2a2f33"></i><div><b>Dune</b> #2A2F33<br>page</div></div>
+    <div class="sw"><i style="background:#f4efe8; box-shadow: inset 0 0 0 1px #ddd"></i><div><b>Bone</b> #F4EFE8<br>text, print border</div></div>
+    <div class="sw"><i style="background:#5b67d9"></i><div><b>Chicory</b> #5B67D9<br>buttons, key word</div></div>
+    <div class="sw"><i style="background:#d57d3b"></i><div><b>Ember</b> #D57D3B<br>label, glow, switcher</div></div>
   </div>
+</section>
+
+<section class="ask">
+  <h2>Waiting on</h2>
+  <p>1 · Your OK on this wireframe. 2 · From Photopea: the arm piece only (right side of the sweater, arm and thumbs up, past the edge shown above) as a PNG with a transparent background, full size, in color, into <code>assets/page1/page1Assets/</code>. I'll crop the framed part myself and make the black-and-white versions of both so they line up.</p>
+</section>
+
+<section class="ask">
+  <h2>Shared words check</h2>
+  <p>New in hero 1 only: the credit labels BUILT BY / BASED IN / STARTS AT (you approved these), your full name on the photo, and the photo itself (your agreed exception). Everything else uses the shared words. "See my work" stays the same text; only its button changes.</p>
 </section>
 
 </div>

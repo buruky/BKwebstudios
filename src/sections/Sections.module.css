@@ -2,6 +2,7 @@
 
 /* The sheet rises over the pinned hero. Each hero gives it its own edge (see the hero's "into the site" block). */
 .sheet {
+  --ink-rgb: 42 47 51;   /* section text + hairlines; dark tones swap it to bone */
   position: relative;
   z-index: 1;
   background: var(--bone);
@@ -11,13 +12,22 @@
   border-radius: 28px 28px 0 0;
   overflow: clip;
 }
+/* Flash: the paper sheet lifts over the held-up print, with a soft shadow on its top edge. */
+:global(main[data-hero="flash"]) .sheet {
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -24px 48px -24px rgb(15 13 12 / 0.55);
+}
+/* Desktop: the hero stays pinned for 70svh more, so the flash and the held-up print play out before the sheet arrives. */
+@media (min-width: 721px) and (min-height: 600px) {
+  :global(main[data-hero="flash"]) .sheet { margin-top: 70svh; }
+}
 /* Minimal: flat paper; a blue hairline draws across its top edge as it arrives. */
 :global(main[data-hero="minimal"]) .sheet::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
   height: 1.5px;
-  background: var(--chicory);
+  background: var(--accent);
   transform-origin: left;
   z-index: 1;
 }
@@ -53,15 +63,40 @@
 .section {
   scroll-margin-top: 0;
   padding: clamp(64px, 9vw, 120px) clamp(16px, 3.4vw, 48px);
-  border-top: 1px solid rgb(42 47 51 / 0.18);
-  color: var(--dune);
+  border-top: 1px solid rgb(var(--ink-rgb) / 0.18);
+  color: rgb(var(--ink-rgb));
 }
 .section:first-child { border-top: 0; }
-.section :focus-visible, .footer :focus-visible { outline-color: var(--chicory); }
 
+/* ---------- section tones: Work and Pricing keep the plain bone page; the rest each get one simple change ---------- */
+.tone { border-top: 0; }
+.tone + .section { border-top: 0; }
+/* About: the site's teal, bone type. */
+.teal { --ink-rgb: 244 239 232; background: var(--accent); }
+.teal .index { color: rgb(244 239 232 / 0.6); }
+/* Contact: linen with a fine dot grid. Kept off any plain-cream neighbour (only night-side sections touch it). */
+.dots {
+  background-color: var(--linen);
+  background-image: radial-gradient(rgb(42 47 51 / 0.16) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+}
+/* FAQ: the night of the hero photo, bone type. */
+.night { --ink-rgb: 244 239 232; background: #1d1a18; }
+.night .index, .night .qa summary::after { color: #7fb0bd; }  /* teal lifted to read on the dark */
+/* Process: a warm sand tint, nothing else. */
+.sand { background: #e9dccb; }
+/* Book: soft diagonal pinstripes in the teal; the calendar sits on them as a white card. */
+.stripes {
+  background-color: var(--bone);
+  background-image: repeating-linear-gradient(-45deg, rgb(46 97 112 / 0.07) 0 2px, transparent 2px 14px);
+}
+.section :focus-visible, .footer :focus-visible { outline-color: var(--accent); }
+
+/* Number + title share a baseline; the note sits beside them with its LAST line on that same baseline, so a two-line
+   note grows upward instead of hanging below the title. */
 .head {
   display: flex;
-  align-items: baseline;
+  align-items: last baseline;
   gap: 16px;
   margin-bottom: clamp(32px, 4vw, 56px);
 }
@@ -70,7 +105,7 @@
   font-weight: 200;
   font-size: clamp(32px, 3.4vw, 48px);
   line-height: 1;
-  color: var(--chicory);
+  color: var(--accent);
   font-variant-numeric: tabular-nums;
 }
 .title {
@@ -81,6 +116,16 @@
   line-height: 1;
   letter-spacing: -0.02em;
 }
+/* Short line set right beside the section title, on its baseline. */
+.note {
+  margin: 0 0 0 clamp(8px, 1.5vw, 24px);
+  max-width: 48ch;   /* two lines at most beside the title */
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgb(var(--ink-rgb) / 0.7);
+  text-wrap: pretty;
+}
+@media (max-width: 720px) { .head:has(.note) { flex-wrap: wrap; } .note { flex-basis: 100%; margin: 6px 0 0; } .aside.calTag { margin: 4px 0 0; } }
 .aside {
   margin-left: auto;
   font-size: 12px;
@@ -93,12 +138,12 @@
 .line {
   font-size: 13.5px;
   line-height: 1.6;
-  color: rgb(42 47 51 / 0.75);
+  color: rgb(var(--ink-rgb) / 0.75);
   text-wrap: pretty;
 }
 
-/* ---------- 01 Work ---------- */
-.work, .tiers, .steps, .items {
+/* ---------- Work ---------- */
+.work, .steps, .items, .facts, .terms {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -114,10 +159,26 @@
   text-decoration: none;
 }
 .shot {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   margin-bottom: 8px;
-  background: var(--linen); /* shortcut: placeholder until real screenshots exist */
+  overflow: hidden;
+  background: var(--linen);
+  border: 1px solid rgb(var(--ink-rgb) / 0.12);
+}
+.shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
   transition: transform 400ms var(--ease-out);
+}
+.type {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 .projectName {
   display: flex;
@@ -129,20 +190,73 @@
 }
 .arrow { transition: transform 260ms var(--ease-out); }
 @media (hover: hover) and (pointer: fine) {
-  .project:hover .shot { transform: scale(1.02); }
+  .project:hover .shot img { transform: scale(1.03); }
   .project:hover .arrow { transform: translate(2px, -2px); }
 }
 
-/* ---------- 02 Pricing ---------- */
-.tiers {
+/* ---------- About ---------- */
+.about {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+}
+.aboutText {
+  display: grid;
+  gap: 16px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+.aboutText p { margin: 0; }
+.facts {
+  display: grid;
+  border-top: 1px solid rgb(var(--ink-rgb) / 0.25);
+}
+.facts li {
+  padding: 14px 0;
+  border-bottom: 1px solid rgb(var(--ink-rgb) / 0.25);
+  font-size: 13.5px;
+}
+
+/* ---------- Pricing: one package, big; the rest beside it ---------- */
+.pricing {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
   gap: clamp(16px, 2vw, 32px);
   align-items: start;
 }
+.extras {
+  display: grid;
+  gap: 16px;
+}
+.extra {
+  padding: 22px 24px;
+  border: 1px solid rgb(var(--ink-rgb) / 0.25);
+}
+.extraPrice {
+  margin: 8px 0 6px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+}
+.extra .line { margin: 0; }
+.terms {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+  color: rgb(var(--ink-rgb) / 0.75);
+}
+.terms li::before {
+  content: "—";
+  margin-right: 10px;
+  opacity: 0.4;
+}
 .tier {
   padding: 28px;
-  border: 1px solid rgb(42 47 51 / 0.25);
+  border: 1px solid rgb(var(--ink-rgb) / 0.25);
 }
 .featured {
   border-color: var(--dune);
@@ -156,11 +270,11 @@
   letter-spacing: 0.24em;
   text-transform: uppercase;
 }
-.featured .tierName { color: var(--chicory); }
+.featured .tierName { color: var(--accent); }
 .price {
   margin: 14px 0 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid rgb(42 47 51 / 0.2);
+  border-bottom: 1px solid rgb(var(--ink-rgb) / 0.2);
   font-family: var(--font-display);
   font-weight: 200;
   font-size: clamp(40px, 4vw, 56px);
@@ -177,13 +291,8 @@
   margin-right: 10px;
   opacity: 0.4;
 }
-.care {
-  margin: 28px 0 0;
-  font-size: 13.5px;
-  color: rgb(42 47 51 / 0.75);
-}
 
-/* ---------- 03 Process ---------- */
+/* ---------- Process ---------- */
 .steps {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -195,12 +304,12 @@
   display: block;
   padding-bottom: 14px;
   margin-bottom: 18px;
-  border-bottom: 1px solid rgb(42 47 51 / 0.25);
+  border-bottom: 1px solid rgb(var(--ink-rgb) / 0.25);
   font-family: var(--font-display);
   font-weight: 200;
   font-size: clamp(48px, 5vw, 72px);
   line-height: 1;
-  color: var(--chicory);
+  color: var(--accent);
 }
 /* Blue line fills under each step in turn as the section scrolls through. */
 .stepNum::after {
@@ -210,7 +319,7 @@
   right: 0;
   bottom: -1px;
   height: 1.5px;
-  background: var(--chicory);
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
 }
@@ -232,7 +341,72 @@
 }
 .step .line { margin: 0; }
 
-/* ---------- 04 Contact ---------- */
+/* ---------- FAQ: native disclosure rows ---------- */
+.faq {
+  max-width: 880px;
+  border-top: 1px solid rgb(var(--ink-rgb) / 0.25);
+}
+.qa { border-bottom: 1px solid rgb(var(--ink-rgb) / 0.25); }
+.qa summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 19px;
+}
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after {
+  content: "+";
+  flex: none;
+  font-weight: 200;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--accent);
+  transition: transform 200ms var(--ease-out);
+}
+.qa[open] summary::after { transform: rotate(45deg); }
+.qa .line { margin: 0 0 20px; max-width: 64ch; }
+
+/* ---------- Book a free call ---------- */
+/* Cal.com's calendar sets its own height; this just keeps it from stretching too wide on desktop. */
+/* The ember accent for the booking calendar: the same glowing "ready light" as the Book buttons, on a small tag,
+   set at the right end of the section header (in the aside slot, where Process shows its timeline). */
+.aside.calTag {
+  opacity: 1;
+  text-transform: none;
+  font-weight: 500;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgb(213 125 59 / 0.45);
+  background: rgb(213 125 59 / 0.08);
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #9a4f1f;
+}
+.calTag::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 0 3px rgb(213 125 59 / 0.2), 0 0 8px rgb(213 125 59 / 0.7);
+}
+.cal {
+  max-width: 1180px;   /* room for the time column that opens beside the month once a day is picked */
+  min-height: 480px;
+}
+
+/* ---------- Contact ---------- */
 .contact {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -270,6 +444,15 @@
   transition: transform 160ms var(--ease-out);
 }
 .cta:active { transform: scale(0.97); }
+/* Pricing cards: the same pill, smaller, and not stretched. */
+.small {
+  height: 42px;
+  margin-top: 24px;
+  padding-left: 18px;
+  font-size: 14px;
+  justify-self: start;
+}
+.extra .small { margin-top: 16px; }
 .cta :global(.pill-icon) {
   height: 100%;
   aspect-ratio: 1;
@@ -294,7 +477,7 @@
   justify-content: space-between;
   gap: 24px;
   padding: 24px clamp(16px, 3.4vw, 48px);
-  border-top: 1px solid rgb(42 47 51 / 0.18);
+  border-top: 1px solid rgb(var(--ink-rgb) / 0.18);
   background: var(--bone);
   color: var(--dune);
 }
@@ -333,8 +516,8 @@
 
 /* ---------- phone ---------- */
 @media (max-width: 720px) {
-  .work, .tiers, .steps, .contact { grid-template-columns: 1fr; }
-  .featured { order: -1; } /* highlighted tier first */
+  .work, .about, .pricing, .steps, .contact { grid-template-columns: 1fr; }
+  .qa summary { font-size: 17px; }
   .aside { font-size: 10px; letter-spacing: 0.14em; }
   .step {
     display: grid;

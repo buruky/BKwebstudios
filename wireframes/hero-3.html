@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero 3 wireframe</title>
+<style>
+  :root { --bg:#ececec; --ink:#1d1d1d; --muted:#666; --mark:#1d1d1d; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui, sans-serif; padding:32px 16px 64px; }
+  .page { max-width:1240px; margin:0 auto; display:grid; gap:40px; }
+  h1 { margin:0; font-size:22px; } h2 { margin:0 0 12px; font-size:16px; }
+  p { margin:0; } .muted { color:var(--muted); }
+  .boards { display:grid; grid-template-columns: 1fr 300px; gap:24px; align-items:start; }
+  @media (max-width: 900px) { .boards { grid-template-columns:1fr; } .phone { max-width:320px; } }
+  svg { display:block; width:100%; height:auto; border-radius:6px; }
+  .mk circle { fill:var(--mark); } .mk text { fill:#fff; font:700 18px system-ui; text-anchor:middle; dominant-baseline:central; }
+  .phone .mk text { font-size:12px; }
+  ol.legend { margin:0; padding-left:0; list-style:none; display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:10px 28px; }
+  ol.legend li { display:grid; grid-template-columns:28px 1fr; gap:10px; }
+  ol.legend b.n { width:24px; height:24px; border-radius:50%; background:var(--mark); color:#fff; font-size:12px; display:grid; place-items:center; }
+  .stack { display:grid; gap:6px; max-width:640px; }
+  .stack div { display:grid; grid-template-columns:150px 1fr 90px; gap:12px; padding:8px 12px; background:#fff; border-radius:8px; }
+  .stack span:last-child { color:var(--muted); text-align:right; }
+  .swatches { display:flex; flex-wrap:wrap; gap:10px; }
+  .sw { width:130px; border-radius:10px; overflow:hidden; background:#fff; font-size:13px; }
+  .sw i { display:block; height:56px; } .sw div { padding:6px 10px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Hero 3 · "Minimal" wireframe</h1>
+  <p class="muted">Grey-box only. Near-white = cream page, light grey block = tint panel, dark grey = type, mid grey = the chicory sprig. Numbers map to the notes below.</p>
+</header>
+
+<div class="boards">
+<!-- ================= DESKTOP 1440 x 900 ================= -->
+<svg viewBox="0 0 1440 900" role="img" aria-label="Desktop wireframe">
+  <rect width="1440" height="900" fill="#f7f7f7"/>
+
+  <!-- top row: mark + price -->
+  <circle cx="62" cy="48" r="10" fill="#3a3a3a"/>
+  <text x="1388" y="53" text-anchor="end" font-family="system-ui" font-size="13" font-weight="600" letter-spacing="4" fill="#3a3a3a">FROM $750</text>
+  <line x1="52" y1="76" x2="1388" y2="76" stroke="#3a3a3a" stroke-opacity=".35"/>
+
+  <!-- tint panel (behind everything but the page) -->
+  <rect x="560" y="372" width="440" height="300" fill="#e2e2e2"/>
+
+  <!-- name lockup: BK WEB small, directly on top of the giant STUDIOS -->
+  <text x="54" y="118" font-family="system-ui" font-size="18" font-weight="600" letter-spacing="6" fill="#3a3a3a">BK WEB</text>
+  <text x="48" y="350" textLength="1344" lengthAdjust="spacingAndGlyphs" font-family="system-ui, sans-serif" font-weight="700" font-size="300" fill="#3a3a3a">STUDIOS</text>
+
+  <!-- chicory sprig, IN FRONT of the word: stem from top-left of the D, flower over its bottom, ends low-right in the panel -->
+  <g fill="none" stroke="#8a8a8a" stroke-width="6" stroke-linecap="round">
+    <path d="M470 236 C 600 300, 700 340, 760 390 C 830 450, 890 520, 940 600 L 950 660"/>
+  </g>
+  <g fill="#8a8a8a">
+    <!-- flower head: overlaps the bottom of the D -->
+    <ellipse cx="800" cy="300" rx="20" ry="60"/><ellipse cx="800" cy="300" rx="20" ry="60" transform="rotate(45 800 300)"/>
+    <ellipse cx="800" cy="300" rx="20" ry="60" transform="rotate(90 800 300)"/><ellipse cx="800" cy="300" rx="20" ry="60" transform="rotate(135 800 300)"/>
+    <circle cx="800" cy="300" r="18" fill="#6f6f6f"/>
+    <!-- buds -->
+    <ellipse cx="555" cy="228" rx="11" ry="24"/>
+    <ellipse cx="1000" cy="580" rx="13" ry="22" transform="rotate(50 1000 580)"/>
+    <ellipse cx="925" cy="575" rx="9" ry="18"/>
+  </g>
+
+  <!-- left column: title, description, buttons -->
+  <text x="52" y="436" font-family="system-ui, sans-serif" font-size="36" font-weight="500" fill="#3a3a3a">Custom websites for</text>
+  <text x="52" y="480" font-family="system-ui, sans-serif" font-size="36" font-weight="500" fill="#3a3a3a">local businesses</text>
+  <g fill="#3a3a3a" fill-opacity=".45"><rect x="52" y="516" width="400" height="10" rx="5"/><rect x="52" y="536" width="370" height="10" rx="5"/><rect x="52" y="556" width="390" height="10" rx="5"/><rect x="52" y="576" width="220" height="10" rx="5"/></g>
+  <!-- primary: solid pill (Ember) -->
+  <rect x="52" y="624" width="236" height="54" rx="27" fill="#5a5a5a"/>
+  <rect x="76" y="646" width="130" height="10" rx="5" fill="#f7f7f7"/>
+  <circle cx="261" cy="651" r="19" fill="#f7f7f7"/>
+  <!-- secondary: text + long hairline arrow -->
+  <rect x="316" y="646" width="92" height="10" rx="5" fill="#3a3a3a" fill-opacity=".7"/>
+  <line x1="420" y1="651" x2="500" y2="651" stroke="#3a3a3a" stroke-width="1.5"/><path d="M492 645 L502 651 L492 657" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>
+
+  <!-- right column: switcher as specimen index -->
+  <text x="1080" y="560" font-family="system-ui" font-size="120" font-weight="200" fill="#3a3a3a">02</text>
+  <text x="1236" y="560" font-family="system-ui" font-size="22" font-weight="300" fill="#3a3a3a" fill-opacity=".6">/ 05</text>
+  <text x="1084" y="600" font-family="system-ui" font-size="12" font-weight="600" letter-spacing="4" fill="#3a3a3a">MINIMAL</text>
+  <g fill="none" stroke="#3a3a3a" stroke-width="1.5">
+    <circle cx="1106" cy="650" r="22"/><path d="M1112 650 H1098 M1104 644 L1098 650 L1104 656"/>
+    <circle cx="1162" cy="650" r="22"/><path d="M1156 650 H1170 M1164 644 L1170 650 L1164 656"/>
+  </g>
+
+  <!-- bottom row: hairline + nav spread like the ILLUSION labels -->
+  <line x1="52" y1="800" x2="1388" y2="800" stroke="#3a3a3a" stroke-opacity=".35"/>
+  <g font-family="system-ui" font-size="12" font-weight="600" letter-spacing="3" fill="#3a3a3a">
+    <text x="52" y="840">WORK</text><text x="380" y="840">PRICING</text><text x="708" y="840">PROCESS</text><text x="1036" y="840">CONTACT</text>
+  </g>
+  <text x="1388" y="840" text-anchor="end" font-family="system-ui" font-size="11" fill="#3a3a3a" fill-opacity=".5">Photo: Gaman Alice</text>
+
+  <!-- markers -->
+  <g class="mk">
+    <circle cx="200" cy="112" r="15"/><text x="200" y="112">1</text>
+    <circle cx="1240" cy="48" r="15"/><text x="1240" y="48">2</text>
+    <circle cx="30" cy="246" r="15"/><text x="30" y="246">3</text>
+    <circle cx="870" cy="250" r="15"/><text x="870" y="250">4</text>
+    <circle cx="560" cy="690" r="15"/><text x="560" y="690">5</text>
+    <circle cx="30" cy="436" r="15"/><text x="30" y="436">6</text>
+    <circle cx="30" cy="546" r="15"/><text x="30" y="546">7</text>
+    <circle cx="30" cy="651" r="15"/><text x="30" y="651">8</text>
+    <circle cx="526" cy="651" r="15"/><text x="526" y="651">9</text>
+    <circle cx="1060" cy="470" r="15"/><text x="1060" y="470">10</text>
+    <circle cx="30" cy="840" r="15"/><text x="30" y="840">11</text>
+    <circle cx="1260" cy="868" r="15"/><text x="1260" y="868">12</text>
+  </g>
+</svg>
+
+<!-- ================= PHONE 390 x 844 ================= -->
+<svg class="phone" viewBox="0 0 390 844" role="img" aria-label="Phone wireframe">
+  <rect width="390" height="844" fill="#f7f7f7"/>
+  <circle cx="26" cy="36" r="7" fill="#3a3a3a"/>
+  <circle cx="356" cy="36" r="17" fill="none" stroke="#3a3a3a" stroke-width="1.5"/>
+  <line x1="16" y1="70" x2="374" y2="70" stroke="#3a3a3a" stroke-opacity=".35"/>
+
+  <rect x="70" y="190" width="250" height="210" fill="#e2e2e2"/>
+  <text x="17" y="100" font-family="system-ui" font-size="11" font-weight="600" letter-spacing="4" fill="#3a3a3a">BK WEB</text>
+  <text x="16" y="172" textLength="358" lengthAdjust="spacingAndGlyphs" font-family="system-ui, sans-serif" font-weight="700" font-size="90" fill="#3a3a3a">STUDIOS</text>
+
+  <g fill="none" stroke="#8a8a8a" stroke-width="3" stroke-linecap="round">
+    <path d="M110 120 C 160 140, 200 158, 225 180 C 250 205, 270 240, 290 290 L 292 330"/>
+  </g>
+  <g fill="#8a8a8a">
+    <ellipse cx="225" cy="150" rx="8" ry="24"/><ellipse cx="225" cy="150" rx="8" ry="24" transform="rotate(45 225 150)"/>
+    <ellipse cx="225" cy="150" rx="8" ry="24" transform="rotate(90 225 150)"/><ellipse cx="225" cy="150" rx="8" ry="24" transform="rotate(135 225 150)"/>
+    <circle cx="225" cy="150" r="7" fill="#6f6f6f"/><ellipse cx="140" cy="118" rx="5" ry="10"/><ellipse cx="310" cy="282" rx="6" ry="10" transform="rotate(50 310 282)"/>
+  </g>
+
+  <text x="16" y="476" font-family="system-ui" font-size="26" font-weight="500" fill="#3a3a3a">Custom websites for</text>
+  <text x="16" y="508" font-family="system-ui" font-size="26" font-weight="500" fill="#3a3a3a">local businesses</text>
+  <g fill="#3a3a3a" fill-opacity=".45"><rect x="16" y="532" width="330" height="8" rx="4"/><rect x="16" y="548" width="310" height="8" rx="4"/><rect x="16" y="564" width="320" height="8" rx="4"/><rect x="16" y="580" width="170" height="8" rx="4"/></g>
+
+  <rect x="16" y="614" width="358" height="50" rx="25" fill="#5a5a5a"/><rect x="40" y="634" width="120" height="10" rx="5" fill="#f7f7f7"/><circle cx="350" cy="639" r="17" fill="#f7f7f7"/>
+  <rect x="16" y="690" width="84" height="9" rx="4.5" fill="#3a3a3a" fill-opacity=".7"/>
+  <line x1="110" y1="694" x2="170" y2="694" stroke="#3a3a3a" stroke-width="1.5"/>
+
+  <line x1="16" y1="756" x2="374" y2="756" stroke="#3a3a3a" stroke-opacity=".35"/>
+  <text x="16" y="800" font-family="system-ui" font-size="40" font-weight="200" fill="#3a3a3a">02</text>
+  <text x="70" y="800" font-family="system-ui" font-size="13" font-weight="300" fill="#3a3a3a" fill-opacity=".6">/ 05</text>
+  <g fill="none" stroke="#3a3a3a" stroke-width="1.5"><circle cx="306" cy="788" r="16"/><circle cx="350" cy="788" r="16"/></g>
+  <text x="374" y="830" text-anchor="end" font-family="system-ui" font-size="9" fill="#3a3a3a" fill-opacity=".5">Photo: Gaman Alice</text>
+
+  <g class="mk">
+    <circle cx="100" cy="96" r="11"/><text x="100" y="96">1</text>
+    <circle cx="372" cy="120" r="11"/><text x="372" y="120">3</text>
+    <circle cx="250" cy="122" r="11"/><text x="250" y="122">4</text>
+    <circle cx="374" cy="639" r="11"/><text x="374" y="639">8</text>
+    <circle cx="140" cy="788" r="11"/><text x="140" y="788">10</text>
+  </g>
+</svg>
+</div>
+
+<section>
+  <h2>Notes</h2>
+  <ol class="legend">
+    <li><b class="n">1</b><div><strong>Name lockup: "BK WEB" small, directly on top of "STUDIOS".</strong> 18px caps, wide tracking, left edge lined up with the S. Reads as one name: BK WEB / STUDIOS. Phone: 11px.</div></li>
+    <li><b class="n">2</b><div><strong>Top row: logo mark left, "FROM $750" right.</strong> 13px caps. Hairline rule under the row. Phone: price moves into the menu; a menu circle takes its place.</div></li>
+    <li><b class="n">3</b><div><strong>"STUDIOS", the giant word.</strong> Edge to edge (48px gutters), ~300px, bold wide grotesque, Dune. Stretched to the exact page width like ILLUSION. Phone: ~90px, still edge to edge.</div></li>
+    <li><b class="n">4</b><div><strong>The chicory sprig stands in front of the word.</strong> Stem enters over the "U", flower head covers the bottom of the "D", stem runs down-right into the panel and ends on the bud. Lower blurry branch cut off. The only real color on the page: one blue flower.</div></li>
+    <li><b class="n">5</b><div><strong>Tint panel</strong> behind the sprig, below the word (ILLUSION's beige box). Linen, no border, no shadow, square corners. No caption: only the site's shared words appear.</div></li>
+    <li><b class="n">6</b><div><strong>Title: "Custom websites for / local businesses".</strong> 36px, regular weight, two lines, left column. Quiet on purpose: the giant word already shouts.</div></li>
+    <li><b class="n">7</b><div><strong>Description</strong>, 16px, max ~44 characters wide, Dune at ~70%.</div></li>
+    <li><b class="n">8</b><div><strong>"Book a free call"</strong>: solid Ember pill, dark text (white fails contrast on Ember), arrow in its own cream circle (button-in-button, same as Hero 1). Phone: full width.</div></li>
+    <li><b class="n">9</b><div><strong>"See my work" ——→</strong>: text + long hairline arrow that extends on hover. Same as Hero 1.</div></li>
+    <li><b class="n">10</b><div><strong>Switcher: "02 / 05 MINIMAL".</strong> Big thin numerals in Chicory blue, style name in caps, prev/next circles. Phone: bottom row.</div></li>
+    <li><b class="n">11</b><div><strong>Nav along the bottom.</strong> Work · Pricing · Process · Contact, 12px caps spread across the width under a hairline, like ILLUSION's label row.</div></li>
+    <li><b class="n">12</b><div><strong>Photo credit: "Photo: Gaman Alice".</strong> 11px, 50% opacity, bottom-right. Phone: 9px.</div></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Layers (back to front) and motion</h2>
+  <p class="muted" style="margin-bottom:10px">One quiet motion only. Mouse drift off on touch devices; sway and drift both off for reduced motion.</p>
+  <div class="stack">
+    <div><b>1 · Cream page</b><span>flat Bone</span><span>fixed</span></div>
+    <div><b>2 · Tint panel</b><span>Linen block</span><span>fixed</span></div>
+    <div><b>3 · "STUDIOS"</b><span>giant word</span><span>fixed</span></div>
+    <div><b>4 · Chicory</b><span>cutout webp, slow sway from the stem base (±1.5°, ~7s loop)</span><span>±8px</span></div>
+    <div><b>5 · UI</b><span>title, text, buttons, switcher, nav</span><span>fixed</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Load sequence</h2>
+  <p>0ms: cream page → 100ms: "STUDIOS" letters rise 24px into place, 50ms stagger (600ms, ease-out) → 400ms: tint panel wipes in left to right (500ms, ease-in-out) → 700ms: chicory fades in and settles from 98% scale (700ms, ease-out), then starts swaying → 900ms: small text, buttons, switcher, nav fade up with 60ms stagger (500ms, ease-out). Reduced motion: everything just appears.</p>
+</section>
+
+<section>
+  <h2>Palette (Hero 1's, nudged toward the flowers)</h2>
+  <div class="swatches">
+    <div class="sw"><i style="background:#f4efe8; box-shadow: inset 0 0 0 1px #ddd"></i><div><b>Bone</b> #F4EFE8<br>page</div></div>
+    <div class="sw"><i style="background:#e8e0d4"></i><div><b>Linen</b> #E8E0D4<br>tint panel</div></div>
+    <div class="sw"><i style="background:#2a2f33"></i><div><b>Dune</b> #2A2F33<br>text, giant word</div></div>
+    <div class="sw"><i style="background:#d4682a"></i><div><b>Ember</b> #D4682A<br>primary button</div></div>
+    <div class="sw"><i style="background:#5b67d9"></i><div><b>Chicory</b> #5B67D9<br>switcher, details</div></div>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

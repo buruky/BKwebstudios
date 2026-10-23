@@ -8,6 +8,7 @@ import SiteHeader from "./components/SiteHeader.jsx";
 const STORE = "bk-style";
 
 function initialKey() {
+  if (typeof window === "undefined") return heroes.find((h) => h.component).key; // build-time prerender
   const fromUrl = new URLSearchParams(location.search).get("style");
   let saved = null;
   try { saved = localStorage.getItem(STORE); } catch {}

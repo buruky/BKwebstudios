@@ -1,0 +1,5 @@
+# All crawlers welcome, AI search included (GPTBot, ClaudeBot, PerplexityBot, Google-Extended...).
+User-agent: *
+Allow: /
+
+Sitemap: https://www.bkwebstudios.com/sitemap.xml

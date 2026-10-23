@@ -1,6 +1,8 @@
 // Cal.com booking embed. The loader is Cal's own snippet: it queues Cal(...) calls until embed.js arrives and replays them.
 // Any element with data-cal-link opens the booking popup (embed.js listens for those clicks on the document).
-(function (C, A, L) {
+// No window during the build-time prerender: the loader is skipped and Cal is a no-op.
+const browser = typeof window !== "undefined";
+if (browser) (function (C, A, L) {
   const p = (a, ar) => a.q.push(ar);
   const d = C.document;
   C.Cal = C.Cal || function () {
@@ -27,7 +29,7 @@
   };
 })(window, "https://app.cal.com/embed/embed.js", "init");
 
-export const Cal = window.Cal;
+export const Cal = browser ? window.Cal : () => {};
 Cal("init", { origin: "https://app.cal.com" });
 // The calendar wears the site's palette: bone paper, charcoal text, warm sand open days, teal for the picked day and
 // Confirm. (cal.com drives every highlight from one brand colour, so the ember accent lives outside the embed.)

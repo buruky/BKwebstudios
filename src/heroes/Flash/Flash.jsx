@@ -110,8 +110,8 @@ export default function Flash({ content, heroes, active, onSelect }) {
         </div>
       </div>
 
-      {/* On <body>, so it sits above the sections, which stack over the hero. */}
-      {createPortal(
+      {/* On <body>, so it sits above the sections, which stack over the hero. Skipped in the build-time prerender. */}
+      {typeof document !== "undefined" && createPortal(
         <div className={`${s.bar} ${showBar ? s.barOn : ""}`} aria-hidden={!showBar} inert={!showBar}>
           <PillButton className={s.cta} href={content.primary.href}>{content.primary.label}</PillButton>
           <span className={s.barPrice}>{content.credits[2].value}</span>

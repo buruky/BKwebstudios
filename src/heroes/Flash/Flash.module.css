@@ -322,6 +322,7 @@
 .stack:active .top { transform: translateX(-12px) rotate(-8deg); }
 .hint { margin: 0; max-width: 17ch; font-size: 13px; line-height: 1.4; text-align: right; color: rgb(244 239 232 / 0.8); }
 .count { display: block; margin-bottom: 2px; font-weight: 600; color: var(--bone); font-variant-numeric: tabular-nums; }
+.styleName { margin-left: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
 
 /* Narrower desktops: the credits drop under the paragraph so the offer keeps its width. */
 @media (max-width: 1180px) {

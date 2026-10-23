@@ -102,7 +102,7 @@ export default function Flash({ content, heroes, active, onSelect }) {
         </div>
         <p className={s.name} aria-hidden="true">{name.map((w) => <span key={w}>{w}</span>)}</p>
         <div className={s.switcher} role="group" aria-label="Site style">
-          <p className={s.hint}><span className={s.count}>{num(index)} / {total}</span>{content.switcherHint}</p>
+          <p className={s.hint}><span className={s.count}>{num(index)} / {total} <span className={s.styleName}>{heroes[index].name}</span></span>{content.switcherHint}</p>
           <button className={s.stack} type="button" onClick={next} aria-label={`Next style (now ${num(index)} of ${total})`}>
             <span className={s.print} /><span className={s.print} />
             <span className={`${s.print} ${s.top}`}>{num(index)}</span>

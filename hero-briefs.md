@@ -43,7 +43,7 @@ Fill out the shared content once, then one design brief per hero.
 
 ## Hero 1
 
-**Style name:** Flash (the main hero: built to get calls booked). Code: `src/heroes/Flash/`; images made by `assets/page1/make-web-images.py`.
+**Style name:** Editorial (code name Flash; the main hero, built to get calls booked). Code: `src/heroes/Flash/`; images made by `assets/page1/make-web-images.py`.
 
 **Vibe in 3 words:** down-to-earth, local, photo-led
 
@@ -79,7 +79,7 @@ Fill out the shared content once, then one design brief per hero.
 
 ## Hero 2
 
-**Style name:** Summit (hero 1 until 2026-10-22, then 3, now 2)
+**Style name:** Cinematic (code name Summit; hero 1 until 2026-10-22, then 3, now 2)
 
 **Vibe in 3 words:**
 

@@ -397,6 +397,8 @@
 /* ---------- Phone: split goes horizontal, clear sky on top, fog below ---------- */
 @media (max-width: 720px) {
   .headline { font-size: 24px; }
+  /* At 24px a hairline outline is too thin to read over the fog: fill "small" in the same glow-yellow instead. */
+  .hl { color: var(--glow); -webkit-text-stroke: 0; }
   .scroll { display: none; }
   .nav { display: none; }
   .header { padding-inline: 12px; }

@@ -20,7 +20,7 @@ Lines marked `// DRAFT` in `content.js` are Claude's wording of Buruk's answers.
 
 - **Who:** Buruk Yimesgen, B.S. Computer Science and Mathematics, University of Washington. Based in Seattle, works with businesses anywhere. "I" or "we" are both fine.
 - **Clients:** local and small businesses, churches, community groups.
-- **Work:** Always with Compassion (alwayswithcompassion.com), Simret Consulting & Coaching (simretcc.com), Blue Touch AFH (temporary link buruky.github.io/BlueTouchAFH). Screenshots in `assets/work/*.webp`, made from `assets/site screenshots/`.
+- **Work:** Always with Compassion (alwayswithcompassion.com), Simret Consulting & Coaching (simretcc.com), Blue Touch AFH (temporary link buruky.github.io/BlueTouchAFH). Screenshots in `assets/work/*.webp` (originals moved to `S:businessBKwebstudios-unused`).
 - **Pricing:** one package, Starter $750: up to 5 pages, mobile-friendly, basic SEO, launch included. Anything bigger gets a custom quote.
   - Care plan: $20/month or $200/year for photo and content updates. Broader work is quoted.
   - Payment: 50% to start, 50% at launch. The yearly care plan is paid up front.

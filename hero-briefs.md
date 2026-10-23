@@ -124,7 +124,7 @@ Fill out the shared content once, then one design brief per hero.
 
 **Wireframe:** `wireframes/hero-3.html`
 
-**Hero image:** `assets/page3/cutouts/gaman.webp` (blue chicory sprig). All 6 flowers re-cut at full res into `assets/page3/cutouts/` (`.webp` for web, `-full.png` masters); black backgrounds removed from luca + miom.
+**Hero image:** `assets/page3/cutouts/orchid.webp`. The other flower cutouts and their Unsplash originals were moved to `S:/business/BKwebstudios-unused/` (2026-10-22).
 
 **Palette (Hero 1's, nudged toward the flowers: blue + orange):** Bone #F4EFE8 page · Dune #2A2F33 text · Ember #D4682A accent (button) · Chicory #5B67D9 detail accent (sampled #6674F0, deepened for contrast)
 

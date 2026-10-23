@@ -48,6 +48,7 @@ export default function App() {
   const Hero = heroes.find((h) => h.key === active).component;
   return (
     <main id="top" data-hero={active}>
+      <a className="skip-link" href="#work">Skip to content</a>
       <Hero content={content} heroes={heroes} active={active} onSelect={select} />
       <Sections content={content} />
       <SiteHeader content={content} />

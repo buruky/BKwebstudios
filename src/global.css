@@ -115,6 +115,14 @@ button { font: inherit; color: inherit; }
 @media (max-width: 720px) { .to-top { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); } }
 @media (prefers-reduced-motion: reduce) { .to-top { transition: none; } }
 
+/* Keyboard users: first Tab shows a link straight past the hero. */
+.skip-link {
+  position: fixed; z-index: 40; left: 16px; top: 12px; padding: 10px 16px; border-radius: 999px;
+  background: var(--dune); color: var(--bone); font: 600 14px "Schibsted Grotesk", system-ui, sans-serif; text-decoration: none;
+  transform: translateY(-150%); transition: transform 160ms var(--ease-out);
+}
+.skip-link:focus { transform: none; }
+
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;

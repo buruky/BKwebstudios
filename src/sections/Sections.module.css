@@ -475,6 +475,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 24px;
   padding: 24px clamp(16px, 3.4vw, 48px);
   border-top: 1px solid rgb(var(--ink-rgb) / 0.18);
@@ -513,6 +514,27 @@
   font-size: 11px;
   opacity: 0.6;
 }
+/* The brag line: its own full-width row under the footer, this site as the first piece of proof. */
+.madeBy {
+  flex-basis: 100%;
+  margin: 8px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgb(var(--ink-rgb) / 0.12);
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgb(var(--ink-rgb) / 0.75);
+}
+.madeMark {
+  display: inline-block;
+  vertical-align: 1px;
+  margin-right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 0 3px rgb(213 125 59 / 0.2);
+}
+.madeBy a { margin-left: 4px; color: var(--accent); font-weight: 600; text-underline-offset: 4px; white-space: nowrap; }
 
 /* ---------- phone ---------- */
 @media (max-width: 720px) {

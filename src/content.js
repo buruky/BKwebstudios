@@ -30,6 +30,7 @@ export const content = {
   // waiting for Buruk's OK (see sections-brief.md). Everything else is Buruk's own facts.
   // DRAFT: the short line beside each section title, keyed by section id.
   bookTag: "15 min · Phone call · Free", // DRAFT: the small ember tag above the calendar
+  madeBy: "This site was designed and built by hand by Buruk. Yours could be next.", // DRAFT: footer brag line
   sectionNotes: {
     work: "Real sites I designed and built for local businesses. Tap one to see it live.",
     about: "One person from start to finish. You talk to the person who builds your site.",
@@ -56,7 +57,7 @@ export const content = {
       "I'm Buruk Yimesgen, a developer based in Seattle. I studied computer science and math at the University of Washington.",
       "I love helping people, and I love to create. Building websites for small businesses lets me do both.",
     ],
-    facts: ["B.S. Computer Science and Mathematics, University of Washington", "Based in Seattle", "Working with businesses anywhere"],
+    facts: ["B.S. Computer Science and Mathematics, University of Washington", "Based in Seattle", "Working with businesses anywhere", "Designed and built this site, every style of it"], // last one DRAFT
   },
   pricing: {
     tier: { name: "Starter", price: "$750", cta: "Book a free call", items: ["Up to 5 pages", "Mobile-friendly", "Basic SEO", "Launch included"] },

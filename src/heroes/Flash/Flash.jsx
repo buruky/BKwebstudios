@@ -4,8 +4,11 @@ import PillButton from "../../components/PillButton.jsx";
 import photo from "../../../assets/page1/page1Assets/web/page-color.webp";
 import s from "./Flash.module.css";
 
-// Client screenshots fanned out of "See my work" on hover (the same files the Work section uses).
-const shots = Object.values(import.meta.glob("../../../assets/work/*.webp", { eager: true, import: "default" }));
+// Client screenshots by file name (content.work[].img), the same files the Work section uses.
+const shots = Object.fromEntries(
+  Object.entries(import.meta.glob("../../../assets/work/*.webp", { eager: true, import: "default" }))
+    .map(([path, url]) => [path.split("/").pop().replace(".webp", ""), url]),
+);
 
 // HERO 1 "FLASH": the conversion-first hero (see the Hero 1 Playbook), sample C from the inspo round (after the
 // Filmmaker Taiwan reference). Light editorial split: the offer on paper at left, the night flash photo as a tall
@@ -77,9 +80,14 @@ export default function Flash({ content, heroes, active, onSelect }) {
                 <div ref={ctaRef}><PillButton className={s.cta} href={content.primary.href}>{content.primary.label}</PillButton></div>
                 <a className={s.work} href={content.secondary.href}>
                   <span className={s.peek} aria-hidden="true">
-                    {shots.slice(0, 3).map((src, i) => <img key={src} src={src} alt="" loading="lazy" style={{ "--i": i - 1 }} />)}
+                    {content.work.slice(0, 3).map((w, i) => (
+                      <span key={w.name} className={s.card} style={{ "--i": i - 1 }}>
+                        <img src={shots[w.img]} alt="" loading="lazy" />
+                      </span>
+                    ))}
                   </span>
                   {content.secondary.label}
+                  <span className={s.grid} aria-hidden="true"><i /><i /><i /><i /></span>
                 </a>
               </div>
             </div>

@@ -16,7 +16,10 @@ export default function SiteHeader({ content }) {
         setShow(!!first && first.getBoundingClientRect().top < 72);
         // the last section whose top has passed under the header
         const here = ids.filter((id) => document.getElementById(id)?.getBoundingClientRect().top < 140).at(-1);
-        setCurrent(here ?? null);
+        // Contact is the last section and too short to scroll its top under the header, so at the very bottom of
+        // the page it counts as the current one.
+        const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+        setCurrent(atBottom ? ids.at(-1) : here ?? null);
       });
     };
     onScroll();

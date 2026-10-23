@@ -9,6 +9,11 @@ Fill out the shared content once, then one design brief per hero.
 
 ## Shared content (identical in every hero)
 
+**Button rule (every hero, including 4 and 5):** "Book a free call" and "See my work" are a matched pair in that hero's own style. Same height, same shape and same font. Booking is the filled one; See my work is the quieter one (outlined or ghost) with its own hover move that fits the hero's idea. Never a bare text link.
+- Hero 1 Flash: dark pill with the ember ready-light / outlined pill with a tile icon that opens, and client screenshots fan out on hover.
+- Hero 2 Summit: bone pill with an ember arrow circle in the frame's notch / "See my work" with a long hairline arrow along the bottom strip.
+- Hero 3 Minimal: ember pill with a bone arrow circle / outlined pill with a teal arrow circle; a linen panel wipes across on hover.
+
 **Name:** BK Web Studios
 
 **Title:** Custom websites for small businesses

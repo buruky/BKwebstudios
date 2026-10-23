@@ -143,6 +143,11 @@ export default function Sections({ content }) {
           {content.nav.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
         </nav>
         <small className={s.copy}>© {new Date().getFullYear()} {content.name}</small>
+        <p className={s.madeBy}>
+          <span className={s.madeMark} aria-hidden="true" />
+          {content.madeBy}{" "}
+          <a href={content.primary.href}>{content.primary.label}</a>
+        </p>
       </footer>
     </div>
   );

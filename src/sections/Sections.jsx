@@ -12,7 +12,7 @@ const shots = Object.fromEntries(
 // Work, About, Pricing, Process, Book, FAQ, Contact + footer. One look under every hero (see sections-brief.md).
 export default function Sections({ content }) {
   const notes = content.sectionNotes;
-  const { work, about, pricing, process, faq, contact } = content;
+  const { work, about, pricing, process, faq, reviews, contact } = content;
   const navLabel = (href) => content.nav.find((n) => n.href === href).label;
 
   // Reveal each section once as it scrolls in. Hidden state is only applied after this runs, so no JS = all visible.
@@ -138,7 +138,10 @@ export default function Sections({ content }) {
       </Section>
 
       <footer className={s.footer}>
-        <a className={s.mark} href="#top" aria-label={`${content.name}, home`}><span aria-hidden="true">bk</span></a>
+        <div className={s.footBrand}>
+          <a className={s.mark} href="#top" aria-label={`${content.name}, home`}><span aria-hidden="true">bk</span></a>
+          <PillButton className={`${s.cta} ${s.review}`} href={reviews.href}>{reviews.cta}</PillButton>
+        </div>
         <nav className={s.footNav} aria-label="Footer">
           {content.nav.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
         </nav>

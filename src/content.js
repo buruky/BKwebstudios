@@ -37,8 +37,7 @@ export const content = {
     pricing: "One clear starting price. Anything bigger gets a quote after the free call.",
     process: "Four steps, and you see the whole site on a preview link before it goes live.",
     book: "Pick a time that works for you. It's a free 15‑minute phone call.",
-    faq: "Quick answers to what most owners ask first.",
-    contact: "Prefer to write? Email, call or message me directly.",
+    faq: "Quick answers to what most owners ask first.",    contact: "Prefer to write? Email, call or message me directly.",
   },
   work: [
     { name: "Always with Compassion", type: "Adult family home", img: "always-with-compassion", href: "https://alwayswithcompassion.com/",
@@ -89,6 +88,8 @@ export const content = {
       { q: "Do you only work with Seattle businesses?", a: "No. I'm based in Seattle, but I work with businesses anywhere. The free call is by phone." },
     ],
   },
+  // Footer link only for now; real quotes could go here once there are Google reviews to show.
+  reviews: { cta: "Leave a review on Google", href: "https://g.page/r/Ce9UX-F5xU9kEBM/review" },
   contact: {
     closing: "You did the hard work. Let's show it off.", // DRAFT, from Buruk's idea
     email: "burukyimesgen@gmail.com",

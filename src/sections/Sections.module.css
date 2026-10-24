@@ -496,6 +496,17 @@
   font-size: 15px;
   letter-spacing: -0.03em;
 }
+/* Logo + the Google review pill, side by side. */
+.footBrand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.review {
+  height: 42px;
+  padding-left: 18px;
+  font-size: 14px;
+}
 .footNav {
   display: flex;
   gap: 32px;
@@ -535,6 +546,12 @@
   box-shadow: 0 0 0 3px rgb(213 125 59 / 0.2);
 }
 .madeBy a { margin-left: 4px; color: var(--accent); font-weight: 600; text-underline-offset: 4px; white-space: nowrap; }
+/* Desktop: equal side columns keep the nav dead centre however wide the logo + review pill gets. */
+@media (min-width: 721px) {
+  .footer { display: grid; grid-template-columns: 1fr auto 1fr; }
+  .copy { justify-self: end; }
+  .madeBy { grid-column: 1 / -1; }
+}
 
 /* ---------- phone ---------- */
 @media (max-width: 720px) {

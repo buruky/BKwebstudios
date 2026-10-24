@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero 4 page colors</title>
+<style>
+  body { margin:0; background:#ececec; color:#1d1d1d; font:15px/1.5 system-ui, sans-serif; padding:32px 16px 64px; }
+  .page { max-width:1800px; margin:0 auto; display:grid; gap:24px; }
+  h1 { margin:0; font-size:22px; } p { margin:0; color:#666; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(520px,1fr)); gap:24px; }
+  figure { margin:0; } figcaption { padding:8px 2px; font-size:14px; } figcaption b { margin-right:6px; }
+  svg { display:block; width:100%; height:auto; border-radius:6px; box-shadow:0 0 0 1px #d0d0d0; }
+  svg text { font-family: ui-monospace, "Courier New", monospace; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Hero 4 · "Retro" page color options</h1>
+    <p>The same hero on each of the site's colors. Window, chips and tiles stay Bone with Dune 1px borders; only the page behind changes. The Book key is Sound teal, except on the teal page where it turns Ember.</p>
+  </header>
+  <div class="grid" id="grid"></div>
+</div>
+
+<template id="hero">
+<svg viewBox="0 0 1920 920" role="img">
+  <rect width="1920" height="920" fill="var(--page)"/>
+  <g stroke="#2a2f33" stroke-width="2">
+    <rect x="20" y="18" width="250" height="38" fill="#f4efe8"/><rect x="20" y="18" width="38" height="38" fill="#2a2f33"/>
+    <rect x="1556" y="18" width="160" height="38" fill="#f4efe8"/><rect x="1724" y="18" width="176" height="38" fill="#f4efe8"/>
+  </g>
+  <g font-size="15" font-weight="700" fill="#2a2f33"><text x="72" y="43">BK WEB STUDIOS</text><text x="1636" y="43" text-anchor="middle">SEATTLE</text><text x="1812" y="43" text-anchor="middle">FROM $750</text></g>
+
+  <rect x="548" y="80" width="840" height="706" fill="#2a2f33" fill-opacity=".25"/>
+  <rect x="540" y="72" width="840" height="706" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/>
+  <rect x="554" y="84" width="16" height="16" fill="none" stroke="#2a2f33" stroke-width="2"/><rect x="580" y="84" width="16" height="16" fill="#2a2f33"/>
+  <text x="1366" y="99" text-anchor="end" font-size="18" font-weight="700" fill="#2a2f33">BK WEB STUDIOS</text>
+
+  <rect x="554" y="112" width="812" height="420" fill="url(#noise)" stroke="#2a2f33" stroke-width="2"/>
+  <rect x="610" y="236" width="700" height="172" fill="#1b1e21" fill-opacity=".9"/>
+  <text x="960" y="306" text-anchor="middle" font-size="58" font-weight="700" fill="#f4efe8">Custom websites for</text>
+  <text x="960" y="376" text-anchor="middle" font-size="58" font-weight="700" fill="#f4efe8"><tspan font-style="italic">small</tspan> businesses</text>
+  <rect x="554" y="532" width="812" height="24" fill="#2a2f33"/>
+  <text x="604" y="550" font-size="13" fill="#f4efe8">Built by Buruk in Seattle</text><text x="1360" y="550" text-anchor="end" font-size="13" fill="#f4efe8">04 / 05</text>
+
+  <rect x="554" y="566" width="812" height="88" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/>
+  <g fill="#2a2f33" fill-opacity=".55"><rect x="572" y="584" width="740" height="10"/><rect x="572" y="604" width="700" height="10"/><rect x="572" y="624" width="420" height="10"/></g>
+
+  <rect x="554" y="664" width="400" height="60" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/>
+  <rect x="568" y="676" width="190" height="36" fill="var(--key)" stroke="#2a2f33" stroke-width="2"/>
+  <path d="M582 686 L582 702 L594 694 Z" fill="var(--keyInk)"/><text x="604" y="699" font-size="14" font-weight="700" fill="var(--keyInk)">Book a free call</text>
+  <rect x="766" y="676" width="174" height="36" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/>
+  <rect x="778" y="688" width="14" height="12" fill="none" stroke="#2a2f33" stroke-width="2"/><text x="802" y="699" font-size="14" font-weight="700" fill="#2a2f33">See my work</text>
+
+  <rect x="964" y="664" width="402" height="60" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/>
+  <rect x="978" y="676" width="36" height="36" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/><path d="M1002 686 L990 694 L1002 702" fill="none" stroke="#2a2f33" stroke-width="2"/>
+  <rect x="1022" y="676" width="294" height="36" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/><text x="1034" y="699" font-size="14" fill="#2a2f33">04 Retro</text>
+  <rect x="1324" y="676" width="36" height="36" fill="#2a2f33"/><path d="M1336 686 L1348 694 L1336 702" fill="none" stroke="#f4efe8" stroke-width="2"/>
+  <rect x="554" y="734" width="812" height="30" fill="#e8e0d4" stroke="#2a2f33" stroke-width="2"/>
+  <text x="566" y="754" font-size="13" fill="#2a2f33">Same site, new look. Try another style.</text>
+
+  <rect x="694" y="808" width="532" height="96" fill="#f4efe8" stroke="#2a2f33" stroke-width="2"/>
+  <g stroke="#2a2f33" stroke-width="2"><line x1="800" y1="808" x2="800" y2="904"/><line x1="906" y1="808" x2="906" y2="904"/><line x1="1012" y1="808" x2="1012" y2="904"/><line x1="1118" y1="808" x2="1118" y2="904"/></g>
+  <g fill="#2a2f33" fill-opacity=".7"><rect x="730" y="826" width="34" height="34"/><rect x="836" y="826" width="34" height="34"/><rect x="942" y="826" width="34" height="34"/><rect x="1048" y="826" width="34" height="34"/><rect x="1154" y="826" width="34" height="34"/></g>
+  <g font-size="13" fill="#2a2f33" text-anchor="middle"><text x="747" y="886">Work</text><text x="853" y="886">Pricing</text><text x="959" y="886">Process</text><text x="1065" y="886">Book</text><text x="1171" y="886">Contact</text></g>
+</svg>
+</template>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs><pattern id="noise" width="160" height="160" patternUnits="userSpaceOnUse"><image id="noiseImg" width="160" height="160"/></pattern></defs>
+</svg>
+
+<script>
+  // 1-bit TV static tile, drawn once and reused by every preview
+  const c = document.createElement("canvas"); c.width = c.height = 160;
+  const g = c.getContext("2d"), d = g.createImageData(160, 160);
+  for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() < .5 ? 30 : 225; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
+  g.putImageData(d, 0, 0);
+  document.getElementById("noiseImg").setAttribute("href", c.toDataURL());
+
+  const options = [
+    ["Bone", "#f4efe8", "the off-white itself; window blends in, needs the borders to do the work"],
+    ["Linen", "#e8e0d4", "a step darker than Bone, so the window lifts off a little"],
+    ["Glow", "#fde98a", "warm sunny yellow; closest in spirit to the reference's pink"],
+    ["Ember", "#d57d3b", "loud orange; very 90s software box"],
+    ["Dusk", "#8b5a3e", "brown; moody and warm"],
+    ["Sound teal", "#2e6170", "the site accent; classic 90s desktop teal", "#d57d3b"],
+    ["Dune", "#2a2f33", "near-black; the window glows like a lit screen at night"],
+    // pale tints: same softness as the reference's pink
+    ["Pale Ember", "#f1d6c2", "Ember mixed with Bone; the closest match to the reference"],
+    ["Pale Glow", "#f9eec0", "Glow mixed with Bone; soft butter"],
+    ["Pale teal", "#cddcdc", "Sound teal mixed with Bone; cool and calm"],
+  ];
+  const tpl = document.getElementById("hero").innerHTML;
+  document.getElementById("grid").innerHTML = options.map(([name, hex, note, key]) =>
+    `<figure style="--page:${hex};--key:${key || "#2e6170"};--keyInk:#f4efe8">${tpl}<figcaption><b>${name}</b>${hex} · ${note}</figcaption></figure>`).join("");
+</script>
+</body>
+</html>

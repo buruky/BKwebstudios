@@ -324,6 +324,47 @@
 .count { display: block; margin-bottom: 2px; font-weight: 600; color: var(--bone); font-variant-numeric: tabular-nums; }
 .styleName { margin-left: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
 
+/* The fan: the stack dealt out into one print per style, in a row above it. */
+.fan {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 14px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  text-shadow: none;
+}
+.fan li { animation: deal 260ms var(--ease-out) calc((4 - var(--i)) * 35ms) both; }
+.fan li:nth-child(odd) { --tilt: -3deg; }
+.fan li:nth-child(even) { --tilt: 2deg; }
+@keyframes deal { from { transform: translate(calc((4 - var(--i)) * 40px), 30px) rotate(8deg); opacity: 0; } }
+.pick {
+  width: 76px;
+  height: 96px;
+  padding: 10px 6px 8px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  border: 0;
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 0 8px 16px -6px #000;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 200ms var(--ease-out);
+  cursor: pointer;
+}
+.pickNum { font-weight: 600; font-size: 24px; font-variant-numeric: tabular-nums; }
+.pickName { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; line-height: 1.2; text-align: center; text-transform: uppercase; }
+.pick[aria-current] { outline: 3px solid var(--stamp); outline-offset: -3px; }
+.pick[aria-current] .pickNum { color: var(--stamp); }
+.pick:disabled { background: #8d8780; color: rgb(29 26 24 / 0.6); cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) {
+  .pick:not(:disabled):hover { transform: translateY(-8px) rotate(0deg); }
+}
+.pick:not(:disabled):active { transform: translateY(-4px) scale(0.97); }
+
 /* Narrower desktops: the credits drop under the paragraph so the offer keeps its width. */
 @media (max-width: 1180px) {
   .body { grid-template-columns: 1fr; gap: 24px; }
@@ -417,6 +458,10 @@
     background: linear-gradient(to top, rgb(15 13 12 / 0.85), transparent);
   }
   .switcher { top: 18px; right: 16px; bottom: auto; }
+  .fan { bottom: auto; top: calc(100% + 14px); gap: 6px; }
+  .pick { width: 62px; height: 82px; }
+  .pickNum { font-size: 20px; }
+  .pickName { font-size: 8px; letter-spacing: 0.06em; }
 
   .bar {
     display: flex;
@@ -480,6 +525,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero { animation: none; }
-  .card, .print, .bar, .cta, .cta::before, .work, .grid, .grid i { transition: none; }
+  .card, .print, .bar, .cta, .cta::before, .work, .grid, .grid i, .pick { transition: none; }
+  .fan li { animation: none; }
   .cta::after { animation: none; }
 }

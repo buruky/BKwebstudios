@@ -164,11 +164,13 @@ Fill out the shared content once, then one design brief per hero.
 
 ## Hero 4
 
-**Style name:** Minimal
+**Style name:** Retro (screen = static behind the title only)
 
 **Vibe in 3 words:**
 
-**Inspo** (links, or images in `inspo/hero-4/`):
+**Wireframe:** `wireframes/hero-4.html` (approved 2026-10-23, built in `src/heroes/Retro/`, key `retro`). Page Sound teal (the site accent; Pale Ember was dropped because it isn't a theme color). Fonts: Pixelify Sans (window, title) + Silkscreen (chips).
+
+**Inspo** (links, or images in `assets/page4/inspoPage4/`):
 1. Link / file:
    - What I like about it:
 2. Link / file:

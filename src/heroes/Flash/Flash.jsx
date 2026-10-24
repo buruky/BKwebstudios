@@ -31,11 +31,21 @@ export default function Flash({ content, heroes, active, onSelect }) {
     return () => removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
-  // Switcher: a stack of style prints; clicking deals the next built style to the top.
+  // Switcher: a stack of style prints; clicking fans it out into one print per style to pick from.
   const index = heroes.findIndex((h) => h.key === active);
-  const built = heroes.filter((h) => h.component);
-  const next = () => onSelect(built[(built.findIndex((h) => h.key === active) + 1) % built.length].key);
   const num = (i) => String(i + 1).padStart(2, "0");
+  const [fanOpen, setFanOpen] = useState(false);
+  const switcherRef = useRef(null);
+  const stackRef = useRef(null);
+  useEffect(() => {
+    if (!fanOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") { setFanOpen(false); stackRef.current.focus(); } };
+    const onDown = (e) => !switcherRef.current.contains(e.target) && setFanOpen(false);
+    addEventListener("keydown", onKey);
+    addEventListener("pointerdown", onDown);
+    return () => { removeEventListener("keydown", onKey); removeEventListener("pointerdown", onDown); };
+  }, [fanOpen]);
+  const pick = (key) => { setFanOpen(false); onSelect(key); };
   const total = num(heroes.length - 1);
 
   // "Custom websites" in the serif, then "FOR small BUSINESSES" in the poster caps.
@@ -101,12 +111,26 @@ export default function Flash({ content, heroes, active, onSelect }) {
           <img src={photo} alt={`${content.credits[0].value} smiling and giving a thumbs up at night`} width="760" height="1754" fetchPriority="high" />
         </div>
         <p className={s.name} aria-hidden="true">{name.map((w) => <span key={w}>{w}</span>)}</p>
-        <div className={s.switcher} role="group" aria-label="Site style">
+        <div ref={switcherRef} className={s.switcher} role="group" aria-label="Site style">
           <p className={s.hint}><span className={s.count}>{num(index)} / {total} <span className={s.styleName}>{heroes[index].name}</span></span>{content.switcherHint}</p>
-          <button className={s.stack} type="button" onClick={next} aria-label={`Next style (now ${num(index)} of ${total})`}>
+          <button ref={stackRef} className={s.stack} type="button" onClick={() => setFanOpen((o) => !o)}
+            aria-expanded={fanOpen} aria-controls="flash-styles" aria-label={`Choose a style (now ${num(index)} of ${total})`}>
             <span className={s.print} /><span className={s.print} />
             <span className={`${s.print} ${s.top}`}>{num(index)}</span>
           </button>
+          {fanOpen && (
+            <ul id="flash-styles" className={s.fan}>
+              {heroes.map((h, i) => (
+                <li key={h.key} style={{ "--i": i }}>
+                  <button type="button" className={s.pick} disabled={!h.component} aria-current={h.key === active || undefined}
+                    autoFocus={h.key === active} onClick={() => pick(h.key)}>
+                    <span className={s.pickNum}>{num(i)}</span>
+                    <span className={s.pickName}>{h.name}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 

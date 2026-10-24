@@ -1,0 +1,346 @@
+/* RETRO (hero 4): classic Mac OS / 1-bit. Sound teal page, one wide Bone player window: TV static behind the title
+   on the left, the control panel (description, keys, channel selector) on the right. Boxed chips in the corners,
+   nav as square tiles at the bottom. Hard lines, flat offset shadows, no rounding, no blur. Motion is instant or
+   stepped, like old computers. */
+
+.hero {
+  --page: var(--accent); /* Sound teal, the site accent: a classic 90s desktop */
+  --line: 2px solid var(--dune);
+  --drop: 6px 6px 0 rgb(20 24 27 / 0.45);
+  --pixel: "Pixelify Sans", ui-monospace, monospace;
+  --caps: "Silkscreen", ui-monospace, monospace;
+  --digits: "VT323", ui-monospace, monospace; /* Pixelify's 5 and 0 read as S and O */
+  /* window: ~1650 x 700 on a 1920 x 920 screen; fills the space between the chips and the dock */
+  --w: min(calc(100vw - 2 * clamp(16px, 7vw, 160px)), 1720px);
+  --top: 72px;
+  --bottom: 124px;
+  position: relative;
+  min-height: 100svh;
+  padding: var(--top) 16px var(--bottom);
+  display: grid;
+  place-items: center;
+  background: var(--page);
+  color: var(--dune);
+  font-family: var(--pixel);
+  overflow: hidden;
+}
+.hero :focus-visible { outline: 2px dashed var(--dune); outline-offset: 3px; }
+
+/* ---------- corner chips ---------- */
+.chips {
+  position: absolute;
+  inset: 18px 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--caps);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+.brand, .price span {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  background: var(--bone);
+  border: var(--line);
+}
+.brand { padding-right: 14px; gap: 12px; color: inherit; text-decoration: none; }
+.mark {
+  width: 34px;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  background: var(--dune);
+  color: var(--bone);
+  text-transform: lowercase;
+}
+.brand:hover { background: var(--dune); color: var(--bone); }
+.price { margin: 0; display: flex; gap: 8px; }
+.price span { padding-inline: 14px; }
+
+/* ---------- the window ---------- */
+.window {
+  width: var(--w);
+  height: max(540px, calc(100svh - var(--top) - var(--bottom) - 12px));
+  padding: 0 14px 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(320px, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0 14px;
+  background: var(--bone);
+  border: var(--line);
+  box-shadow: var(--drop);
+  animation: open 220ms steps(4, jump-end) 50ms both;
+}
+@keyframes open { from { clip-path: inset(0 100% 100% 0); } to { clip-path: inset(0); } }
+
+.titlebar {
+  grid-column: 1 / -1;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.box { width: 16px; height: 16px; border: var(--line); }
+.boxFull { background: var(--dune); }
+.wordmark { margin-left: auto; font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 0.02em; }
+
+/* screen: static canvas behind a dark broadcast card, the strip under it */
+.tv { display: flex; flex-direction: column; min-height: 0; }
+.screen {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  border: var(--line);
+  overflow: hidden;
+  background: var(--dune);
+}
+.picture { position: absolute; inset: 0; display: grid; place-items: center; }
+.static {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  opacity: 0.55;
+  animation: warm 200ms steps(3, jump-end) 150ms both;
+}
+/* an old TV warming up: a white line that opens to the full picture */
+@keyframes warm { from { transform: scaleY(0.01); opacity: 1; } to { transform: scaleY(1); opacity: 0.55; } }
+.card {
+  position: relative;
+  margin: 0;
+  width: 84%;
+  padding: 0.5em 0.6em;
+  background: rgb(27 30 33 / 0.9);
+  color: var(--bone);
+  font-weight: 700;
+  font-size: calc(var(--w) * 0.044);
+  line-height: 1.15;
+  text-align: center;
+  text-wrap: balance;
+  animation: on 1ms 350ms both;
+}
+.card em { font-style: italic; color: var(--ember); }
+@keyframes on { from { visibility: hidden; } }
+/* channel change: full static, card gone */
+.burst .static { opacity: 1; }
+.burst .card { visibility: hidden; }
+
+.strip {
+  height: 28px;
+  padding-inline: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--dune);
+  color: var(--bone);
+  font-size: 14px;
+}
+.tiny { width: 16px; height: 16px; background: var(--bone); }
+.built { margin-left: 8px; }
+.count { margin-left: auto; font-family: var(--digits); font-size: 1.3em; }
+
+/* ---------- control panel ---------- */
+.side { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.now {
+  flex: 1;
+  min-height: 0;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  border: var(--line);
+  overflow: hidden;
+}
+/* the channel number, like an old TV's display */
+.lcd {
+  font-family: var(--digits);
+  font-size: clamp(72px, calc(var(--w) * 0.09), 160px);
+  line-height: 0.9;
+  color: var(--ember);
+}
+.desc {
+  margin: 0;
+  font-size: clamp(16px, calc(var(--w) * 0.0132), 23px);
+  line-height: 1.5;
+}
+
+/* transport keys + channel selector */
+.keys, .channel { display: flex; gap: 10px; padding: 12px; border: var(--line); }
+.keys { flex-direction: column; }
+.key {
+  height: 60px;
+  padding-inline: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: var(--line);
+  box-shadow: 3px 3px 0 var(--dune);
+  font-family: var(--pixel);
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--dune);
+  background: var(--bone);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: none;
+}
+.book { background: var(--ember); color: var(--dune); } /* dark text: bone on Ember fails contrast */
+.book :global(.pill-icon) { display: none; }
+.book::before { content: ""; border-left: 10px solid currentColor; border-block: 7px solid transparent; }
+.key:active { transform: translate(3px, 3px); box-shadow: none; }
+@media (hover: hover) {
+  .key:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--dune); }
+  .book:hover { background: var(--dune); color: var(--ember); }
+  .work:hover .lid { transform: translateY(-3px); }
+}
+.folder { width: 18px; height: 16px; flex: none; }
+.lid { transition: transform 120ms steps(2, jump-end); }
+
+.channel { height: 76px; align-items: stretch; }
+.step {
+  width: 48px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: var(--line);
+  background: var(--bone);
+  color: var(--dune);
+  cursor: pointer;
+}
+.stepNext { background: var(--dune); color: var(--bone); }
+.step:active { background: var(--dune); color: var(--bone); }
+.stepNext:active { background: var(--bone); color: var(--dune); }
+.select { position: relative; flex: 1; display: flex; }
+.select select {
+  appearance: none;
+  width: 100%;
+  padding: 0 32px 0 14px;
+  border: var(--line);
+  border-radius: 0;
+  background: var(--bone);
+  color: var(--dune);
+  font: 400 22px var(--digits);
+  cursor: pointer;
+}
+.caret { position: absolute; right: 14px; top: 50%; translate: 0 -50%; pointer-events: none; }
+
+.status {
+  margin: 0;
+  min-height: 36px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: var(--line);
+  background: var(--linen);
+  font-size: 15px;
+}
+.meter { display: flex; gap: 3px; }
+.meter i { width: 4px; height: 14px; background: var(--ember); }
+.meter i:last-child { background: var(--dune); opacity: 0.3; } /* 4 of 5 bars: good signal */
+
+/* ---------- dock: nav as square tiles ---------- */
+.dock {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  background: var(--bone);
+  border: var(--line);
+  box-shadow: var(--drop);
+}
+.dock a {
+  width: 100px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  color: var(--dune);
+  text-decoration: none;
+  font-size: 14px;
+}
+.dock a + a { border-left: var(--line); }
+.dock a:hover { background: var(--dune); color: var(--bone); }
+.icon { width: 28px; height: 28px; }
+
+/* ---------- narrower screens: the panel moves under the screen ---------- */
+@media (max-width: 1100px) {
+  .hero { --w: min(calc(100vw - 32px), 760px); }
+  .window { height: auto; grid-template-columns: 1fr; gap: 12px; }
+  .titlebar { margin-bottom: -12px; }
+  .screen { flex: none; height: calc(var(--w) * 0.5); }
+  .card { font-size: calc(var(--w) * 0.066); }
+  .desc { font-size: 17px; }
+  .keys { flex-direction: row; }
+  .key { flex: 1; }
+  .channel { height: 68px; }
+}
+
+/* ---------- phone ---------- */
+@media (max-width: 720px) {
+  .hero { padding: 66px 12px 0; display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+  .hero { --w: calc(100vw - 24px); }
+  .chips { inset: 12px 12px auto; font-size: 11px; }
+  .brand, .price span { height: 32px; }
+  .mark { width: 30px; }
+  .price .city { display: none; }
+  .window { padding: 0 10px 10px; box-shadow: 4px 4px 0 rgb(42 47 51 / 0.22); }
+  .titlebar { height: 34px; }
+  .wordmark { font-size: 13px; }
+  .screen { height: 250px; }
+  .card { font-size: 28px; width: 90%; }
+  .strip { font-size: 11px; height: 24px; }
+  .tiny { width: 14px; height: 14px; }
+  .desc { padding: 12px 16px; font-size: 15px; }
+  .keys { flex-direction: column; padding: 0; border: 0; }
+  .key { height: 48px; font-size: 16px; }
+  .channel { height: auto; padding: 0; border: 0; }
+  .step { height: 40px; }
+  .status { font-size: 12px; }
+  .meter { display: none; }
+  .dock { position: static; translate: none; margin: 4px 0 16px; width: 100%; }
+  .dock a { flex: 1; width: auto; height: 68px; font-size: 11px; gap: 6px; }
+  .icon { width: 22px; height: 22px; }
+}
+
+/* ---------- Into the site: the TV switches off ----------
+   The hero pins while the sections slide up over it, and the picture does an old CRT power-off as you scroll:
+   it squashes into a line and dims as it shrinks to a dot, leaving the screen black. Scrolling back turns it on again.
+   Only where the hero fits the screen (a taller hero would have its bottom covered while pinned). */
+@media (min-width: 721px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  .hero { position: sticky; top: 0; }
+  @supports (animation-timeline: scroll()) {
+    .picture {
+      animation: crt-off linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 55svh;
+    }
+    .window {
+      animation: open 220ms steps(4, jump-end) 50ms both, sink linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 20svh 100svh;
+    }
+  }
+}
+@keyframes crt-off {
+  0%   { transform: scale(1, 1); filter: brightness(1); }
+  50%  { transform: scale(1, 0.006); filter: brightness(0.6); }
+  80%  { transform: scale(0.03, 0.006); filter: brightness(0.3); opacity: 1; }
+  100% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
+}
+@keyframes sink { to { transform: translateY(-12svh) scale(0.94); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .window, .static, .card { animation: none; }
+  .lid { transition: none; }
+}

@@ -71,9 +71,21 @@
   background: var(--bone);
   border: var(--line);
   box-shadow: var(--drop);
-  animation: open 220ms steps(4, jump-end) 50ms both;
+  position: relative;
+  animation: on 1ms 300ms both;
 }
-@keyframes open { from { clip-path: inset(0 100% 100% 0); } to { clip-path: inset(0); } }
+/* Load: the classic Mac "zoom" outline grows from the middle to the window's frame, then the window is there.
+   Visible while the window is still hidden (a child can override its parent's visibility). */
+.window::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--dune);
+  visibility: visible;
+  pointer-events: none;
+  animation: zoom 300ms steps(6, jump-end) both;
+}
+@keyframes zoom { from { inset: 46% 48%; } 99.9% { visibility: visible; } to { inset: -2px; visibility: hidden; } }
 
 .titlebar {
   grid-column: 1 / -1;
@@ -106,7 +118,7 @@
   height: 100%;
   image-rendering: pixelated;
   opacity: 0.55;
-  animation: warm 200ms steps(3, jump-end) 150ms both;
+  animation: warm 200ms steps(3, jump-end) 320ms both;
 }
 /* an old TV warming up: a white line that opens to the full picture */
 @keyframes warm { from { transform: scaleY(0.01); opacity: 1; } to { transform: scaleY(1); opacity: 0.55; } }
@@ -122,10 +134,24 @@
   line-height: 1.15;
   text-align: center;
   text-wrap: balance;
-  animation: on 1ms 350ms both;
+  animation: on 1ms 520ms both;
 }
 .card em { font-style: italic; color: var(--ember); }
 @keyframes on { from { visibility: hidden; } }
+
+/* Load order (stepped, like an old Mac redrawing): chips (0-80ms) -> zoom outline -> window (300ms) -> static warms
+   (320ms) -> panel boxes one by one (380-560ms) -> title card and dock (520-560ms) -> signal bars fill (620-780ms). */
+.brand, .price span, .now, .keys, .channel, .status, .meter i { animation: on 1ms var(--d, 0ms) both; }
+.price span { --d: 80ms; }
+.now { --d: 380ms; }
+.keys { --d: 440ms; }
+.channel { --d: 500ms; }
+.status { --d: 560ms; }
+.meter i:nth-child(1) { --d: 620ms; }
+.meter i:nth-child(2) { --d: 660ms; }
+.meter i:nth-child(3) { --d: 700ms; }
+.meter i:nth-child(4) { --d: 740ms; }
+.meter i:nth-child(5) { --d: 780ms; }
 /* channel change: full static, card gone */
 .burst .static { opacity: 1; }
 .burst .card { visibility: hidden; }
@@ -257,7 +283,9 @@
   background: var(--bone);
   border: var(--line);
   box-shadow: var(--drop);
+  animation: dock-up 150ms steps(3, jump-end) 560ms both;
 }
+@keyframes dock-up { from { transform: translateY(32px); visibility: hidden; } }
 .dock a {
   width: 100px;
   height: 88px;
@@ -326,7 +354,7 @@
       animation-range: 0 55svh;
     }
     .window {
-      animation: open 220ms steps(4, jump-end) 50ms both, sink linear both;
+      animation: on 1ms 300ms both, sink linear both;
       animation-timeline: auto, scroll(root);
       animation-range: normal, 20svh 100svh;
     }
@@ -341,6 +369,7 @@
 @keyframes sink { to { transform: translateY(-12svh) scale(0.94); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .window, .static, .card { animation: none; }
+  .window, .static, .card, .dock, .brand, .price span, .now, .keys, .channel, .status, .meter i { animation: none; }
+  .window::before { display: none; }
   .lid { transition: none; }
 }

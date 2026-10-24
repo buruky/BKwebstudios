@@ -70,31 +70,26 @@ export default function Sections({ content }) {
 
       <Section id="pricing" note={notes.pricing} index={3} title={navLabel("#pricing")}>
         <div className={s.pricing}>
-          <div className={`${s.tier} ${s.featured} ${s.r}`}>
-            <h3 className={s.tierName}>{pricing.tier.name}</h3>
-            <p className={s.price}>{pricing.tier.price}</p>
-            <ul className={s.items}>
-              {pricing.tier.items.map((i) => <li key={i}>{i}</li>)}
-            </ul>
-            <PillButton className={`${s.cta} ${s.small}`} href={content.primary.href} note={`Interested in: ${pricing.tier.name} (${pricing.tier.price})`}>
-              {pricing.tier.cta}
-            </PillButton>
+          {[...pricing.tiers, pricing.custom].map((t, i) => (
+            <div key={t.name} className={`${s.tier} ${i === 1 ? s.featured : ""} ${s.r}`} style={{ "--i": i }}>
+              <h3 className={s.tierName}>{t.name}</h3>
+              <p className={s.price}>{t.price}</p>
+              <ul className={s.items}>
+                {t.items.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+              <PillButton className={`${s.cta} ${s.small}`} href={content.primary.href} note={`Interested in: ${t.name} (${t.price})`}>
+                {t.cta}
+              </PillButton>
+            </div>
+          ))}
+          <div className={`${s.extra} ${s.wide} ${s.r}`} style={{ "--i": 3 }}>
+            <h3 className={s.tierName}>{pricing.care.name}</h3>
+            <p className={s.extraPrice}>{pricing.care.price}</p>
+            <p className={s.line}>{pricing.care.line}</p>
           </div>
-          <div className={s.extras}>
-            {[pricing.custom, pricing.care].map((x, i) => (
-              <div key={x.name} className={`${s.extra} ${s.r}`} style={{ "--i": i + 1 }}>
-                <h3 className={s.tierName}>{x.name}</h3>
-                <p className={s.extraPrice}>{x.price}</p>
-                <p className={s.line}>{x.line}</p>
-                {x.cta && (
-                  <PillButton className={`${s.cta} ${s.small}`} href={content.primary.href} note={`Interested in: ${x.name} (${x.price})`}>{x.cta}</PillButton>
-                )}
-              </div>
-            ))}
-            <ul className={`${s.terms} ${s.r}`} style={{ "--i": 3 }}>
-              {pricing.terms.map((t) => <li key={t}>{t}</li>)}
-            </ul>
-          </div>
+          <ul className={`${s.terms} ${s.r}`} style={{ "--i": 4 }}>
+            {pricing.terms.map((t) => <li key={t}>{t}</li>)}
+          </ul>
         </div>
       </Section>
 

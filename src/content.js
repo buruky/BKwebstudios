@@ -34,7 +34,7 @@ export const content = {
   sectionNotes: {
     work: "Real sites I designed and built for local businesses. Tap one to see it live.",
     about: "One person from start to finish. You talk to the person who builds your site.",
-    pricing: "One clear starting price. Anything bigger gets a quote after the free call.",
+    pricing: "Two clear packages. Anything bigger gets a quote after the free call.", // DRAFT
     process: "Four steps, and you see the whole site on a preview link before it goes live.",
     book: "Pick a time that works for you. It's a free 15‑minute phone call.",
     faq: "Quick answers to what most owners ask first.",    contact: "Prefer to write? Email, call or message me directly.",
@@ -59,11 +59,15 @@ export const content = {
     facts: ["B.S. Computer Science and Mathematics, University of Washington", "Based in Seattle", "Working with businesses anywhere", "Designed and built this site, every style of it"], // last one DRAFT
   },
   pricing: {
-    tier: { name: "Starter", price: "$750", cta: "Book a free call", items: ["Up to 5 pages", "Mobile-friendly", "Basic SEO", "Launch included"] },
-    custom: { name: "Bigger projects", price: "Custom quote", cta: "Get a quote", line: "Need more pages or extra features? Tell me on the free call and I'll quote it." }, // DRAFT
+    tiers: [
+      { name: "Starter", price: "$750", cta: "Book a free call", items: ["Up to 3 pages", "Mobile-friendly", "Launched and live"] },
+      { name: "Business", price: "$1,400", cta: "Book a free call", items: ["Up to 7 pages", "Basic SEO", "Gallery and map", "A menu or services page"] },
+    ],
+    custom: { name: "Popular extras", price: "Custom quote", cta: "Get a quote", items: ["Online booking", "Square ordering", "Google reviews", "Payment links", "Extra pages"] }, // DRAFT
     care: { name: "Care plan", price: "$20/month or $200/year", line: "I keep your photos and content up to date. Bigger changes are quoted separately." }, // DRAFT
     terms: [
       "50% to start, 50% at launch.",
+      "Nonprofits and churches save 10%.",
       "The yearly care plan is paid up front.",
       "Domain not included. I'll walk you through buying one and explain every step.",
     ],

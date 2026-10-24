@@ -221,17 +221,13 @@
   font-size: 13.5px;
 }
 
-/* ---------- Pricing: one package, big; the rest beside it ---------- */
+/* ---------- Pricing: packages + extras in one even row; care plan and terms below ---------- */
 .pricing {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: clamp(16px, 2vw, 32px);
-  align-items: start;
 }
-.extras {
-  display: grid;
-  gap: 16px;
-}
+.wide { grid-column: span 2; }
 .extra {
   padding: 22px 24px;
   border: 1px solid rgb(var(--ink-rgb) / 0.25);
@@ -255,6 +251,8 @@
   opacity: 0.4;
 }
 .tier {
+  display: flex;
+  flex-direction: column;
   padding: 28px;
   border: 1px solid rgb(var(--ink-rgb) / 0.25);
 }
@@ -281,7 +279,9 @@
   line-height: 1;
 }
 .items {
+  flex: 1; /* pushes the button to the card's bottom so all three line up */
   display: grid;
+  align-content: start;
   gap: 10px;
   font-size: 13.5px;
   line-height: 1.5;
@@ -450,9 +450,8 @@
   margin-top: 24px;
   padding-left: 18px;
   font-size: 14px;
-  justify-self: start;
+  align-self: flex-start;
 }
-.extra .small { margin-top: 16px; }
 .cta :global(.pill-icon) {
   height: 100%;
   aspect-ratio: 1;
@@ -556,6 +555,7 @@
 /* ---------- phone ---------- */
 @media (max-width: 720px) {
   .work, .about, .pricing, .steps, .contact { grid-template-columns: 1fr; }
+  .wide { grid-column: auto; }
   .qa summary { font-size: 17px; }
   .aside { font-size: 10px; letter-spacing: 0.14em; }
   .step {

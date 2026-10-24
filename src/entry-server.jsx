@@ -23,19 +23,19 @@ export function jsonLd() {
     logo: `${SITE}icon-512.png`,
     telephone: `+1-${contact.phone.replace(/\D/g, "").replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")}`,
     email: contact.email,
-    priceRange: `From ${pricing.tier.price}`,
+    priceRange: `From ${pricing.tiers[0].price}`,
     // Service-area business: city and state only, no street address.
     address: { "@type": "PostalAddress", addressLocality: "Seattle", addressRegion: "WA", addressCountry: "US" },
     areaServed: [{ "@type": "City", name: "Seattle" }, { "@type": "Country", name: "United States" }],
     founder: { "@id": `${SITE}#founder` },
     makesOffer: [
-      {
+      ...pricing.tiers.map((t) => ({
         "@type": "Offer",
-        name: `${pricing.tier.name} website`,
-        description: pricing.tier.items.join(", "),
-        price: dollars(pricing.tier.price),
+        name: `${t.name} website`,
+        description: t.items.join(", "),
+        price: dollars(t.price),
         priceCurrency: "USD",
-      },
+      })),
       {
         "@type": "Offer",
         name: pricing.care.name,

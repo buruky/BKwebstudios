@@ -3,8 +3,8 @@ import PillButton from "../components/PillButton.jsx";
 import { Cal, calConfig, calPath } from "../cal.js";
 import s from "./Sections.module.css";
 
-// Project screenshots, keyed by file name (content.work[].img).
-const shots = Object.fromEntries(
+// Project screenshots, keyed by file name (content.work[].img). Hero 5 (Collage) uses them too.
+export const shots =Object.fromEntries(
   Object.entries(import.meta.glob("../../assets/work/*.webp", { eager: true, import: "default" }))
     .map(([path, url]) => [path.split("/").pop().replace(".webp", ""), url]),
 );
@@ -12,24 +12,10 @@ const shots = Object.fromEntries(
 // Work, About, Pricing, Process, Book, FAQ, Contact + footer. One look under every hero (see sections-brief.md).
 export default function Sections({ content }) {
   const notes = content.sectionNotes;
-  const { work, about, pricing, process, faq, reviews, contact } = content;
+  const { work, about, pricing, process, faq, contact } = content;
   const navLabel = (href) => content.nav.find((n) => n.href === href).label;
 
-  // Reveal each section once as it scrolls in. Hidden state is only applied after this runs, so no JS = all visible.
-  const sheetRef = useRef(null);
-  useEffect(() => {
-    const sheet = sheetRef.current;
-    sheet.dataset.animate = "";
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        e.target.dataset.visible = "";
-        io.unobserve(e.target);
-      }
-    }, { rootMargin: "0px 0px -15% 0px" });
-    sheet.querySelectorAll("section").forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
+  const sheetRef = useReveal();
 
   // The booking calendar, inline. Calls queue until embed.js loads, so the flag stops StrictMode adding it twice.
   const calRef = useRef(null);
@@ -43,18 +29,8 @@ export default function Sections({ content }) {
   return (
     <div ref={sheetRef} className={s.sheet}>
       <Section id="work" note={notes.work} index={1} title={navLabel("#work")}>
-        <ul className={s.work}>
-          {work.map((p, i) => (
-            <li key={p.name} className={s.r} style={{ "--i": i }}>
-              <a className={s.project} href={p.href} target="_blank" rel="noopener">
-                <span className={s.shot}><img src={shots[p.img]} alt={`${p.name} website`} width="960" height="600" loading="lazy" /></span>
-                <span className={s.type}>{p.type}</span>
-                <span className={s.projectName}>{p.name}<Arrow /></span>
-                <span className={s.line}>{p.line}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
+        <WorkList work={work.slice(0, 3)} />
+        <PillButton className={`${s.cta} ${s.centerCta} ${s.ghost}`} href="./work/">{content.allWork}</PillButton>
       </Section>
 
       <Section id="about" tone="teal" note={notes.about} index={2} title={about.title}>
@@ -132,26 +108,72 @@ export default function Sections({ content }) {
         </div>
       </Section>
 
-      <footer className={s.footer}>
-        <div className={s.footBrand}>
-          <a className={s.mark} href="#top" aria-label={`${content.name}, home`}><span aria-hidden="true">bk</span></a>
-          <PillButton className={`${s.cta} ${s.review}`} href={reviews.href}>{reviews.cta}</PillButton>
-        </div>
-        <nav className={s.footNav} aria-label="Footer">
-          {content.nav.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
-        </nav>
-        <small className={s.copy}>© {new Date().getFullYear()} {content.name}</small>
-        <p className={s.madeBy}>
-          <span className={s.madeMark} aria-hidden="true" />
-          {content.madeBy}{" "}
-          <a href={content.primary.href}>{content.primary.label}</a>
-        </p>
-      </footer>
+      <Footer content={content} />
     </div>
   );
 }
 
-function Section({ id, index, title, note, aside, asideClass = "", tone, children }) {
+// Reveal each section once as it scrolls in (put the returned ref on the .sheet). Hidden state is only applied after
+// this runs, so no JS = all visible.
+export function useReveal() {
+  const sheetRef = useRef(null);
+  useEffect(() => {
+    const sheet = sheetRef.current;
+    sheet.dataset.animate = "";
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.dataset.visible = "";
+        io.unobserve(e.target);
+      }
+    }, { rootMargin: "0px 0px -15% 0px" });
+    sheet.querySelectorAll("section").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+  return sheetRef;
+}
+
+// `details`: also show what Buruk did on each site (the /work page).
+export function WorkList({ work, details = false }) {
+  return (
+    <ul className={s.work}>
+      {work.map((p, i) => (
+        <li key={p.name} className={s.r} style={{ "--i": i }}>
+          <a className={s.project} href={p.href} target="_blank" rel="noopener">
+            <span className={s.shot}><img src={shots[p.img]} alt={`${p.name} website`} width="960" height="600" loading="lazy" /></span>
+            <span className={s.type}>{p.type}</span>
+            <span className={s.projectName}>{p.name}<Arrow /></span>
+            <span className={s.line}>{p.line}</span>
+            {details && p.details && <span className={s.details}>{p.details}</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function Footer({ content, home = "#top" }) {
+  const { reviews } = content;
+  return (
+    <footer className={s.footer}>
+      <div className={s.footBrand}>
+        <a className={s.mark} href={home} aria-label={`${content.name}, home`}><span aria-hidden="true">bk</span></a>
+        <PillButton className={`${s.cta} ${s.review}`} href={reviews.href}>{reviews.cta}</PillButton>
+      </div>
+      <nav className={s.footNav} aria-label="Footer">
+        {content.nav.map((n) => <a key={n.href} href={n.href}>{n.label}</a>)}
+      </nav>
+      <small className={s.copy}>© {new Date().getFullYear()} {content.name}</small>
+      <p className={s.madeBy}>
+        <span className={s.madeMark} aria-hidden="true" />
+        {content.madeBy}{" "}
+        <a href={content.primary.href}>{content.primary.label}</a>
+      </p>
+    </footer>
+  );
+}
+
+export function Section({ id, index, title, note, aside, asideClass = "", tone, children }) {
   return (
     <section id={id} className={`${s.section} ${tone ? `${s.tone} ${s[tone]}` : ""}`} aria-labelledby={`${id}-title`}>
       <header className={s.head}>

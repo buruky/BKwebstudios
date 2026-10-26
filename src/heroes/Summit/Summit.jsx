@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import photo from "../../../assets/page2/page2Assets/background.jpg";
+// Graded copy of background.jpg (assets/page2/grade.py): same size and framing, so the ridge mask still lines up.
+import photo from "../../../assets/page2/page2Assets/background-graded.webp";
 // Mountains + dunes in white, sky in black. Made from background-mnts.jpg (sky deleted in Photopea, saved white).
 import ridgeMask from "../../../assets/page2/page2Assets/ridge-mask.png";
 import Switcher from "../../components/Switcher.jsx";
@@ -13,11 +14,12 @@ const FOG = { wide: 0.5, narrow: 0.58 };
 // Scene coordinates are the photo's own pixels (2048x1536), so the brand stays locked to the ridge at any screen size.
 // cx is the person's centre line (head and raised hands, from the trace). Both viewBoxes are centred on it, so cx is the
 // middle of the screen: everything left of it is drawn as outline, right of it solid.
-// Wide spans x 0..2020, the widest view that keeps the person centred without going past the photo's left edge.
+// Wide spans x 30..1990: centred on the person, and 30 photo px in from the left edge so the mouse drift (useDepth)
+// never shows where the photo ends.
 // mono: giant "B" / "K", their visible edges `gap` from cx. rest: "WEB" / "STUDIOS", edges `gap` from cx. y = baselines in photo px.
 const CX = 1010;
 const LAYOUTS = {
-  wide: { viewBox: "0 137 2020 1263", mono: { y: 760, size: 600, gap: 56 }, rest: { y: 885, size: 62, spacing: 0.34, gap: 40 } },
+  wide: { viewBox: "30 156 1960 1225", mono: { y: 760, size: 500, gap: 48 }, rest: { y: 808, size: 44, spacing: 0.55, gap: 34 } },
   narrow: { viewBox: "660 8 700 1520", mono: { y: 745, size: 300, gap: 26 }, rest: { y: 838, size: 34, spacing: 0.3, gap: 20 } },
 };
 
@@ -68,6 +70,29 @@ function framePath(w, h, g) {
     H${L + r} A${r},${r} 0 0 1 ${L},${B - r} V${T + r} A${r},${r} 0 0 1 ${L + r},${T} Z`;
 }
 
+// Depth: the scene drifts a few px against the mouse behind the fixed glass and frame, and a soft glare on the glass
+// follows the pointer. Writes --mx / --my (-1..1) and --gx / --gy (px) on the hero. Mouse only, motion allowed.
+function useDepth(ref) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const move = (e) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+        el.style.setProperty("--my", (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+        el.style.setProperty("--gx", `${Math.round(e.clientX - r.left)}px`);
+        el.style.setProperty("--gy", `${Math.round(e.clientY - r.top)}px`);
+      });
+    };
+    el.addEventListener("pointermove", move);
+    return () => { el.removeEventListener("pointermove", move); cancelAnimationFrame(raf); };
+  }, [ref]);
+}
+
 function useMedia(query) {
   const [match, setMatch] = useState(() => matchMedia(query).matches);
   useEffect(() => {
@@ -102,6 +127,7 @@ export default function Summit({ content, heroes, active, onSelect }) {
   }
 
   const heroRef = useRef(null);
+  useDepth(heroRef);
   const [size, setSize] = useState({ w: 0, h: 0 });
   useLayoutEffect(() => {
     const ro = new ResizeObserver(([e]) => setSize({ w: e.contentRect.width, h: e.contentRect.height }));
@@ -187,11 +213,13 @@ export default function Summit({ content, heroes, active, onSelect }) {
           <svg className={s.defs} aria-hidden="true">
             <clipPath id={fogClipId} clipPathUnits="userSpaceOnUse">
               <path d={fogPath(size.w, size.h, g, narrow, seam)} />
-              {!narrow && pos && letter(first, pos.b)}
+              {!narrow && pos && <g className={s.drift}>{letter(first, pos.b)}</g>}
             </clipPath>
           </svg>
           <div className={s.fog} style={{ clipPath: `url(#${fogClipId})` }} aria-hidden="true" />
           <div className={s.fogRoll} aria-hidden="true" />
+          {/* the glass edge: a crisp highlight where the fog meets the clear side */}
+          <span className={s.seamLine} aria-hidden="true" />
         </>
       )}
 
@@ -218,7 +246,7 @@ export default function Summit({ content, heroes, active, onSelect }) {
         {pos && (
           <>
             <g mask="url(#summit-above-ridge)"><text className={`${s.mono} ${s.line} ${s.rise}`} x={pos.b} y={L.mono.y} fontSize={L.mono.size}>{first}</text></g>
-            <text className={`${s.rest} ${s.line} ${s.reveal}`} x={pos.web} y={L.rest.y} fontSize={L.rest.size}
+            <text className={`${s.rest} ${s.solid} ${s.reveal}`} x={pos.web} y={L.rest.y} fontSize={L.rest.size}
               style={{ letterSpacing: `${L.rest.spacing}em`, "--d": "700ms" }}>{web}</text>
             <text className={`${s.rest} ${s.solid} ${s.reveal}`} x={pos.studios} y={L.rest.y} fontSize={L.rest.size}
               style={{ letterSpacing: `${L.rest.spacing}em`, "--d": "760ms" }}>{studios.join(" ")}</text>
@@ -229,21 +257,14 @@ export default function Summit({ content, heroes, active, onSelect }) {
       {size.w > 0 && (
         <svg className={s.frame} width={size.w} height={size.h} aria-hidden="true">
           <defs>
-            <linearGradient id="summit-line" gradientUnits="userSpaceOnUse"
-              {...(narrow ? { x1: 0, y1: seam - 30, x2: 0, y2: seam + 30 } : { x1: seam - 30, y1: 0, x2: seam + 30, y2: 0 })}>
-              {/* sky/clear side first on narrow (top), fog side first on wide (left) */}
-              <stop offset="0" stopColor={narrow ? "#f4efe8" : "#fde98a"} stopOpacity={narrow ? 0.75 : 0.55} />
-              <stop offset="1" stopColor={narrow ? "#fde98a" : "#f4efe8"} stopOpacity={narrow ? 0.55 : 0.75} />
-            </linearGradient>
             <mask id="summit-label-gap">
               <rect width={size.w} height={size.h} fill="#fff" />
               <rect x={labelX} y={g.it - 6} width={g.labelW} height="12" fill="#000" />
               {/* no frame line running through the B or K where they cross it */}
-              {pos && letter(first, pos.b, "#000")}
-              {pos && letter(second, pos.k, "#000")}
+              {pos && <g className={s.drift}>{letter(first, pos.b, "#000")}{letter(second, pos.k, "#000")}</g>}
             </mask>
           </defs>
-          <path d={framePath(size.w, size.h, g)} pathLength="1" fill="none" stroke="url(#summit-line)" strokeWidth="1.25" mask="url(#summit-label-gap)" />
+          <path d={framePath(size.w, size.h, g)} pathLength="1" fill="none" stroke="var(--bone)" strokeOpacity="0.8" strokeWidth="1.25" mask="url(#summit-label-gap)" />
         </svg>
       )}
 
@@ -283,7 +304,7 @@ export default function Summit({ content, heroes, active, onSelect }) {
       </div>
 
       <footer className={`${s.bottom} ${s.reveal}`} style={{ "--d": "1100ms" }}>
-        <a className={s.more} href={content.secondary.href}>{content.secondary.label}<span className={s.arrow} aria-hidden="true" /></a>
+        <a className={s.more} href={content.secondary.href}><span>{content.secondary.label}</span><span className={s.arrow} aria-hidden="true" /></a>
         <div className={s.meta}>
           <small className={s.signature}>{content.builtBy}</small>
           <small className={s.credit}>Photo: Katie Lowe</small>

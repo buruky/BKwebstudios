@@ -1,13 +1,16 @@
 import { renderToString } from "react-dom/server";
 import App from "./App.jsx";
+import Work from "./Work.jsx";
 import { content } from "./content.js";
+
+export { content };
 
 // Build-time prerender (scripts/prerender.js): the page's HTML for crawlers and no-JS fetchers. The browser still
 // renders from scratch with createRoot (main.jsx), so the saved/?style= hero can differ from this default one.
-export const render = () => renderToString(<App />);
+export const render = (page) => renderToString(page === "work" ? <Work /> : <App />);
 
 // The live address (bkwebstudios.com redirects here). Keep in step with the canonical in index.html.
-const SITE = "https://www.bkwebstudios.com/";
+export const SITE = "https://www.bkwebstudios.com/";
 
 // Schema.org JSON-LD, built from content.js so it always matches the words on the page.
 export function jsonLd() {

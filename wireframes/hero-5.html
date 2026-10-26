@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero 5 wireframe</title>
+<style>
+  :root { --bg:#ececec; --ink:#1d1d1d; --muted:#666; --mark:#e8e8e8; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui, sans-serif; padding:32px 16px 64px; }
+  .page { max-width:1500px; margin:0 auto; display:grid; gap:40px; }
+  h1 { margin:0; font-size:22px; } h2 { margin:0 0 12px; font-size:16px; }
+  p { margin:0; } .muted { color:var(--muted); }
+  .boards { display:grid; grid-template-columns: 1fr 300px; gap:24px; align-items:start; }
+  @media (max-width: 900px) { .boards { grid-template-columns:1fr; } .phone { max-width:320px; } }
+  svg { display:block; width:100%; height:auto; border-radius:6px; }
+  svg text { font-family: system-ui, sans-serif; }
+  .mk circle { fill:var(--mark); } .mk text { fill:#1d1d1d; font:700 18px system-ui; text-anchor:middle; dominant-baseline:central; }
+  .phone .mk text { font-size:12px; }
+  ol.legend { margin:0; padding-left:0; list-style:none; display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:10px 28px; }
+  ol.legend li { display:grid; grid-template-columns:28px 1fr; gap:10px; }
+  ol.legend b.n { width:24px; height:24px; border-radius:50%; background:#1d1d1d; color:#fff; font-size:12px; display:grid; place-items:center; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Hero 5 · "Collage" wireframe (v1, after the Plura portfolio deck)</h1>
+  <p class="muted">Grey-box only, drawn at 1920 × 920. A dark page made up like a portfolio slide, turned up to a layered collage. The one idea: <b>a huge marble bust torn into strips, held together by one ember strip of tape that carries the key word "small"</b>. Giant thin caps split across two corners (like PART TWO / PACKAGING), tiny tracked labels, vertical text, a contact grid of client sites. Dark grey = the dune page; light grey = the bust and type. Numbers map to the notes below.</p>
+</header>
+
+<div class="boards">
+<!-- ================= DESKTOP 1920 x 920 ================= -->
+<svg viewBox="0 0 1920 920" role="img" aria-label="Desktop wireframe">
+  <defs>
+    <pattern id="grit" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#2c2c2c"/><rect x="1" y="2" width="1" height="1" fill="#3a3a3a"/><rect x="5" y="6" width="1" height="1" fill="#383838"/><rect x="6" y="1" width="1" height="1" fill="#262626"/></pattern>
+    <pattern id="stone" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="14" fill="#555"/><path d="M0 9 L5 6 L9 10 L14 5" stroke="#6a6a6a" fill="none"/><rect x="3" y="2" width="2" height="1" fill="#4a4a4a"/></pattern>
+    <clipPath id="bust"><path d="M1060 -20 C1000 120 990 260 1040 380 C1060 450 1040 520 990 600 C960 660 980 760 1100 820 C1250 900 1500 900 1620 940 L1920 940 L1920 -20 Z"/></clipPath>
+  </defs>
+  <rect width="1920" height="920" fill="url(#grit)"/>
+
+  <!-- torn texture strip behind the top-left type -->
+  <path d="M0 230 L420 214 L760 238 L980 222 L980 300 L700 312 L380 296 L0 318 Z" fill="url(#stone)" opacity=".7"/>
+
+  <!-- the bust, as 4 torn horizontal strips, each nudged sideways -->
+  <g clip-path="url(#bust)">
+    <rect x="980" y="-20" width="960" height="250" fill="#bdbdbd"/>
+    <rect x="1004" y="236" width="960" height="190" fill="#c9c9c9"/>
+    <rect x="968" y="432" width="960" height="210" fill="#b3b3b3"/>
+    <rect x="996" y="648" width="960" height="300" fill="#c4c4c4"/>
+  </g>
+  <!-- torn edges between strips -->
+  <g stroke="#2c2c2c" stroke-width="5" fill="none">
+    <path d="M990 232 L1100 226 L1220 238 L1360 228 L1500 240 L1650 229 L1800 237 L1920 230"/>
+    <path d="M990 428 L1120 436 L1250 425 L1390 437 L1530 426 L1680 435 L1920 429"/>
+    <path d="M990 644 L1110 640 L1260 650 L1400 639 L1560 651 L1720 641 L1920 647"/>
+  </g>
+  <!-- face hint -->
+  <g fill="#9a9a9a"><ellipse cx="1330" cy="330" rx="40" ry="16"/><ellipse cx="1520" cy="330" rx="40" ry="16"/><rect x="1410" y="350" width="34" height="120" rx="14"/><rect x="1370" y="520" width="120" height="18" rx="9"/></g>
+
+  <!-- the ember tape across the eyes, carrying "small" -->
+  <path d="M900 284 L1320 270 L1700 296 L1930 280 L1930 380 L1690 392 L1310 372 L900 390 Z" fill="#7a7a7a" stroke="#e8e8e8" stroke-width="2" stroke-dasharray="10 6"/>
+  <text x="1150" y="356" font-size="74" font-style="italic" fill="#f2f2f2">small</text>
+
+  <!-- top label row -->
+  <g font-size="15" letter-spacing="3" fill="#cfcfcf">
+    <text x="48" y="56">BK WEB STUDIOS  |  05. COLLAGE</text>
+    <text x="1872" y="56" text-anchor="end">BUILT BY BURUK IN SEATTLE</text>
+  </g>
+  <g font-size="15" fill="#9a9a9a"><text x="700" y="56">WORK</text><text x="790" y="56">PRICING</text><text x="900" y="56">PROCESS</text><text x="1015" y="56">BOOK</text><text x="1095" y="56">CONTACT</text></g>
+  <line x1="48" y1="76" x2="1872" y2="76" stroke="#555" stroke-width="1"/>
+
+  <!-- giant thin caps, top-left: CUSTOM WEBSITES FOR -->
+  <text x="40" y="200" font-size="128" font-weight="200" letter-spacing="4" fill="#e6e6e6">CUSTOM WEBSITES</text>
+  <text x="44" y="282" font-size="54" font-weight="200" letter-spacing="10" fill="#e6e6e6">FOR</text>
+
+  <!-- left column: description + buttons -->
+  <g fill="#8a8a8a"><rect x="48" y="380" width="420" height="10" rx="5"/><rect x="48" y="402" width="440" height="10" rx="5"/><rect x="48" y="424" width="400" height="10" rx="5"/><rect x="48" y="446" width="300" height="10" rx="5"/></g>
+  <rect x="48" y="490" width="236" height="58" rx="29" fill="#9a9a9a"/><text x="78" y="526" font-size="18" fill="#1d1d1d">Book a free call  ↗</text>
+  <rect x="300" y="490" width="200" height="58" rx="29" fill="none" stroke="#cfcfcf" stroke-width="2"/><text x="330" y="526" font-size="18" fill="#cfcfcf">See my work  ▦</text>
+
+  <!-- contact grid of client sites -->
+  <g fill="#666" stroke="#2c2c2c" stroke-width="4">
+    <rect x="48" y="610" width="150" height="94"/><rect x="198" y="610" width="150" height="94"/><rect x="348" y="610" width="150" height="94"/>
+    <rect x="48" y="704" width="150" height="94"/><rect x="198" y="704" width="150" height="94"/><rect x="348" y="704" width="150" height="94"/>
+  </g>
+
+  <!-- vertical text on the left edge -->
+  <text transform="translate(26 880) rotate(-90)" font-size="13" letter-spacing="4" fill="#9a9a9a">SEATTLE · WEBSITES FROM $750</text>
+
+  <!-- giant thin caps, bottom-right, crossing over the bust: BUSINESSES -->
+  <text x="1880" y="880" text-anchor="end" font-size="150" font-weight="200" letter-spacing="4" fill="#f2f2f2">BUSINESSES</text>
+
+  <!-- switcher: slide pager, bottom-left under the grid -->
+  <g font-size="14" fill="#cfcfcf" letter-spacing="3">
+    <text x="48" y="850">‹   05 / 05  COLLAGE   ›</text>
+    <text x="48" y="878" fill="#8a8a8a" letter-spacing="1">Same site, new look. Try another style.</text>
+  </g>
+
+  <!-- photo credit, tiny, vertical on the right edge -->
+  <text transform="translate(1900 640) rotate(90)" font-size="11" letter-spacing="3" fill="#8a8a8a">PHOTO: THE MET, OPEN ACCESS</text>
+
+  <!-- markers -->
+  <g class="mk">
+    <g><circle cx="560" cy="40" r="17"/><text x="560" y="40">1</text></g>
+    <g><circle cx="900" cy="150" r="17"/><text x="900" y="150">2</text></g>
+    <g><circle cx="1110" cy="120" r="17"/><text x="1110" y="120">3</text></g>
+    <g><circle cx="1110" cy="312" r="17"/><text x="1110" y="312">4</text></g>
+    <g><circle cx="510" cy="420" r="17"/><text x="510" y="420">5</text></g>
+    <g><circle cx="530" cy="519" r="17"/><text x="530" y="519">6</text></g>
+    <g><circle cx="530" cy="700" r="17"/><text x="530" y="700">7</text></g>
+    <g><circle cx="1200" cy="760" r="17"/><text x="1200" y="760">8</text></g>
+    <g><circle cx="290" cy="845" r="17"/><text x="290" y="845">9</text></g>
+    <g><circle cx="60" cy="560" r="17"/><text x="60" y="560">10</text></g>
+    <g><circle cx="960" cy="262" r="17"/><text x="960" y="262">11</text></g>
+  </g>
+</svg>
+
+<!-- ================= PHONE 390 x 844 ================= -->
+<svg class="phone" viewBox="0 0 390 844" role="img" aria-label="Phone wireframe">
+  <defs>
+    <pattern id="gritP" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#2c2c2c"/><rect x="1" y="2" width="1" height="1" fill="#3a3a3a"/></pattern>
+    <clipPath id="bustP"><path d="M120 120 C90 200 100 280 140 330 C120 380 110 430 170 470 L420 480 L420 120 Z"/></clipPath>
+  </defs>
+  <rect width="390" height="844" fill="url(#gritP)"/>
+  <g font-size="9" letter-spacing="2" fill="#cfcfcf"><text x="16" y="30">BK WEB STUDIOS | 05</text><text x="374" y="30" text-anchor="end">☰</text></g>
+  <text x="16" y="96" font-size="44" font-weight="200" fill="#e6e6e6">CUSTOM</text>
+  <text x="16" y="140" font-size="44" font-weight="200" fill="#e6e6e6">WEBSITES FOR</text>
+  <g clip-path="url(#bustP)">
+    <rect x="90" y="120" width="330" height="120" fill="#bdbdbd"/><rect x="100" y="244" width="330" height="110" fill="#c9c9c9"/><rect x="86" y="358" width="330" height="130" fill="#b3b3b3"/>
+  </g>
+  <path d="M60 236 L240 228 L400 240 L400 286 L230 296 L60 284 Z" fill="#7a7a7a" stroke="#e8e8e8" stroke-dasharray="6 4"/>
+  <text x="120" y="272" font-size="32" font-style="italic" fill="#f2f2f2">small</text>
+  <text x="374" y="530" text-anchor="end" font-size="46" font-weight="200" fill="#f2f2f2">BUSINESSES</text>
+  <g fill="#8a8a8a"><rect x="16" y="560" width="330" height="8" rx="4"/><rect x="16" y="576" width="350" height="8" rx="4"/><rect x="16" y="592" width="280" height="8" rx="4"/></g>
+  <rect x="16" y="620" width="358" height="50" rx="25" fill="#9a9a9a"/><text x="40" y="651" font-size="15">Book a free call ↗</text>
+  <rect x="16" y="680" width="358" height="50" rx="25" fill="none" stroke="#cfcfcf" stroke-width="2"/><text x="40" y="711" font-size="15" fill="#cfcfcf">See my work ▦</text>
+  <g font-size="10" fill="#cfcfcf" letter-spacing="2"><text x="16" y="770">‹  05 / 05 COLLAGE  ›</text><text x="16" y="790" fill="#8a8a8a" letter-spacing="0">Same site, new look. Try another style.</text></g>
+  <text x="16" y="826" font-size="9" letter-spacing="2" fill="#9a9a9a">SEATTLE · WEBSITES FROM $750</text>
+</svg>
+</div>
+
+<section>
+<h2>Notes</h2>
+<ol class="legend">
+  <li><b class="n">1</b><span><b>Label row</b>, tiny caps with wide tracking like "Portfolio of Plura | 01.Branding": name + "05. Collage" left, nav centre, "Built by Buruk in Seattle" right (in the reference's "Created and Designed by" spot). Hairline under it.</span></li>
+  <li><b class="n">2</b><span><b>Headline, part 1</b>: "CUSTOM WEBSITES / FOR" in giant <i>thin</i> caps (a light geometric sans, like the reference), top-left corner. A torn stone-texture strip runs behind it.</span></li>
+  <li><b class="n">3</b><span><b>The bust</b>: one Met Open Access marble head (pick below), greyscale + grain, huge, running off the top, right and bottom. Cut into 4 torn horizontal strips, each nudged a few px sideways, so it reads as a collage.</span></li>
+  <li><b class="n">4</b><span><b>Ember tape</b> across the eyes: a torn strip of ember paper (the only color on the page) with "small" set in big italic serif. It crosses from the page onto the bust, joining the headline to the image.</span></li>
+  <li><b class="n">5</b><span><b>Description</b>, small body text, as in the reference's PROJECTS slide.</span></li>
+  <li><b class="n">6</b><span><b>Buttons</b>: Book a free call (ember pill) + See my work (outlined, same size and shape). Hover idea for See my work: the contact grid below lights up.</span></li>
+  <li><b class="n">7</b><span><b>Contact grid</b> of your client sites (like their RESEARCH grid): 6 small greyscale tiles, color on hover, the whole grid jumps to Work. No words.</span></li>
+  <li><b class="n">8</b><span><b>Headline, part 2</b>: "BUSINESSES" giant thin caps in the bottom-right corner, laid over the bust's chest (like PART TWO / PACKAGING split across corners).</span></li>
+  <li><b class="n">9</b><span><b>Switcher</b> as a slide pager "‹ 05 / 05 COLLAGE ›", with the shared hint line under it.</span></li>
+  <li><b class="n">10</b><span><b>Vertical text</b> up the left edge: "Seattle · Websites from $750". The photo credit runs down the right edge, tiny.</span></li>
+  <li><b class="n">11</b><span><b>Motion</b>: on load the bust strips slide in from alternating sides and lock into place, then the ember tape slaps on (~1.2s total). Mouse: each strip shifts at its own depth. Scroll: the strips drift apart as the sheet rises.</span></li>
+  <li><b class="n">·</b><span><b>Colors</b>: dune page (dark), bone type, linen/greys in the textures, ember only on the tape, Book button and a few labels. No new colors.</span></li>
+</ol>
+</section>
+
+</div>
+</body>
+</html>

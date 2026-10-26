@@ -193,6 +193,82 @@
   .project:hover .shot img { transform: scale(1.03); }
   .project:hover .arrow { transform: translate(2px, -2px); }
 }
+/* /work only: what Buruk did on the site. Phones: a plain line under the card. Mouse: a dark panel that fades up over
+   the screenshot on hover (sized to the .shot box: same width and 16:10). */
+.details {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgb(var(--ink-rgb));
+  text-wrap: pretty;
+}
+@media (hover: hover) and (pointer: fine) {
+  .project { position: relative; }
+  .details {
+    position: absolute;
+    inset: 0 0 auto;
+    aspect-ratio: 16 / 10;
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(20px, 2vw, 32px);
+    background: linear-gradient(rgb(15 13 12 / 0.35), rgb(15 13 12 / 0.88));
+    color: var(--bone);
+    font-size: clamp(14px, 1vw, 16px);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
+    pointer-events: none;
+  }
+  .project:hover .details, .project:focus-visible .details { opacity: 1; transform: none; }
+}
+/* A pill centred under the project list: "See more" on home, the booking pill on /work. */
+.cta.centerCta { display: flex; width: fit-content; margin: clamp(40px, 5vw, 72px) auto 0; }
+/* "See more": outlined, so the ember pill stays the one for booking. */
+.cta.ghost { background: transparent; color: rgb(var(--ink-rgb)); box-shadow: inset 0 0 0 1px rgb(var(--ink-rgb) / 0.3); }
+
+/* The /work page: no hero, so the sheet clears the always-on header. Then a full-width photo banner with the title
+   centred on it (laid out like the Isaiah Café catering page). */
+.page { padding-top: 64px; }
+.banner {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: 58svh;
+  display: grid;
+  place-items: end center;   /* text on the dark sand, so the figure and sunset stay clear above it */
+  padding: 64px clamp(16px, 3.4vw, 48px) clamp(40px, 6svh, 72px);
+  text-align: center;
+  color: var(--dune);
+}
+/* Photo: "Sunset in White Sands National Monument" (Wikimedia Commons, CC0, no credit required). */
+.banner img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* the cream sand fades into the page, so the dark title sits on it with no wash over the sky */
+  background: linear-gradient(transparent 50%, var(--bone));
+}
+/* On load: the photo settles from a slight zoom, then the title and line rise in. */
+@media (prefers-reduced-motion: no-preference) {
+  .banner img { animation: banner-settle 2.4s var(--ease-out) both; }
+  .bannerTitle, .bannerNote { animation: banner-rise 900ms var(--ease-out) both; }
+  .bannerTitle { animation-delay: 200ms; }
+  .bannerNote { animation-delay: 380ms; }
+}
+@keyframes banner-settle { from { transform: scale(1.08); } }
+@keyframes banner-rise { from { opacity: 0; transform: translateY(20px); } }
+/* The banner already gives the page its top; the list doesn't need a full section's worth of space above it. */
+.section.workPage { padding-top: clamp(48px, 5vw, 80px); border-top: 0; }
+.bannerTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.bannerNote { max-width: 44ch; margin: 20px auto 0; font-size: clamp(15px, 1.3vw, 18px); line-height: 1.5; opacity: 0.9; text-wrap: pretty; }
 
 /* ---------- About ---------- */
 .about {

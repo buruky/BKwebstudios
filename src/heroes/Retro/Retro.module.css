@@ -6,7 +6,10 @@
 .hero {
   --page: var(--accent); /* Sound teal, the site accent: a classic 90s desktop */
   --line: 2px solid var(--dune);
-  --drop: 6px 6px 0 rgb(20 24 27 / 0.45);
+  --drop: 3px 3px 0 var(--dune);       /* System 7: a crisp solid shadow, never a soft one */
+  /* platinum bevel: light edge top-left, dark edge bottom-right, inside the 2px border */
+  --bevel: inset 2px 2px 0 var(--bone), inset -2px -2px 0 rgb(42 47 51 / 0.28);
+  --text: "Schibsted Grotesk", system-ui, sans-serif; /* body copy: a real Mac set prose in a crisp system face */
   --pixel: "Pixelify Sans", ui-monospace, monospace;
   --caps: "Silkscreen", ui-monospace, monospace;
   --digits: "VT323", ui-monospace, monospace; /* Pixelify's 5 and 0 read as S and O */
@@ -19,7 +22,8 @@
   padding: var(--top) 16px var(--bottom);
   display: grid;
   place-items: center;
-  background: var(--page);
+  /* the classic 1-bit desktop pattern: sparse dune pixels on the teal */
+  background: var(--page) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' shape-rendering='crispEdges'%3E%3Crect width='2' height='2' fill='%232a2f33'/%3E%3Crect x='4' y='4' width='2' height='2' fill='%232a2f33'/%3E%3C/svg%3E");
   color: var(--dune);
   font-family: var(--pixel);
   overflow: hidden;
@@ -44,6 +48,7 @@
   height: 38px;
   background: var(--bone);
   border: var(--line);
+  box-shadow: 2px 2px 0 var(--dune);
 }
 .brand { padding-right: 14px; gap: 12px; color: inherit; text-decoration: none; }
 .mark {
@@ -92,11 +97,17 @@
   height: 44px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  /* the pinstripes: dune lines through the middle of the bar; bone gaps are cut around the boxes and the title */
+  background: repeating-linear-gradient(var(--dune) 0 2px, transparent 2px 4px) center / 100% 26px no-repeat;
 }
-.box { width: 16px; height: 16px; border: var(--line); }
-.boxFull { background: var(--dune); }
-.wordmark { margin-left: auto; font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 0.02em; }
+.box { width: 22px; height: 22px; border: var(--line); background: var(--bone); box-shadow: 0 0 0 6px var(--bone); }
+.titlebar > .box:first-child { margin-left: 6px; }
+.titlebar > .box:last-child { margin-right: 6px; }
+/* zoom box: a small box drawn inside the box's top-left corner */
+.zoomBox { position: relative; }
+.zoomBox::after { content: ""; position: absolute; left: 0; top: 0; width: 9px; height: 9px; border-right: 2px solid var(--dune); border-bottom: 2px solid var(--dune); }
+.wordmark { padding-inline: 16px; background: var(--bone); font-weight: 700; font-size: 20px; text-transform: uppercase; letter-spacing: 0.02em; }
 
 /* screen: static canvas behind a dark broadcast card, the strip under it */
 .tv { display: flex; flex-direction: column; min-height: 0; }
@@ -110,24 +121,38 @@
   overflow: hidden;
   background: var(--dune);
 }
-.picture { position: absolute; inset: 0; display: grid; place-items: center; }
-.static {
+.picture { position: absolute; inset: 0; display: grid; place-items: start center; padding-top: 7%; } /* card up in the sky, skyline below */
+/* the picture: a 1-bit dither of downtown Seattle, pixels kept square and chunky */
+.photo, .static {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   image-rendering: pixelated;
-  opacity: 0.55;
-  animation: warm 200ms steps(3, jump-end) 320ms both;
+}
+.photo { object-fit: cover; object-position: 50% 70%; animation: warm 200ms steps(3, jump-end) 320ms both; }
+.static { opacity: 0; } /* only during a channel change */
+/* scanlines and a faint glass sheen over the picture */
+.picture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgb(244 239 232 / 0.12), transparent 40%),
+    repeating-linear-gradient(transparent 0 2px, rgb(42 47 51 / 0.18) 2px 3px);
 }
 /* an old TV warming up: a white line that opens to the full picture */
-@keyframes warm { from { transform: scaleY(0.01); opacity: 1; } to { transform: scaleY(1); opacity: 0.55; } }
+@keyframes warm { from { transform: scaleY(0.01); } to { transform: scaleY(1); } }
 .card {
   position: relative;
   margin: 0;
   width: 84%;
   padding: 0.5em 0.6em;
-  background: rgb(27 30 33 / 0.9);
+  background: var(--dune);
+  outline: 2px solid var(--bone);
+  outline-offset: -8px;
+  box-shadow: 4px 4px 0 rgb(42 47 51 / 0.6);
   color: var(--bone);
   font-weight: 700;
   font-size: calc(var(--w) * 0.044);
@@ -178,26 +203,34 @@
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: clamp(16px, 2.4svh, 28px);
   border: var(--line);
+  background: var(--linen);
+  box-shadow: var(--bevel);
   overflow: hidden;
 }
-/* the channel number, like an old TV's display */
+/* the channel number in a small inset LCD, like an old TV's display */
 .lcd {
+  align-self: flex-start;
+  padding: 2px 14px 0;
   font-family: var(--digits);
-  font-size: clamp(72px, calc(var(--w) * 0.09), 160px);
-  line-height: 0.9;
+  font-size: clamp(48px, calc(var(--w) * 0.042), 76px);
+  line-height: 1;
   color: var(--ember);
+  background: var(--dune);
+  border: var(--line);
+  box-shadow: inset 2px 2px 0 rgb(0 0 0 / 0.35);
 }
 .desc {
   margin: 0;
-  font-size: clamp(16px, calc(var(--w) * 0.0132), 23px);
-  line-height: 1.5;
+  font-family: var(--text);
+  font-size: clamp(16px, calc(var(--w) * 0.0128), 23px);
+  line-height: 1.55;
 }
 
 /* transport keys + channel selector */
-.keys, .channel { display: flex; gap: 10px; padding: 12px; border: var(--line); }
+.keys, .channel { display: flex; gap: 14px; padding: 14px; border: var(--line); background: var(--linen); box-shadow: var(--bevel); }
 .keys { flex-direction: column; }
 .key {
   height: 60px;
@@ -207,7 +240,7 @@
   justify-content: center;
   gap: 12px;
   border: var(--line);
-  box-shadow: 3px 3px 0 var(--dune);
+  border-radius: 10px;
   font-family: var(--pixel);
   font-weight: 700;
   font-size: 19px;
@@ -217,13 +250,21 @@
   white-space: nowrap;
   transition: none;
 }
-.book { background: var(--ember); color: var(--dune); } /* dark text: bone on Ember fails contrast */
+.book {
+  background: var(--ember);
+  color: var(--dune); /* dark text: bone on Ember fails contrast */
+  /* the System 7 default-button ring: a thick outline around the main button */
+  box-shadow: 0 0 0 3px var(--linen), 0 0 0 6px var(--dune);
+  margin: 4px;
+}
 .book :global(.pill-icon) { display: none; }
 .book::before { content: ""; border-left: 10px solid currentColor; border-block: 7px solid transparent; }
-.key:active { transform: translate(3px, 3px); box-shadow: none; }
+/* pressed = inverted, like a real Mac button */
+.key:active { background: var(--dune); color: var(--bone); }
+.book:active { color: var(--ember); }
 @media (hover: hover) {
-  .key:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--dune); }
-  .book:hover { background: var(--dune); color: var(--ember); }
+  .key:hover { background: var(--dune); color: var(--bone); }
+  .book:hover { color: var(--ember); }
   .work:hover .lid { transform: translateY(-3px); }
 }
 .folder { width: 18px; height: 16px; flex: none; }
@@ -266,8 +307,10 @@
   justify-content: space-between;
   gap: 12px;
   border: var(--line);
-  background: var(--linen);
-  font-size: 15px;
+  background: var(--bone);
+  box-shadow: inset 2px 2px 0 rgb(42 47 51 / 0.18);
+  font-family: var(--text);
+  font-size: 14px;
 }
 .meter { display: flex; gap: 3px; }
 .meter i { width: 4px; height: 14px; background: var(--ember); }
@@ -287,8 +330,9 @@
 }
 @keyframes dock-up { from { transform: translateY(32px); visibility: hidden; } }
 .dock a {
-  width: 100px;
-  height: 88px;
+  width: 92px;
+  height: 76px;
+  box-shadow: var(--bevel);
   display: grid;
   place-items: center;
   align-content: center;
@@ -299,7 +343,7 @@
 }
 .dock a + a { border-left: var(--line); }
 .dock a:hover { background: var(--dune); color: var(--bone); }
-.icon { width: 28px; height: 28px; }
+.icon { width: 24px; height: 24px; }
 
 /* ---------- narrower screens: the panel moves under the screen ---------- */
 @media (max-width: 1100px) {
@@ -330,9 +374,9 @@
   .strip { font-size: 11px; height: 24px; }
   .tiny { width: 14px; height: 14px; }
   .desc { padding: 12px 16px; font-size: 15px; }
-  .keys { flex-direction: column; padding: 0; border: 0; }
-  .key { height: 48px; font-size: 16px; }
-  .channel { height: auto; padding: 0; border: 0; }
+  .keys { flex-direction: column; padding: 0; border: 0; background: none; box-shadow: none; }
+  .key { flex: none; height: 48px; font-size: 16px; } /* flex: none, or the row layout's flex: 1 collapses them in a column */
+  .channel { height: auto; padding: 0; border: 0; background: none; box-shadow: none; }
   .step { height: 40px; }
   .status { font-size: 12px; }
   .meter { display: none; }

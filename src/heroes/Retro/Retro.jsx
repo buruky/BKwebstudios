@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import PillButton from "../../components/PillButton.jsx";
+import skyline from "../../../assets/page4/page4Assets/web/skyline-1bit.png";
 import s from "./Retro.module.css";
 
 // RETRO (hero 4): a classic Mac OS player window on a pale page, after the user's Poolsuite reference.
-// The screen plays TV static behind the title; switching style is "changing the channel" (a burst of static first).
+// The screen shows a 1-bit MacPaint-style dither of downtown Seattle behind the title; switching style is "changing
+// the channel" (a burst of TV static first).
 
 const BURST_MS = 260;
 
@@ -59,15 +61,18 @@ export default function Retro({ content, heroes, active, onSelect }) {
       </header>
 
       <div className={s.window}>
+        {/* System 7 title bar: pinstripes, close box left, the title centred on a gap in the stripes, zoom box right */}
         <div className={s.titlebar} aria-hidden="true">
-          <span className={s.box} /><span className={`${s.box} ${s.boxFull}`} />
+          <span className={s.box} />
           <span className={s.wordmark}>{content.name}</span>
+          <span className={`${s.box} ${s.zoomBox}`} />
         </div>
 
         <div className={s.tv}>
           <div className={`${s.screen} ${burst ? s.burst : ""}`}>
             {/* the picture: switches off like an old CRT as you scroll away */}
             <div className={s.picture}>
+              <img className={s.photo} src={skyline} alt="" width="360" height="207" />
               <canvas ref={canvas} className={s.static} width="240" height="124" aria-hidden="true" />
               <h1 id="retro-title" className={s.card}>
                 {content.titleLead} <em>{content.titleKey}</em> {content.titleTail}

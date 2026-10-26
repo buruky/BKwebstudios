@@ -8,6 +8,7 @@ export const content = {
     "We create websites for small businesses, churches, and community groups. From design to launch, we handle the details so you can focus on your work.",
   primary: { label: "Book a free call", href: "https://cal.com/buruk-yimesgen-xvoxel/bk-webstudios" },
   secondary: { label: "See my work", href: "#work" },
+  allWork: "See more", // home Work section button to the /work page
   price: "Seattle · Websites from $750",
   builtBy: "Built by Buruk in Seattle", // every hero shows it, each in its own spot
   switcherHint: "Same site, new look. Try another style.", // DRAFT: next to every hero's style switcher
@@ -39,14 +40,24 @@ export const content = {
     book: "Pick a time that works for you. It's a free 15‑minute phone call.",
     faq: "Quick answers to what most owners ask first.",    contact: "Prefer to write? Email, call or message me directly.",
   },
+  // `line` describes the business (both pages). `details` is what Buruk did, shown on the /work page only: on hover
+  // over the screenshot, or under the card on phones.
   work: [
     { name: "Always with Compassion", type: "Adult family home", img: "always-with-compassion", href: "https://alwayswithcompassion.com/",
-      line: "A small adult family home where quality care and real connection come first." }, // DRAFT wording
-    { name: "Simret Consulting & Coaching", type: "Coaching and counseling", img: "simret", href: "https://simretcc.com/",
-      line: "Dr. Kebreab Hailegiorgis coaches individuals, couples, and premarital pairs toward real connection." }, // DRAFT wording
+      line: "A small adult family home where quality care and real connection come first.", // DRAFT wording
+      details: "Designed and built from scratch: photo galleries of the suites, living spaces and backyard, a map, and a Schedule a Visit button up front." }, // DRAFT
     // shortcut: temporary GitHub Pages link, swap for the real domain once Blue Touch launches.
     { name: "Blue Touch AFH", type: "Adult family homes", img: "blue-touch", href: "https://buruky.github.io/BlueTouchAFH/",
-      line: "Two licensed adult family homes in Everett's Silver Lake neighborhood, offering 24/7 personalized senior care." },
+      line: "Two licensed adult family homes in Everett's Silver Lake neighborhood, offering 24/7 personalized senior care.",
+      details: "Designed and built from scratch around the homes' real photos: a page for each home with its own gallery, plus amenities, FAQ, and one-tap call and tour buttons." }, // DRAFT
+    // Isaiah: not built by Buruk, took it over after launch. `details` claims only what he did, never "designed/built".
+    { name: "Isaiah Café", type: "Café and catering", img: "isaiah-cafe", href: "https://www.isaiahcafe.com/",
+      line: "A community café in Calgary serving Ethiopian Aggüdo coffee, fresh bakery, breakfast, and full-service catering.", // DRAFT wording
+      details: "I'm this café's developer. I took over the site, moved its hosting, locked down its security, and added Square online ordering." }, // DRAFT
+    // Home shows the first 3; everything after is on the /work page only.
+    { name: "Simret Consulting & Coaching", type: "Coaching and counseling", img: "simret", href: "https://simretcc.com/",
+      line: "Dr. Kebreab Hailegiorgis coaches individuals, couples, and premarital pairs toward real connection.", // DRAFT wording
+      details: "Designed and built from scratch, with online booking and payments built right into the page, so clients book and pay for sessions in one step." }, // DRAFT
   ],
   about: {
     title: "About",

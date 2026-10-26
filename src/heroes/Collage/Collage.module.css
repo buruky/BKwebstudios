@@ -1,0 +1,307 @@
+/* COLLAGE (hero 5): a dark portfolio-deck slide, turned up to a layered collage (after the user's Plura reference).
+   Dune page with grit; a huge greyscale marble head torn into strips (fluid tears with a pale paper rim), running off
+   the right edge; the eye strip printed in ember and knocked out of line, "small" across it; giant thin caps split
+   across two corners; tiny tracked labels, vertical text, a contact grid of client sites. */
+
+.hero {
+  --thin: "Jost", system-ui, sans-serif;
+  --serif: "Instrument Serif", Georgia, serif;
+  --gutter: clamp(16px, 2.5vw, 48px);
+  --bh: 140svh;                      /* the bust's height: it runs off the top and bottom */
+  --bw: calc(var(--bh) * 0.643);     /* its width (the cutout is 1286 x 2000) */
+  --col: min(33vw, 640px);           /* the left column */
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--dune);
+  color: var(--bone);
+  font-family: var(--thin);
+}
+/* grit over everything, like the reference's photocopied textures */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.hero :focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+
+/* ---------- label row: tiny caps, wide tracking ---------- */
+.top {
+  position: absolute;
+  inset: 26px var(--gutter) auto;
+  z-index: 4;
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgb(244 239 232 / 0.22);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  mix-blend-mode: difference;
+}
+.top a { color: inherit; text-decoration: none; }
+.brand { white-space: nowrap; }
+.sep { margin: 0 0.9em; opacity: 0.5; }
+.nav { display: flex; gap: clamp(16px, 2vw, 36px); margin: 0 auto; }
+.nav a { opacity: 0.7; transition: opacity 200ms; }
+.built { white-space: nowrap; }
+@media (hover: hover) and (pointer: fine) { .nav a:hover { opacity: 1; } }
+
+/* ---------- the torn stone strip behind the headline ---------- */
+.stone {
+  position: absolute;
+  z-index: 0;
+  top: calc(28px + clamp(80px, 11vw, 190px));
+  left: 0;
+  width: 56vw;
+  height: clamp(60px, 6.5vw, 120px);
+}
+.stoneRim, .stonePaper { position: absolute; inset: 0; }
+.stoneRim { background: var(--bone); opacity: 0.8; }
+/* opaque so the rim doesn't show through; dimmed so the cream type on it reads */
+.stonePaper { background-size: cover; background-position: center; filter: brightness(0.6); }
+
+/* ---------- headline: split across two corners ---------- */
+.title { margin: 0; font-weight: 200; }
+.lead, .tail {
+  position: absolute;
+  z-index: 3;
+  text-transform: uppercase;
+  line-height: 0.9;
+  white-space: nowrap;
+}
+.lead {
+  top: 96px;
+  left: calc(var(--gutter) - 0.04em);
+  font-size: clamp(56px, 7.6vw, 156px);
+  letter-spacing: 0.01em;
+}
+.for { display: block; margin-top: 0.12em; font-size: 0.4em; font-weight: 300; letter-spacing: 0.3em; }
+.tail {
+  right: var(--gutter);
+  bottom: 18px;
+  font-size: clamp(64px, 9.6vw, 196px);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- the bust: 4 torn strips of the same cutout ---------- */
+.stage {
+  position: absolute;
+  z-index: 1;
+  top: -16svh;
+  right: 1vw;
+  height: var(--bh);
+  width: var(--bw);
+}
+.layer, .strip, .rim { position: absolute; inset: 0; display: block; }
+/* The head fades into the page above the brow and below the nose, right where the label row, CUSTOM WEBSITES and
+   BUSINESSES cross it, so the solid cream type reads; the face between stays full strength. (On the strips only: a mask
+   on .stage would also crop the key word, which runs out past the bust.) */
+.layer { mask-image: linear-gradient(transparent 12%, rgb(0 0 0 / 0.35) 24%, #000 36%, #000 64%, rgb(0 0 0 / 0.3) 80%, rgb(0 0 0 / 0.15)); }
+.strip, .rim {
+  transform: translate(calc(var(--x) + var(--mx, 0) * var(--depth) * 1px), calc(var(--my, 0) * var(--depth) * 0.6px));
+  transition: transform 500ms var(--ease-out);
+}
+.strip img { display: block; width: 100%; height: 100%; }
+/* paper rim: bone, only where the head is (masked to the cutout), so the tear shows a pale fibrous edge on the marble */
+.rim { background: var(--bone); mask: var(--bust) center / 100% 100% no-repeat; opacity: 0.85; }
+
+/* The eye strip, printed in ember: the colour is multiplied onto the marble, masked to the head's own outline, so the
+   carving shows through like a risograph pass and the page around the head stays dune. The ink lands after the strips. */
+.print::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ember);
+  mix-blend-mode: multiply;
+  mask: var(--bust) center / 100% 100% no-repeat;
+}
+.print img { filter: contrast(1.15) brightness(1.08); }
+
+/* "small": big cream italic, straddling the page and the ember strip; starts just right of the left column */
+.key {
+  position: absolute;
+  z-index: 2;
+  top: 41%;
+  left: calc(var(--bw) - 59vw);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(64px, 8.4vw, 168px);
+  line-height: 1;
+  color: var(--bone);
+  text-transform: none;
+}
+
+/* ---------- left column: description, buttons, contact grid ---------- */
+.body {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  top: clamp(330px, 41svh, 420px);
+  width: var(--col);
+}
+.desc { margin: 0; font-size: 15px; line-height: 1.65; color: rgb(244 239 232 / 0.75); text-wrap: pretty; }
+.actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+.book, .work {
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-family: var(--thin);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 160ms var(--ease-out), background-color 200ms, color 200ms;
+}
+.book:active, .work:active { transform: scale(0.97); }
+.book { gap: 16px; padding: 6px 6px 6px 24px; background: var(--ember); color: var(--dune); }
+.book :global(.pill-icon) {
+  height: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bone);
+  transition: transform 260ms var(--ease-out);
+}
+.work { gap: 12px; padding: 0 22px 0 24px; color: var(--bone); box-shadow: inset 0 0 0 1px rgb(244 239 232 / 0.5); }
+@media (hover: hover) and (pointer: fine) {
+  .book:hover :global(.pill-icon) { transform: translate(2px, -2px) scale(1.05); }
+  .work:hover { background: var(--bone); color: var(--dune); }
+}
+
+/* contact grid, greyscale like the deck's RESEARCH page; colour comes up on hover (or when See my work is hovered) */
+.sheet {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  margin-top: clamp(28px, 4svh, 44px);
+}
+.sheet img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(1) contrast(1.1);
+  opacity: 0.55;
+  transition: filter 400ms var(--ease-out), opacity 400ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .sheet:hover img, .body:has(.work:hover) .sheet img { filter: none; opacity: 1; }
+}
+
+/* ---------- switcher: a slide pager ---------- */
+.pager {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  bottom: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.pager button {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgb(244 239 232 / 0.4);
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  font: 300 20px/1 var(--thin);
+  cursor: pointer;
+  transition: background-color 200ms, color 200ms;
+}
+.pager button:active { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) { .pager button:hover { background: var(--bone); color: var(--dune); } }
+.count { font-variant-numeric: tabular-nums; }
+.styleName { color: var(--ember); }
+.hint { flex-basis: 100%; margin: 6px 0 0; font-size: 13px; font-weight: 300; letter-spacing: 0.02em; text-transform: none; opacity: 0.6; }
+
+/* ---------- vertical text on both edges ---------- */
+.price, .credit {
+  position: absolute;
+  z-index: 4;
+  margin: 0;
+  writing-mode: vertical-rl;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.price { left: max(4px, calc(var(--gutter) / 2 - 7px)); top: 50%; translate: 0 -50%; rotate: 180deg; opacity: 0.7; }
+.credit { right: 8px; top: 50%; translate: 0 -50%; opacity: 0.45; mix-blend-mode: difference; }
+
+/* ---------- load: strips slide in from alternate sides and lock, the ember ink lands, the type rises ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .layer { animation: strip-in 1s var(--ease-out) both; animation-delay: calc(80ms + var(--i) * 90ms); }
+  .print::after { animation: ink 700ms var(--ease-out) 750ms both; }
+  .key { animation: rise 800ms var(--ease-out) 900ms both; }
+  .lead, .tail, .top, .body, .pager, .price, .stone { animation: rise 800ms var(--ease-out) both; }
+  .stone { animation-delay: 150ms; }
+  .lead { animation-delay: 250ms; }
+  .tail { animation-delay: 420ms; }
+  .body { animation-delay: 700ms; }
+  .top, .pager, .price { animation-delay: 850ms; }
+}
+@keyframes strip-in { from { translate: calc(var(--drift) * -7vw) 0; opacity: 0; } }
+@keyframes ink { from { opacity: 0; } }
+@keyframes rise { from { opacity: 0; translate: 0 18px; } }
+
+/* ---------- into the site: the hero pins and the strips drift apart as the sheet rises over it ---------- */
+@media (min-width: 721px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  .hero { position: sticky; top: 0; }
+  @supports (animation-timeline: scroll()) {
+    .stage { animation: drift-apart linear both; animation-timeline: scroll(root); animation-range: 0 90svh; }
+    .layer {
+      animation: strip-in 1s var(--ease-out) both, part linear both;
+      animation-delay: calc(80ms + var(--i) * 90ms), 0s;
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 0 90svh;
+    }
+  }
+}
+@keyframes part { to { transform: translateX(calc(var(--drift) * 6vw)); } }
+@keyframes drift-apart { to { transform: translateY(-6svh); } }
+
+/* ---------- phone and narrow: one column, the bust in the flow ---------- */
+@media (max-width: 720px) {
+  .hero { display: flex; flex-direction: column; gap: 22px; padding: 20px 16px 24px; }
+  .top, .lead, .tail, .stage, .body, .pager, .price, .credit { position: relative; inset: auto; top: auto; right: auto; bottom: auto; left: auto; translate: none; rotate: none; }
+  .top { gap: 12px; font-size: 10px; letter-spacing: 0.22em; }
+  .nav, .built { display: none; }
+  .stone { top: 64px; width: 92vw; height: 64px; }
+  .title { display: flex; flex-direction: column; }
+  .lead { font-size: 11vw; }
+  .stage { align-self: flex-end; width: 78vw; height: auto; aspect-ratio: 1286 / 2000; margin: -4px -12vw -14vw 0; }
+  .layer { mask-image: linear-gradient(#000 66%, rgb(0 0 0 / 0.3) 84%, rgb(0 0 0 / 0.15)); } /* bottom fade only, under BUSINESSES */
+  .key { left: -22vw; font-size: 15vw; }
+  .tail { align-self: flex-end; font-size: 14vw; }
+  .body { width: auto; }
+  .actions > * { flex: 1; justify-content: space-between; }
+  .pager { margin-top: 4px; }
+  .price { writing-mode: horizontal-tb; font-size: 10px; letter-spacing: 0.22em; opacity: 0.6; }
+  .credit { writing-mode: horizontal-tb; align-self: flex-end; margin-top: -14px; font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip, .rim, .book, .work, .sheet img { transition: none; }
+}

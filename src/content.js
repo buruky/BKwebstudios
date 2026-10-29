@@ -60,7 +60,7 @@ export const content = {
       details: "Designed and built from scratch, with online booking and payments built right into the page, so clients book and pay for sessions in one step." }, // DRAFT
     { name: "Galilee Adult Family Home", type: "Adult family home", img: "galilee", href: "https://galileeafh.net/",
       line: "A small adult family home in Mountlake Terrace offering memory, hospice, mental health and respite care with caregivers on site 24/7.", // DRAFT wording
-      details: "Designed and built from scratch: a page for each level of care, a room-by-room photo tour, FAQ, a map, and Schedule a Tour and call buttons up front." }, // DRAFT
+      details: "Designed and built from scratch: a page for each level of care, a room-by-room photo tour, a live Google reviews feed, and Schedule a Tour and call buttons up front." }, // DRAFT
   ],
   about: {
     title: "About",

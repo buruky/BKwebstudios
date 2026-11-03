@@ -92,7 +92,7 @@ export default function Flash({ content, heroes, active, onSelect }) {
                   <span className={s.peek} aria-hidden="true">
                     {content.work.slice(0, 3).map((w, i) => (
                       <span key={w.name} className={s.card} style={{ "--i": i - 1 }}>
-                        <img src={shots[w.img]} alt="" loading="lazy" />
+                        <img src={shots[w.img]} alt="" width="960" height="600" loading="lazy" />
                       </span>
                     ))}
                   </span>

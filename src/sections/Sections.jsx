@@ -9,9 +9,9 @@ export const shots =Object.fromEntries(
     .map(([path, url]) => [path.split("/").pop().replace(".webp", ""), url]),
 );
 
-// Work, About, Pricing, Process, Book, FAQ, Contact + footer. One look under every hero (see sections-brief.md).
+// Work, About | Process, Pricing | Book, FAQ, closing line + contact, then the footer. One look under every hero (see sections-brief.md).
 export default function Sections({ content }) {
-  const notes = content.sectionNotes;
+  const { sectionNotes: notes, bridges } = content;
   const { work, about, pricing, process, faq, contact } = content;
   const navLabel = (href) => content.nav.find((n) => n.href === href).label;
 
@@ -28,85 +28,109 @@ export default function Sections({ content }) {
 
   return (
     <div ref={sheetRef} className={s.sheet}>
-      <Section id="work" note={notes.work} index={1} title={navLabel("#work")}>
-        <WorkList work={work.slice(0, 3)} />
-        <PillButton className={`${s.cta} ${s.centerCta} ${s.ghost}`} href="./work/">{content.allWork}</PillButton>
-      </Section>
+      {/* Three chapters, one background each: Proof (cream), The offer (sand), Let's talk (night). Sections inside a
+          chapter sit closer and share a hairline; the big gaps and the colour changes only come between chapters. */}
+      <div className={s.chapter}>
+        <Section id="work" note={notes.work} title={navLabel("#work")} bridge={bridges.work}>
+          <WorkList work={work.slice(0, 3)} />
+          <PillButton className={`${s.cta} ${s.centerCta} ${s.ghost}`} href="./work/">{content.allWork}</PillButton>
+        </Section>
 
-      <Section id="about" tone="teal" note={notes.about} index={2} title={about.title}>
-        <div className={s.about}>
-          <div className={`${s.aboutText} ${s.r}`}>
-            {about.lines.map((l) => <p key={l}>{l}</p>)}
-          </div>
-          <ul className={`${s.facts} ${s.r}`} style={{ "--i": 1 }}>
-            {about.facts.map((f) => <li key={f}>{f}</li>)}
-          </ul>
-        </div>
-      </Section>
-
-      <Section id="pricing" note={notes.pricing} index={3} title={navLabel("#pricing")}>
-        <div className={s.pricing}>
-          {[...pricing.tiers, pricing.custom].map((t, i) => (
-            <div key={t.name} className={`${s.tier} ${i === 1 ? s.featured : ""} ${s.r}`} style={{ "--i": i }}>
-              <h3 className={s.tierName}>{t.name}</h3>
-              <p className={s.price}>{t.price}</p>
-              <ul className={s.items}>
-                {t.items.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-              <PillButton className={`${s.cta} ${s.small}`} href={content.primary.href} note={`Interested in: ${t.name} (${t.price})`}>
-                {t.cta}
-              </PillButton>
+        <Section id="about" note={notes.about} title={about.title} bridge={bridges.about}>
+          <div className={s.about}>
+            <div className={`${s.aboutText} ${s.r}`}>
+              {about.lines.map((l) => <p key={l}>{l}</p>)}
             </div>
-          ))}
-          <div className={`${s.extra} ${s.wide} ${s.r}`} style={{ "--i": 3 }}>
-            <h3 className={s.tierName}>{pricing.care.name}</h3>
-            <p className={s.extraPrice}>{pricing.care.price}</p>
-            <p className={s.line}>{pricing.care.line}</p>
+            <ul className={`${s.facts} ${s.r}`} style={{ "--i": 1 }}>
+              {about.facts.map((f) => <li key={f}>{f}</li>)}
+            </ul>
           </div>
-          <ul className={`${s.terms} ${s.r}`} style={{ "--i": 4 }}>
-            {pricing.terms.map((t) => <li key={t}>{t}</li>)}
-          </ul>
+        </Section>
+      </div>
+
+      {/* The seam into The offer: the sand rises in a soft arch, and a round stamp sits on the curve, turning a little
+          as you scroll past. Decorative (the same facts are in About and the footer), so screen readers skip it. */}
+      <div className={s.seam} aria-hidden="true">
+        <svg className={s.arch} viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path d="M0 120V84C240 28 480 6 720 6s480 22 720 78v36z" />
+        </svg>
+        <div className={s.stamp}>
+          <svg viewBox="0 0 160 160">
+            <defs><path id="stamp-ring" d="M80 80m-58 0a58 58 0 1 1 116 0a58 58 0 1 1-116 0" /></defs>
+            <text><textPath href="#stamp-ring" textLength="356" lengthAdjust="spacing">{content.stamp}</textPath></text>
+          </svg>
+          <span className={s.stampMark}>bk</span>
         </div>
-      </Section>
+      </div>
 
-      <Section id="process" tone="sand" note={notes.process} index={4} title={navLabel("#process")} aside={process.timeline}>
-        <ol className={s.steps}>
-          {process.steps.map((step, i) => (
-            <li key={step.name} className={`${s.step} ${s.r}`} style={{ "--i": i }}>
-              <span className={s.stepNum} aria-hidden="true">{i + 1}</span>
-              <h3 className={s.stepName}>{step.name}</h3>
-              <p className={s.line}>{step.line}</p>
-            </li>
-          ))}
-        </ol>
-      </Section>
+      <div className={`${s.chapter} ${s.sand}`}>
+        <Section id="process" note={notes.process} title={navLabel("#process")} aside={process.timeline} bridge={bridges.process}>
+          <ol className={s.steps}>
+            {process.steps.map((step, i) => (
+              <li key={step.name} className={`${s.step} ${s.r}`} style={{ "--i": i }}>
+                <span className={s.stepNum} aria-hidden="true">{i + 1}</span>
+                <h3 className={s.stepName}>{step.name}</h3>
+                <p className={s.line}>{step.line}</p>
+              </li>
+            ))}
+          </ol>
+        </Section>
 
-      <Section id="book" tone="stripes" note={notes.book} index={5} title={content.primary.label} aside={content.bookTag} asideClass={s.calTag}>
-        <div ref={calRef} className={`${s.cal} ${s.r}`} />
-      </Section>
-
-      <Section id="faq" tone="night" note={notes.faq} index={6} title={faq.title}>
-        <div className={s.faq}>
-          {faq.items.map((f, i) => (
-            <details key={f.q} className={`${s.qa} ${s.r}`} style={{ "--i": Math.min(i, 4) }}>
-              <summary>{f.q}</summary>
-              <p className={s.line}>{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="contact" tone="dots" note={notes.contact} index={7} title={navLabel("#contact")}>
-        <div className={s.contact}>
-          <p className={`${s.closing} ${s.r}`}>{contact.closing}</p>
-          <div className={`${s.reach} ${s.r}`} style={{ "--i": 2 }}>
-            <PillButton className={s.cta} href={content.primary.href}>{content.primary.label}</PillButton>
-            <a className={s.email} href={`mailto:${contact.email}`}>{contact.email}</a>
-            <a className={s.email} href={`tel:+1${contact.phone.replace(/\D/g, "")}`}>{contact.phone}</a>
-            <a className={s.email} href={contact.messenger.href} target="_blank" rel="noopener">{contact.messenger.label}</a>
+        <Section id="pricing" note={notes.pricing} title={navLabel("#pricing")} bridge={bridges.pricing}>
+          <div className={s.pricing}>
+            {[...pricing.tiers, pricing.custom].map((t, i) => (
+              <div key={t.name} className={`${s.tier} ${i === 1 ? s.featured : ""} ${s.r}`} style={{ "--i": i }}>
+                <h3 className={s.tierName}>{t.name}</h3>
+                <p className={s.price}>{t.price}</p>
+                <ul className={s.items}>
+                  {t.items.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+                <PillButton className={`${s.cta} ${s.small}`} href={content.primary.href} note={`Interested in: ${t.name} (${t.price})`}>
+                  {t.cta}
+                </PillButton>
+              </div>
+            ))}
+            <div className={`${s.extra} ${s.wide} ${s.r}`} style={{ "--i": 3 }}>
+              <h3 className={s.tierName}>{pricing.care.name}</h3>
+              <p className={s.extraPrice}>{pricing.care.price}</p>
+              <p className={s.line}>{pricing.care.line}</p>
+            </div>
+            <ul className={`${s.terms} ${s.r}`} style={{ "--i": 4 }}>
+              {pricing.terms.map((t) => <li key={t}>{t}</li>)}
+            </ul>
           </div>
-        </div>
-      </Section>
+        </Section>
+      </div>
+
+      <div className={`${s.chapter} ${s.night}`}>
+        <Section id="book" note={notes.book} title={content.primary.label} aside={content.bookTag} asideClass={s.calTag} bridge={bridges.book}>
+          <div ref={calRef} className={`${s.cal} ${s.r}`} />
+        </Section>
+
+        <Section id="faq" note={notes.faq} title={faq.title}>
+          <div className={s.faq}>
+            {faq.items.map((f, i) => (
+              <details key={f.q} className={`${s.qa} ${s.r}`} style={{ "--i": Math.min(i, 4) }}>
+                <summary>{f.q}</summary>
+                <p className={s.line}>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </Section>
+
+        {/* The page's last big words, with email, phone and Messenger beside them. */}
+        <section id="contact" className={s.section} aria-labelledby="contact-title">
+          <div className={s.finale}>
+            <h2 id="contact-title" className={`${s.closing} ${s.r}`}>{contact.closing}</h2>
+            <div className={`${s.reach} ${s.r}`} style={{ "--i": 1 }}>
+              <p className={s.reachLine}>{notes.contact}</p>
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              <a href={`tel:+1${contact.phone.replace(/\D/g, "")}`}>{contact.phone}</a>
+              <a href={contact.messenger.href} target="_blank" rel="noopener">{contact.messenger.label}</a>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <Footer content={content} />
     </div>
@@ -173,16 +197,24 @@ export function Footer({ content, home = "#top" }) {
   );
 }
 
-export function Section({ id, index, title, note, aside, asideClass = "", tone, children }) {
+// `bridge`: { text, to } — a one-line link at the end of the section that leads into the next one.
+export function Section({ id, title, note, aside, asideClass = "", bridge, children }) {
   return (
-    <section id={id} className={`${s.section} ${tone ? `${s.tone} ${s[tone]}` : ""}`} aria-labelledby={`${id}-title`}>
+    <section id={id} className={s.section} aria-labelledby={`${id}-title`}>
       <header className={s.head}>
-        <span className={s.index} aria-hidden="true">{String(index).padStart(2, "0")}</span>
         <h2 id={`${id}-title`} className={s.title}>{title}</h2>
         {note && <p className={s.note}>{note}</p>}
         {aside && <span className={`${s.aside} ${asideClass}`}>{aside}</span>}
       </header>
       {children}
+      {bridge && (
+        <a className={`${s.bridge} ${s.r}`} href={bridge.to}>
+          {bridge.text}
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+            <path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" />
+          </svg>
+        </a>
+      )}
     </section>
   );
 }

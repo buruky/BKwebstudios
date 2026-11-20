@@ -1,4 +1,4 @@
-/* Sections under the hero: cream page, thin index numbers, hairline rules. Same look under every hero. */
+/* Sections under the hero: three chapters (cream, sand, night), hairline rules, no section numbers. Same look under every hero. */
 
 /* The sheet rises over the pinned hero. Each hero gives it its own edge (see the hero's "into the site" block). */
 .sheet {
@@ -60,53 +60,135 @@
   .sheet[data-animate] .r { transform: none; } /* fade only */
 }
 
+/* ---------- chapters: Proof (cream) | The offer (sand) | Let's talk (night) ----------
+   Rhythm: short gap + hairline between the two sections inside a chapter, a long gap where the colour changes. */
+.chapter { color: rgb(var(--ink-rgb)); }
+.sand { background: #e9dccb; }
+/* The night of the hero photo, bone type. */
+.night { --ink-rgb: 244 239 232; background: #1d1a18; }
+.night .qa summary::after, .night .bridge svg { color: #7fb0bd; }  /* teal lifted to read on the dark */
+
+/* Night is a sheet that rises over the sand with rounded shoulders (the same move as the heroes' sheet), and its
+   rounded bottom corners show the bone footer behind. The sand runs on under the shoulders. */
+.chapter.night {
+  --round: clamp(28px, 4vw, 56px);
+  position: relative;
+  margin-top: calc(var(--round) * -1);
+  border-radius: var(--round);
+}
+.chapter.sand { padding-bottom: clamp(28px, 4vw, 56px); }
+
+/* ---------- the seam between Proof and The offer ----------
+   The sand rises in a soft arch out of the cream, and a round teal stamp sits on the curve. The stamp turns a little
+   as it scrolls past (a scroll-driven tilt, not an endless spin); without motion it just sits there, tilted. */
+.seam {
+  position: relative;
+  z-index: 2;   /* the stamp hangs down over the sand chapter below */
+  margin-bottom: -1px;   /* tuck the arch 1px into the sand. No background of its own (the sheet's cream shows above
+                            the curve), so the arch's soft bottom edge blends into sand, not into a cream hairline. */
+}
+.arch {
+  display: block;
+  width: 100%;
+  height: clamp(48px, 7vw, 110px);
+  fill: #e9dccb;
+}
+.stamp {
+  --size: clamp(108px, 11vw, 164px);
+  position: absolute;
+  right: clamp(20px, 9vw, 160px);
+  bottom: calc(var(--size) * -0.35);
+  width: var(--size);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bone);
+  box-shadow: 0 14px 30px -16px rgb(29 26 24 / 0.6);
+  transform: rotate(-12deg);
+}
+.stamp svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stamp text {
+  fill: currentColor;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+/* The middle: the studio's "bk" mark on an ember disc. */
+.stampMark {
+  width: 38%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ember);
+  color: var(--dune);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(16px, 1.6vw, 24px);
+  letter-spacing: -0.03em;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stamp {
+      animation: stamp-turn linear both;
+      animation-timeline: view();
+    }
+  }
+}
+@keyframes stamp-turn {
+  from { transform: rotate(-60deg); }
+  to { transform: rotate(30deg); }
+}
+
 .section {
+  --side: clamp(16px, 3.4vw, 48px);
+  position: relative;
   scroll-margin-top: 0;
-  padding: clamp(64px, 9vw, 120px) clamp(16px, 3.4vw, 48px);
-  border-top: 1px solid rgb(var(--ink-rgb) / 0.18);
+  padding: clamp(40px, 5vw, 72px) var(--side);
   color: rgb(var(--ink-rgb));
 }
-.section:first-child { border-top: 0; }
+.section:first-child { padding-top: clamp(72px, 9vw, 128px); }
+.section:last-child { padding-bottom: clamp(72px, 9vw, 128px); }
+/* Hairline between sections of one chapter, inset to the content edges. */
+.section + .section::before {
+  content: "";
+  position: absolute;
+  inset: 0 var(--side) auto;
+  height: 1px;
+  background: rgb(var(--ink-rgb) / 0.18);
+}
 
-/* ---------- section tones: Work and Pricing keep the plain bone page; the rest each get one simple change ---------- */
-.tone { border-top: 0; }
-.tone + .section { border-top: 0; }
-/* About: the site's teal, bone type. */
-.teal { --ink-rgb: 244 239 232; background: var(--accent); }
-.teal .index { color: rgb(244 239 232 / 0.6); }
-/* Contact: linen with a fine dot grid. Kept off any plain-cream neighbour (only night-side sections touch it). */
-.dots {
-  background-color: var(--linen);
-  background-image: radial-gradient(rgb(42 47 51 / 0.16) 1px, transparent 1.4px);
-  background-size: 22px 22px;
+/* The line at the end of a section that leads into the next one. */
+.bridge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  margin-top: clamp(32px, 4vw, 56px);
+  font-size: 14px;
+  color: rgb(var(--ink-rgb) / 0.8);
+  text-decoration: none;
 }
-/* FAQ: the night of the hero photo, bone type. */
-.night { --ink-rgb: 244 239 232; background: #1d1a18; }
-.night .index, .night .qa summary::after { color: #7fb0bd; }  /* teal lifted to read on the dark */
-/* Process: a warm sand tint, nothing else. */
-.sand { background: #e9dccb; }
-/* Book: soft diagonal pinstripes in the teal; the calendar sits on them as a white card. */
-.stripes {
-  background-color: var(--bone);
-  background-image: repeating-linear-gradient(-45deg, rgb(46 97 112 / 0.07) 0 2px, transparent 2px 14px);
+.bridge svg { color: var(--accent); transition: transform 260ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .bridge:hover { color: rgb(var(--ink-rgb)); text-decoration: underline; text-underline-offset: 4px; }
+  .bridge:hover svg { transform: translateY(2px); }
 }
+/* Work's "See more" pill is centred, so its bridge is too. */
+:global(#work) .bridge { display: flex; width: fit-content; margin-inline: auto; margin-top: 16px; }
 .section :focus-visible, .footer :focus-visible { outline-color: var(--accent); }
 
-/* Number + title share a baseline; the note sits beside them with its LAST line on that same baseline, so a two-line
+/* Title and note share a baseline: the note sits beside the title with its LAST line on that same baseline, so a two-line
    note grows upward instead of hanging below the title. */
 .head {
   display: flex;
   align-items: last baseline;
   gap: 16px;
   margin-bottom: clamp(32px, 4vw, 56px);
-}
-.index {
-  font-family: var(--font-display);
-  font-weight: 200;
-  font-size: clamp(32px, 3.4vw, 48px);
-  line-height: 1;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
 }
 .title {
   margin: 0;
@@ -259,7 +341,7 @@
 @keyframes banner-settle { from { transform: scale(1.08); } }
 @keyframes banner-rise { from { opacity: 0; transform: translateY(20px); } }
 /* The banner already gives the page its top; the list doesn't need a full section's worth of space above it. */
-.section.workPage { padding-top: clamp(48px, 5vw, 80px); border-top: 0; }
+.section.workPage { padding-top: clamp(48px, 5vw, 80px); padding-bottom: clamp(72px, 9vw, 128px); }
 .bannerTitle {
   margin: 0;
   font-family: var(--font-display);
@@ -469,6 +551,7 @@
   letter-spacing: 0.04em;
   color: #9a4f1f;
 }
+.night .aside.calTag { color: #f0a46b; background: rgb(213 125 59 / 0.12); }
 .calTag::before {
   content: "";
   width: 8px;
@@ -482,18 +565,18 @@
   min-height: 480px;
 }
 
-/* ---------- Contact ---------- */
-.contact {
+/* ---------- The ending, after the FAQ: the closing line, with the other ways to reach Buruk beside it ---------- */
+.finale {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1.6fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
   align-items: end;
 }
 .closing {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(48px, 7vw, 112px);
+  font-size: clamp(44px, 6.4vw, 104px);
   line-height: 0.95;
   letter-spacing: -0.03em;
   text-wrap: balance;
@@ -501,7 +584,15 @@
 .reach {
   display: grid;
   justify-items: start;
-  gap: 18px;
+  font-size: 14px;
+}
+.reachLine { margin: 0 0 8px; color: rgb(var(--ink-rgb) / 0.75); }
+.reach a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
+  text-underline-offset: 4px;
 }
 .cta {
   height: 54px;
@@ -539,10 +630,6 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .cta:hover :global(.pill-icon) { transform: translate(2px, -2px) scale(1.05); }
-}
-.email {
-  font-size: 14px;
-  text-underline-offset: 4px;
 }
 
 /* ---------- footer ---------- */
@@ -630,7 +717,7 @@
 
 /* ---------- phone ---------- */
 @media (max-width: 720px) {
-  .work, .about, .pricing, .steps, .contact { grid-template-columns: 1fr; }
+  .work, .about, .pricing, .steps, .finale { grid-template-columns: 1fr; }
   .wide { grid-column: auto; }
   .qa summary { font-size: 17px; }
   .aside { font-size: 10px; letter-spacing: 0.14em; }
@@ -641,7 +728,6 @@
   }
   .stepNum { grid-row: span 2; border: 0; padding: 0; margin: 0; font-size: 44px; }
   .stepNum::after { display: none; } /* no rule under the numbers on phone */
-  .reach { justify-items: stretch; }
   .cta { justify-content: space-between; }
   .footer { flex-wrap: wrap; }
   .footNav { order: 3; flex-basis: 100%; justify-content: space-between; gap: 12px; }

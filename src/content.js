@@ -20,10 +20,10 @@ export const content = {
   ],
   nav: [
     { label: "Work", href: "#work" },
-    { label: "Pricing", href: "#pricing" },
     { label: "Process", href: "#process" },
+    { label: "Pricing", href: "#pricing" },
     { label: "Book", href: "#book" },
-    { label: "Contact", href: "#contact" },
+    { label: "FAQ", href: "#faq" }, // contact details close the page right after the FAQ (#contact)
   ],
 
   // ---- Sections below the hero ----
@@ -38,7 +38,18 @@ export const content = {
     pricing: "Two clear packages. Anything bigger gets a quote after the free call.", // DRAFT
     process: "Four steps, and you see the whole site on a preview link before it goes live.",
     book: "Pick a time that works for you. It's a free 15‑minute phone call.",
-    faq: "Quick answers to what most owners ask first.",    contact: "Prefer to write? Email, call or message me directly.",
+    faq: "Quick answers to what most owners ask first.",
+    contact: "Prefer to write? Email, call or message me directly.", // under the calendar
+  },
+  // The round stamp on the seam between About and Process. Runs once round the ring, so keep it about this length.
+  stamp: "Designed & built by hand ✦ Seattle, WA ✦ ",
+  // DRAFT: the one line at the end of each section that leads into the next.
+  bridges: {
+    work: { text: "That's the work. Here's who builds it.", to: "#about" },
+    about: { text: "Here's how working together goes.", to: "#process" },
+    process: { text: "Four steps, about two weeks. Here's what it costs.", to: "#pricing" },
+    pricing: { text: "Ready when you are. Pick a time below.", to: "#book" },
+    book: { text: "Questions first? Quick answers below.", to: "#faq" },
   },
   // `line` describes the business (both pages). `details` is what Buruk did, shown on the /work page only: on hover
   // over the screenshot, or under the card on phones.
@@ -78,7 +89,7 @@ export const content = {
       { name: "Business", price: "$1,400", cta: "Book a free call", items: ["Up to 7 pages", "Basic SEO", "Gallery and map", "A menu or services page"] },
     ],
     custom: { name: "Popular extras", price: "Custom quote", cta: "Get a quote", items: ["Online booking", "Square ordering", "Google reviews", "Payment links", "Extra pages"] }, // DRAFT
-    care: { name: "Care plan", price: "$20/month or $200/year", line: "I keep your photos and content up to date. Bigger changes are quoted separately." }, // DRAFT
+    care: { name: "Care plan", price: "$30/month or $300/year", line: "I keep your photos and content up to date. Bigger changes are quoted separately." }, // DRAFT
     terms: [
       "50% to start, 50% at launch.",
       "Nonprofits and churches save 10%.",
@@ -102,14 +113,14 @@ export const content = {
       { q: "How long does it take?", a: "Most standard sites are done within 2 weeks." },
       { q: "What do I need to give you?", a: "Your logo, as many photos as you can, and any text you want on the site. I'll help with the rest." },
       { q: "Do I need to buy a domain?", a: "Yes, the domain is separate. I'll walk you through buying one and explain every step." },
-      { q: "Can I make changes after launch?", a: "Yes. Send me what you want changed. The care plan covers photo and content updates for $20/month or $200/year." },
+      { q: "Can I make changes after launch?", a: "Yes. Send me what you want changed. The care plan covers photo and content updates for $30/month or $300/year." },
       { q: "Do you only work with Seattle businesses?", a: "No. I'm based in Seattle, but I work with businesses anywhere. The free call is by phone." },
     ],
   },
   // Footer link only for now; real quotes could go here once there are Google reviews to show.
   reviews: { cta: "Leave a review on Google", href: "https://g.page/r/Ce9UX-F5xU9kEBM/review" },
   contact: {
-    closing: "You did the hard work. Let's show it off.", // DRAFT, from Buruk's idea
+    closing: "You did the hard work. Let's show it off.", // the page's last big line, under the calendar. From Buruk's idea
     email: "burukyimesgen@gmail.com",
     phone: "(206) 928-1358",
     messenger: { label: "Message me on Messenger", href: "https://m.me/builds.by.buruk" },

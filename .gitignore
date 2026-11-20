@@ -1,3 +1,7 @@
 node_modules
 dist
 dist-ssr
+CLAUDE.local.md
+.claude/settings.local.json
+.client
+.vscode/settings.json

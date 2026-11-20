@@ -89,7 +89,7 @@ export const content = {
       { name: "Business", price: "$1,400", cta: "Book a free call", items: ["Up to 7 pages", "Basic SEO", "Gallery and map", "A menu or services page"] },
     ],
     custom: { name: "Popular extras", price: "Custom quote", cta: "Get a quote", items: ["Online booking", "Square ordering", "Google reviews", "Payment links", "Extra pages"] }, // DRAFT
-    care: { name: "Care plan", price: "$20/month or $200/year", line: "I keep your photos and content up to date. Bigger changes are quoted separately." }, // DRAFT
+    care: { name: "Care plan", price: "$30/month or $300/year", line: "I keep your photos and content up to date. Bigger changes are quoted separately." }, // DRAFT
     terms: [
       "50% to start, 50% at launch.",
       "Nonprofits and churches save 10%.",
@@ -113,7 +113,7 @@ export const content = {
       { q: "How long does it take?", a: "Most standard sites are done within 2 weeks." },
       { q: "What do I need to give you?", a: "Your logo, as many photos as you can, and any text you want on the site. I'll help with the rest." },
       { q: "Do I need to buy a domain?", a: "Yes, the domain is separate. I'll walk you through buying one and explain every step." },
-      { q: "Can I make changes after launch?", a: "Yes. Send me what you want changed. The care plan covers photo and content updates for $20/month or $200/year." },
+      { q: "Can I make changes after launch?", a: "Yes. Send me what you want changed. The care plan covers photo and content updates for $30/month or $300/year." },
       { q: "Do you only work with Seattle businesses?", a: "No. I'm based in Seattle, but I work with businesses anywhere. The free call is by phone." },
     ],
   },

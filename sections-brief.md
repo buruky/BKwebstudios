@@ -15,6 +15,7 @@ the page felt like separate boxes. Now:
 - Process comes before Pricing, so visitors see how easy it is before they see the price.
 - Book and Contact are one ending. The calendar comes first, then the FAQ for anyone with questions, then the closing line ("You did the hard work. Let's show it off.") as the page's last big words, with email, phone and Messenger beside it (`#contact`).
 - Shapes between chapters instead of flat rectangles: the sand rises out of the cream in a soft arch, with a round teal "Designed & built by hand ✦ Seattle, WA" stamp (`content.stamp`) on the curve that tilts as you scroll past. The night chapter rises over the sand as a sheet with rounded corners (rounded at the bottom too, over the footer).
+- Gloss (satin, not plastic): backgrounds stay matte, and only touchable things catch the light, from one top-left light. Orange pills have a lit gradient, a glow and a glint on hover. Pricing cards are rounded and lifted, and the $1,400 card rises above the row. Work screenshots lift, with a glare on hover. The stamp is an enamel pin (only its ring of words turns). The night sheet has a rim of light, casts shadows onto the sand and footer, and has a warm glow behind the calendar. The closing line has a satin finish. All in the "Gloss and depth" block of `Sections.module.css`; the heroes and the header are untouched.
 - No section numbers (01, 02...). Each section is just its title with the short note beside it.
 
 **Code:** `src/sections/Sections.jsx` + `Sections.module.css`. All copy lives in `src/content.js`.
